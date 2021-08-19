@@ -1,0 +1,76 @@
+.home {
+  height: calc(79.9vh - var(--nav-size));
+  background: url(../assets/homepage-background.jpg) repeat;
+  background-size: cover;
+  padding-top: 20vh;
+}
+
+.home-div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.home-logo {
+  width: 25vw;
+}
+
+.caption {
+  color: #adadad;
+  font-size: 20pt;
+  font-weight:lighter;
+  line-height: 2.5ex;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: -9vh;
+}
+
+.anim {
+  color: #e4e4e4;
+  position: relative;
+  font-size: 60pt;
+  font-weight: lighter;
+  margin-bottom: 0.5ex;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.anim-place {
+  position: relative;
+  font-size: 60pt;
+  font-weight: lighter;
+
+  margin-bottom: 0.7ex;
+
+  color: #82BFFE;
+  animation-name: flick;
+  animation-duration: 1s;
+  animation-iteration-count: infinite;
+}
+
+@keyframes flick {
+  0% { color: transparent; }
+  50% { color: #82BFFE; }
+  100% { color: transparent; }
+}
+
+/* Changes the notification badge if user is on phone */
+@media only screen and (max-width: 720px) {
+  .anim {
+    display: none;
+  }
+
+  .anim-place {
+    display: none;
+  }
+
+  .home-logo {
+    width: 50vw;
+  }
+
+  .caption {
+    display: none;
+  }
+}
