@@ -1,20 +1,19 @@
 import React from 'react'
-import '../css/Homepage.css';
+import '../css/Home.css';
 
 function Home() {
   return (
-    <div className="div-main">
-        <h1><strong>Welcome to Cryptalk</strong></h1>
-        <a href="../profile">
-          <button> Profile </button>
-        </a>
-        <a href="../channels">
-          <button> Channels </button>
-        </a>
-        <a href="../login">
-          <button > login </button>
-        </a>
-    </div>
+    <>
+      <div className="home">
+        <div className="home-div">
+          <img src={process.env.PUBLIC_URL + '/logo-white-crop.png'} alt="" className="home-logo" />
+          <div className="anim"><p>.</p></div>
+          <span className="anim-place">|</span>
+        </div>
+        <h3 className="caption">Secure messaging and voice chat for teams.</h3>
+      </div>
+
+    </>
   )
 }
 
