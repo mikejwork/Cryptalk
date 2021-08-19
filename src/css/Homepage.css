@@ -1,0 +1,9 @@
+/* Home page*/
+
+.div-main { 
+    height: 100%;
+    display: flex;
+    padding-left: 20%;
+    padding-right: 20%;
+    padding-top: 10%;
+}

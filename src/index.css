@@ -1,0 +1,288 @@
+@import url('https://fonts.googleapis.com/css2?family=Titillium+Web:wght@300&display=swap');
+
+body {
+  margin: 0;
+  background-color: #1d1e1f;
+  color: var(--text-color);
+  font-family: 'Titillium Web', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+:root {
+  --bg: #242526;
+  --bg-accent: #484a4d;
+  --text-color: #dadce1;
+  --nav-size: 60px;
+  --border: 1px solid #474a4d;
+  --border-radius: 3px;
+  --speed: 500ms;
+}
+
+ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+a {
+  color: var(--text-color);
+  text-decoration: none;
+}
+
+button {
+    font-family: 'Titillium Web', sans-serif;
+    background-color: #3F3D56;
+    color: var(--text-color);
+    border-radius: var(--border-radius);
+    border: none;
+    padding: 5px;
+    padding-left: 25px;
+    padding-right: 25px;
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+button:hover {
+  filter: brightness(1.2);
+}
+
+.navbar {
+  height: var(--nav-size);
+  background-color: var(--bg);
+  padding: 0 1rem;
+  border-bottom: var(--border);
+}
+
+.navbar-nav {
+  max-width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.nav-item {
+  width: calc(var(--nav-size) * 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav-item > button {
+  width: calc(var(--nav-size) * 0.7);
+  height: calc(var(--nav-size) * 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav-username {
+    width: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 1ch;
+  }
+
+.nav-info {
+  width: auto;
+  margin-right: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav-logo {
+  width: auto;
+  margin-right: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav-notifications {
+  width: calc(var(--nav-size) * 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.notif-badge {
+  margin-top: -2rem;
+  margin-right: -2rem;
+  font-size: 12px;
+  height: 20px;
+  width: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  position: absolute;
+  background: rgb(18, 112, 167);
+  color:white;
+}
+
+/* Changes the notification badge if user is on phone */
+@media only screen and (max-device-width: 480px) {
+  .notif-badge {
+    margin-top: -1rem;
+    margin-left: 0.9rem;
+  }
+}
+
+.icon-button {
+  --button-size: calc(var(--nav-size) * 0.5);
+  width: var(--button-size);
+  height: var(--button-size);
+  background-color: #484a4d;
+  color: var(--text-color);
+  border-radius: 50%;
+  border: none;
+  padding: 5px;
+  margin: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: filter 300ms;
+}
+
+.icon-logo {
+  --button-size: calc(var(--nav-size) * 0.5);
+  width: auto;
+  height: var(--button-size);
+  border-radius: 50%;
+  padding: 5px;
+  margin: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: filter 300ms;
+  color: #5f5d7e;
+}
+
+.icon-button:hover {
+  filter: brightness(1.2);
+}
+
+.dropdown {
+  position: absolute;
+  top: 58px;
+  width: 300px;
+  transform: translateX(-45%);
+  background-color: var(--bg);
+  border: var(--border);
+  border-radius: var(--border-radius);
+  padding: 1rem;
+  overflow: hidden;
+}
+
+.menu-item {
+  height: 40px;
+  display: flex;
+  align-items: center;
+  border-radius: var(--border-radius);
+  transition: background var(--speed);
+  padding: 0.5rem;
+}
+
+.menu-item .icon-button {
+  margin-right: 10px;
+}
+
+.menu-item:hover {
+  background-color: #525357;
+}
+
+.icon-right {
+  margin-left: auto;
+}
+
+.form-container {
+    width: 25%;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 2.5%;
+    margin-top: 5%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.form-container > h1, p {
+  align-self: flex-start;
+  margin: 0;
+}
+
+.form-container > button {
+    width: 100%;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+    -webkit-transition: "color 9999s ease-out, background-color 9999s ease-out";
+    -webkit-transition-delay: 9999s;
+}
+
+.form-container > input {
+    width: 100%;
+    font-family: 'Titillium Web', sans-serif;
+    background-color: #3f3d562f;
+    color: var(--text-color);
+    border-radius: 3px;
+    border: none;
+    padding: 5px;
+    padding-left: 25px;
+    margin-top: 10px;
+    box-sizing: border-box;
+}
+
+.form-container > .file-input {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+}
+
+.form-container > .file-input > label {
+  margin-top: 10px;
+  margin-right: 10px;
+}
+
+input[type="file"]::-webkit-file-upload-button{
+  font-family: 'Titillium Web', sans-serif;
+  background-color: #3F3D56;
+  color: var(--text-color);
+  border-radius: var(--border-radius);
+  border: none;
+  padding-left: 5px;
+  padding-right: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  float: left;
+}
+
+input[type="file"]::-webkit-file-upload-button:hover {
+  filter: brightness(1.2);
+}
+
+.form-container > .img-preview > img {
+  margin-top: 10px;
+  margin-right: 10px;
+  border-radius: 50%;
+}
+
+.form-container > .img-preview {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.error-message {
+  color: rgb(182, 45, 45);
+}
