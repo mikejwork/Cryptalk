@@ -35,6 +35,7 @@
   margin: 2.5%;
   margin-top: 5%;
   margin-bottom: 5%;
+  width: 100%;
 }
 
 .form-bottom > label {
@@ -61,6 +62,7 @@
 }
 
 .login-form-container {
+  box-shadow: 0px 0px 25px #0000005e;
   color: var(--bg) !important;
   border-radius: var(--border-radius);
   min-width: 30%;
@@ -84,4 +86,15 @@
 
 .custom-shape-divider-top-1629434998 .shape-fill {
     fill: #0E81CE;
+}
+
+
+@media only screen and (max-width: 720px) {
+  .login-form-container {
+    min-width: 90%;
+  }
+
+  .form-divider {
+    margin-top: -1px;
+  }
 }

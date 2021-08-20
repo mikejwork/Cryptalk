@@ -1,8 +1,6 @@
-import React, { useContext } from "react";
+import React from "react";
 // eslint-disable-next-line
 import { BrowserRouter as Router, Switch, Route} from "react-router-dom";
-
-import { AuthContext } from "./contexts/AuthContext";
 
 import Home from './components/Home'
 import Login from './components/Login'
@@ -11,7 +9,6 @@ import Channels from './components/Channels'
 import Navigation from './components/Navigation'
 
 function App() {
-  const context = useContext(AuthContext)
   return (
       <Router>
           <Navigation/>

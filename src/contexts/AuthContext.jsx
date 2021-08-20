@@ -1,5 +1,5 @@
 import React, { useState, useEffect, createContext } from "react";
-import { Auth, Hub  } from "aws-amplify";
+import { Auth, Hub } from "aws-amplify";
 
 export const AuthContext = createContext();
 
@@ -19,7 +19,8 @@ function AuthContextProvider(props) {
     }
   }
 
-  async function authListener() {
+  // Creates a listener that will trigger on auth events
+  async function setAuthListener() {
     Hub.listen("auth", (data) => {
       switch(data.payload.event) {
         case "signIn":
@@ -31,12 +32,17 @@ function AuthContextProvider(props) {
         default:
           break;
       }
-    })
+    });
   }
 
   useEffect(() => {
     checkUser();
-    authListener();
+    setAuthListener();
+
+    return () => {
+      Hub.remove("auth");
+    }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 

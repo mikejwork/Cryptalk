@@ -1,10 +1,12 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext } from 'react'
 import { Link } from "react-router-dom";
 import { AuthContext } from "../contexts/AuthContext";
 
 import '../css/Navigation.css';
 import * as FaIcons from "react-icons/fa";
 import * as MdIcons from "react-icons/md";
+
+import { Auth } from "aws-amplify";
 
 function Navbar(props) {
   return (
@@ -24,12 +26,44 @@ function NavItem(props) {
   )
 }
 
+function NavBtn(props) {
+  const onClick = () => {
+    props.func()
+  }
+
+  return (
+    <li className="nav-item">
+      <span onClick={onClick} className="nav-item-icon">
+        { props.icon }
+      </span>
+    </li>
+  )
+}
+
 function LoggedInNav() {
   const context = useContext(AuthContext)
 
+  async function signOut() {
+    await Auth.signOut()
+    context.updateUser(null)
+  }
   return (
     <>
+      <li className="nav-item">
+        <Link className="nav-username" to="/profile">{context.user.username}</Link>
+      </li>
 
+      <Tooltip text="Dashboard">
+        <NavItem destination="/" icon={<MdIcons.MdDashboard/>}/>
+      </Tooltip>
+
+      <Tooltip text="Profile">
+        <NavItem destination="/profile" icon={<FaIcons.FaUser/>}/>
+      </Tooltip>
+
+      <Tooltip text="Sign Out">
+        <NavBtn func={signOut} destination="/authentication" icon={<FaIcons.FaSignOutAlt/>}/>
+      </Tooltip>
     </>
   )
 }

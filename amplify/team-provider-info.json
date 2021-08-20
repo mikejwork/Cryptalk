@@ -10,6 +10,11 @@
       "StackName": "amplify-cosc24082150capstone-dev-164804",
       "StackId": "arn:aws:cloudformation:ap-southeast-2:026314577288:stack/amplify-cosc24082150capstone-dev-164804/6a404770-00b9-11ec-a33f-02df4106ff58",
       "AmplifyAppId": "d3cwb2ci46eqv8"
+    },
+    "categories": {
+      "auth": {
+        "cosc24082150capstone7c29f453": {}
+      }
     }
   }
 }
