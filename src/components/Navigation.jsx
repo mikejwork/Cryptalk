@@ -57,7 +57,7 @@ function LoggedOutNav() {
       </Tooltip>
 
       <Tooltip text="Sign In">
-        <NavItem destination="/auth" icon={<FaIcons.FaSignInAlt/>}/>
+        <NavItem destination="/authentication" icon={<FaIcons.FaSignInAlt/>}/>
       </Tooltip>
     </>
   )

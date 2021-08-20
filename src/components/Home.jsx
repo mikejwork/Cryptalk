@@ -12,7 +12,6 @@ function Home() {
         </div>
         <h3 className="caption">Secure messaging and voice chat for teams.</h3>
       </div>
-
     </>
   )
 }

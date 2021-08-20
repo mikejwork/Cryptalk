@@ -11,18 +11,19 @@ body {
 
 :root {
   --bg: #242526;
-  --bg-accent: #313235;
+  --bg-accent: #252629;
+  --bg-button: #242526;
   --text-color: #dadce1;
   --nav-size: 60px;
   --border: 1px solid var(--bg-accent);
-  --border-radius: 5px;
+  --border-radius: 10px;
   --speed: 250ms;
 }
 
 ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
 
 a {
@@ -31,26 +32,42 @@ a {
 }
 
 button {
-    font-family: 'Titillium Web', sans-serif;
-    background-color: #3F3D56;
-    color: var(--text-color);
-    border-radius: var(--border-radius);
-    border: none;
-    padding: 5px;
-    padding-left: 25px;
-    padding-right: 25px;
-    margin-top: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  font-family: 'Titillium Web', sans-serif;
+  color: var(--bg);
+  background-color: #0E81CE;
+  font-weight: bold;
+  border: none;
+  border-radius: 2ex;
+  width: 100%;
+  padding: 5px;
+  transition: all 0.1s ease-in-out;
+  cursor: pointer;
 }
 
 button:hover {
-  filter: brightness(1.2);
+  filter: brightness(0.9);
+  box-shadow: 0 2px 20px #0e81ce31;
 }
 
 img {
   image-rendering:-moz-crisp-edges;
+}
+
+input {
+  border: none;
+  background-color: var(--bg);
+  color: var(--text-color);
+  border-bottom: 1px solid #dadce131;
+  padding: 2.5%;
+  width: 95%;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+    -webkit-transition: "color 9999s ease-out, background-color 9999s ease-out";
+    -webkit-transition-delay: 9999s;
 }
 
 .tooltip {

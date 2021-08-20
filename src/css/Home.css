@@ -56,7 +56,6 @@
   100% { color: transparent; }
 }
 
-/* Changes the notification badge if user is on phone */
 @media only screen and (max-width: 720px) {
   .anim {
     display: none;
