@@ -1,3 +1,7 @@
+span {
+  cursor: pointer;
+}
+
 .navbar {
   height: var(--nav-size);
   background-color: var(--bg);
@@ -32,7 +36,9 @@
 }
 
 .nav-item {
-  width: calc(var(--nav-size) * 0.8);
+  width: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
   height: 100%;
   display: flex;
   align-items: center;

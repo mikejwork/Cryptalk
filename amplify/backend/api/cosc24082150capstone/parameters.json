@@ -1,0 +1,5 @@
+{
+  "AppSyncApiName": "cosc24082150capstone",
+  "DynamoDBBillingMode": "PAY_PER_REQUEST",
+  "DynamoDBEnableServerSideEncryption": false
+}

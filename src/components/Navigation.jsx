@@ -1,10 +1,12 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext } from 'react'
 import { Link } from "react-router-dom";
 import { AuthContext } from "../contexts/AuthContext";
 
 import '../css/Navigation.css';
 import * as FaIcons from "react-icons/fa";
 import * as MdIcons from "react-icons/md";
+
+import { Auth } from "aws-amplify";
 
 function Navbar(props) {
   return (
@@ -17,9 +19,23 @@ function Navbar(props) {
 function NavItem(props) {
   return (
     <li className="nav-item">
-      <Link to={props.destination} className="nav-item-icon">
+      <Link name={props.name} to={props.destination} className="nav-item-icon">
         { props.icon }
       </Link>
+    </li>
+  )
+}
+
+function NavBtn(props) {
+  const onClick = () => {
+    props.func()
+  }
+
+  return (
+    <li className="nav-item">
+      <span name={props.name} onClick={onClick} className="nav-item-icon">
+        { props.icon }
+      </span>
     </li>
   )
 }
@@ -27,9 +43,27 @@ function NavItem(props) {
 function LoggedInNav() {
   const context = useContext(AuthContext)
 
+  async function signOut() {
+    await Auth.signOut()
+    context.updateUser(null)
+  }
   return (
     <>
+      <li className="nav-item">
+        <Link name="username" className="nav-username" to="/profile">{context.user.username}</Link>
+      </li>
 
+      <Tooltip text="Dashboard">
+        <NavItem name="dashboard" destination="/" icon={<MdIcons.MdDashboard/>}/>
+      </Tooltip>
+
+      <Tooltip text="Profile">
+        <NavItem name="profile" destination="/profile" icon={<FaIcons.FaUser/>}/>
+      </Tooltip>
+
+      <Tooltip text="Sign Out">
+        <NavBtn name="signout" func={signOut} destination="/authentication" icon={<FaIcons.FaSignOutAlt/>}/>
+      </Tooltip>
     </>
   )
 }
@@ -57,7 +91,7 @@ function LoggedOutNav() {
       </Tooltip>
 
       <Tooltip text="Sign In">
-        <NavItem destination="/auth" icon={<FaIcons.FaSignInAlt/>}/>
+        <NavItem destination="/authentication" icon={<FaIcons.FaSignInAlt/>}/>
       </Tooltip>
     </>
   )
@@ -73,7 +107,7 @@ function Navigation() {
           <img src={process.env.PUBLIC_URL + '/logo-white-crop.png'} alt="logo"/>
         </Link>
       </li>
-      { context.user ? <LoggedInNav/> : <LoggedOutNav/> }
+      { context ? <>{ context.user ? <LoggedInNav/> : <LoggedOutNav/> }</> : <></>}
     </Navbar>
   )
 }
