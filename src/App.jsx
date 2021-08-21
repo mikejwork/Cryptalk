@@ -2,6 +2,8 @@ import React from "react";
 // eslint-disable-next-line
 import { BrowserRouter as Router, Switch, Route} from "react-router-dom";
 
+import AuthContextProvider from "./contexts/AuthContext";
+
 import Home from './components/Home'
 import Login from './components/Login'
 import Profile from './components/Profile'
@@ -11,6 +13,7 @@ import Navigation from './components/Navigation'
 function App() {
   return (
       <Router>
+        <AuthContextProvider>
           <Navigation/>
           <Switch>
             <Route exact path="/">
@@ -29,6 +32,7 @@ function App() {
               <Profile/>
             </Route>
           </Switch>
+        </AuthContextProvider>
       </Router>
   );
 }

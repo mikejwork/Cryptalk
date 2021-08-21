@@ -16,7 +16,7 @@ function FormLogin(props) {
     try {
       await Auth.signIn(username, password);
     } catch (error) {
-      console.log(error)
+
     }
   }
 
@@ -47,7 +47,7 @@ function FormLogin(props) {
 
         <label htmlFor="password"><MdIcons.MdLockOutline/>Password</label>
         <input name="password" onChange={onChange} placeholder="Type your password" type="password"/>
-        <button onClick={process_login}>Sign in</button>
+        <button name="signin" onClick={process_login}>Sign in</button>
         <span onClick={() => props.updateFormState("register")}>Don't have an account?</span>
       </section>
     </>

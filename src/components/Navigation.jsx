@@ -19,7 +19,7 @@ function Navbar(props) {
 function NavItem(props) {
   return (
     <li className="nav-item">
-      <Link to={props.destination} className="nav-item-icon">
+      <Link name={props.name} to={props.destination} className="nav-item-icon">
         { props.icon }
       </Link>
     </li>
@@ -33,7 +33,7 @@ function NavBtn(props) {
 
   return (
     <li className="nav-item">
-      <span onClick={onClick} className="nav-item-icon">
+      <span name={props.name} onClick={onClick} className="nav-item-icon">
         { props.icon }
       </span>
     </li>
@@ -50,19 +50,19 @@ function LoggedInNav() {
   return (
     <>
       <li className="nav-item">
-        <Link className="nav-username" to="/profile">{context.user.username}</Link>
+        <Link name="username" className="nav-username" to="/profile">{context.user.username}</Link>
       </li>
 
       <Tooltip text="Dashboard">
-        <NavItem destination="/" icon={<MdIcons.MdDashboard/>}/>
+        <NavItem name="dashboard" destination="/" icon={<MdIcons.MdDashboard/>}/>
       </Tooltip>
 
       <Tooltip text="Profile">
-        <NavItem destination="/profile" icon={<FaIcons.FaUser/>}/>
+        <NavItem name="profile" destination="/profile" icon={<FaIcons.FaUser/>}/>
       </Tooltip>
 
       <Tooltip text="Sign Out">
-        <NavBtn func={signOut} destination="/authentication" icon={<FaIcons.FaSignOutAlt/>}/>
+        <NavBtn name="signout" func={signOut} destination="/authentication" icon={<FaIcons.FaSignOutAlt/>}/>
       </Tooltip>
     </>
   )
@@ -107,7 +107,7 @@ function Navigation() {
           <img src={process.env.PUBLIC_URL + '/logo-white-crop.png'} alt="logo"/>
         </Link>
       </li>
-      { context.user ? <LoggedInNav/> : <LoggedOutNav/> }
+      { context ? <>{ context.user ? <LoggedInNav/> : <LoggedOutNav/> }</> : <></>}
     </Navbar>
   )
 }
