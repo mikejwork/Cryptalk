@@ -98,3 +98,63 @@
     margin-top: -1px;
   }
 }
+
+
+.form-name-section {
+   width:100%;
+}
+
+.form-name-div {
+    display: inline-block;
+    width: 50%;
+}
+
+.form-user {
+    padding-top: 2.5%;
+    width: 100%;
+}
+
+.form-user > input {
+    margin: 2.5%;
+}
+
+.form-name-input {
+  width: 90%;
+  height: 30px;
+  border-radius: .25rem;
+  display: inline-block;
+}
+
+.form-terms {
+    padding-top: 5%;
+    text-align: center;
+}
+
+.form-terms > a {
+    text-align: center;
+    display: block;
+    text-decoration: underline;
+}
+
+.form-checkbox-section {
+    padding-top: 5%;
+}
+
+.form-checkbox > input {
+    width:auto;
+}
+
+
+
+.submitButton {
+margin: auto;
+margin-top: 5%;
+margin-bottom: 3%;;
+width: 30%;
+} 
+
+
+
+
+
+
