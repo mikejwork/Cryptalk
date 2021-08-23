@@ -19,7 +19,7 @@ function Terms() {
             <br />
             <h3>Acceptable Use</h3>
             <span>As a user of our Site, you agree to use our Site legally, not to use our Site for illegal purposes, and not to:</span>
-            <ul> 
+            <ul>
                 <li>•	Harass or mistreat other users of our Site;</li>
                 <li>•	Violate the rights of other users of our Site;</li>
                 <li>•	Violate the intellectual property rights of the Site owners or any third party to the Site;</li>
@@ -50,7 +50,7 @@ function Terms() {
             <h3>Indemnity</h3>
             <span>Except where prohibited by law, by using this Site you indemnify and hold harmless Cryptalk and our directors, officers, agents, employees, subsidiaries, and affiliates from any actions, claims, losses, damages, liabilities and expenses including legal fees arising out of your use of our Site or your violation of these Terms and Conditions.</span>
             <br />
-            
+
             <h3>Applicable Law</h3>
             <span>These Terms and Conditions are governed by the laws of the State of Victoria.</span>
             <br />
@@ -71,7 +71,7 @@ function Terms() {
             <span>Please contact us if you have any questions or concerns. Our contact details are as follows:</span>
             <br />
 
-            <span> 
+            <span>
             ______________________________________ <br/>
             s3787174@student.rmit.edu.au<br/>
             124 La Trobe St<br/>
@@ -79,13 +79,7 @@ function Terms() {
             ©2002-2021 LawDepot.com®
             </span>
         </>
-
-
-
-
-
     )
-
 }
 
 export default Terms

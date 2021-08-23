@@ -11,22 +11,37 @@ import Terms from './Agreements/Terms';
 
 
 function FormLogin(props) {
-  const initialForm = { username: "", password: ""};
+  const initialForm = { username: "", password: "", error_message: ""};
   const [formState, setFormState] = useState(initialForm)
 
   async function process_login() {
     const { username, password } = formState;
+
+    if (formState.username === "" || formState.password === "") {
+      setFormState(() => ({
+        ...formState,
+        error_message: "Please fill in the required fields."
+      }));
+      return;
+    }
+
     try {
       await Auth.signIn(username, password);
     } catch (error) {
-
+      if (error.message) {
+        setFormState(() => ({
+          ...formState,
+          error_message: error.message
+        }));
+      }
     }
   }
 
   function onChange(e) {
     setFormState(() => ({
       ...formState,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
+      error_message: ""
     }));
   }
 
@@ -45,51 +60,77 @@ function FormLogin(props) {
         </div>
       </section>
       <section className="form-bottom">
+        {formState.error_message === "" ? <></> : <p className="error-text">{formState.error_message}</p>}
+
         <label htmlFor="username"><MdIcons.MdPermIdentity className="label-icon"/>Username</label>
         <input name="username" onChange={onChange} placeholder="Type your username"/>
 
         <label htmlFor="password"><MdIcons.MdLockOutline className="label-icon"/>Password</label>
         <input name="password" onChange={onChange} placeholder="Type your password" type="password"/>
         <button name="signin" onClick={process_login}>Sign in</button>
-        <span onClick={() => props.updateFormState("register")}>Don't have an account?</span>
+        <span name="registration_link" onClick={() => props.updateFormState("register")}>Don't have an account?</span>
       </section>
     </>
   )
 }
 
 function FormRegister(props) {
-  const initialForm = { username: "", password: "", email: "", confirm_terms: false, page: "default"};
+  const initialForm = { username: "", password: "", email: "", error_message: "",  confirm_terms: false, page: "default"};
   const [formState, setFormState] = useState(initialForm)
 
   async function process_register() {
     const { username, password, email } = formState;
 
+    if (formState.username === "" || formState.password === "" || formState.email === "") {
+      setFormState(() => ({
+        ...formState,
+        error_message: "Please fill in the required fields."
+      }));
+      return;
+    }
+
+    if (!formState.confirm_terms) {
+      setFormState(() => ({
+        ...formState,
+        error_message: "You can't create an account without accepting our Terms & Conditions and Privacy Policy."
+      }));
+      return;
+    }
+
     try {
       await Auth.signUp({username, password, attributes: { email }});
       props.updateFormState("confirm");
     } catch (error) {
-      console.log(error);
+      if (error.message) {
+        setFormState(() => ({
+          ...formState,
+          error_message: error.message
+        }));
+      }
     }
   }
 
   function toggle_confirmation() {
     setFormState(() => ({
       ...formState,
-      confirm_terms: !formState.confirm_terms
+      confirm_terms: !formState.confirm_terms,
+      error_message: ""
     }));
   }
 
   function switch_page(desired_page) {
     setFormState(() => ({
       ...formState,
-      page: desired_page
+      page: desired_page,
+      error_message: ""
     }));
   }
 
   function onChange(e) {
     setFormState(() => ({
       ...formState,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
+      error_message: ""
     }));
   }
 
@@ -110,14 +151,16 @@ function FormRegister(props) {
       <section className="form-bottom">
         { formState.page === "default" &&
           <>
+            {formState.error_message === "" ? <></> : <p className="error-text">{formState.error_message}</p>}
+
             <label htmlFor="username"><MdIcons.MdPermIdentity className="label-icon"/>Username</label>
-            <input name="username" onChange={onChange} placeholder="Type your username"/>
+            <input value={formState.username} name="username" onChange={onChange} placeholder="Type your username"/>
 
             <label htmlFor="password"><MdIcons.MdLockOutline className="label-icon"/>Password</label>
-            <input name="password" onChange={onChange} placeholder="Type your password" type="password"/>
+            <input value={formState.password} name="password" onChange={onChange} placeholder="Type your password" type="password"/>
 
             <label htmlFor="email"><MdIcons.MdMailOutline className="label-icon"/>Email address</label>
-            <input name="email" onChange={onChange} placeholder="Type your email" type="email"/>
+            <input value={formState.email} name="email" onChange={onChange} placeholder="Type your email" type="email"/>
 
             {/* MdCheckBox */}
             <label htmlFor="terms"> { formState.confirm_terms ? <MdIcons.MdCheckBox onClick={toggle_confirmation} className="label-icon label-icon-check checked"/> : <MdIcons.MdCheckBoxOutlineBlank onClick={toggle_confirmation} className="label-icon label-icon-check"/>}<p>I confirm that i have read, consent and agree to Cryptalk's <span onClick={() => switch_page("terms")} className="span-link">Terms & Conditions</span> and <span onClick={() => switch_page("privacy")} className="span-link">Privacy Policy</span>.</p></label>
@@ -195,7 +238,7 @@ function FormConfirm(props) {
         <label htmlFor="username"><MdIcons.MdPermIdentity className="label-icon"/>Username</label>
         <input name="username" onChange={onChange} placeholder="Type your username"/>
 
-        <label htmlFor="authCode"><MdIcons.MdLockOutline className="label-icon"/>Confirmation code has been send to your email</label>
+        <label htmlFor="authCode"><MdIcons.MdLockOutline className="label-icon"/>Confirmation code has been sent to your email.</label>
         <input name="authCode" onChange={onChange} placeholder="Type your confirmation code"/>
 
         <button onClick={process_confirm}>Confirm</button>

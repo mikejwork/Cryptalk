@@ -52,6 +52,12 @@
   color: rgb(155, 155, 155);
 }
 
+.form-bottom > .error-text {
+  margin: 0;
+  color: rgba(173, 0, 0, 0.938);
+  text-align: center;
+}
+
 .login-container {
   height: calc(99.9vh - var(--nav-size));
   background: url(../assets/homepage-background.jpg) repeat;

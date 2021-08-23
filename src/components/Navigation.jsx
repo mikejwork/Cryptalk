@@ -54,7 +54,7 @@ function LoggedInNav() {
       </li>
 
       <Tooltip text="Dashboard">
-        <NavItem name="dashboard" destination="/" icon={<MdIcons.MdDashboard/>}/>
+        <NavItem name="dashboard" destination="/dashboard" icon={<MdIcons.MdDashboard/>}/>
       </Tooltip>
 
       <Tooltip text="Profile">
