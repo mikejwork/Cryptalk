@@ -24,7 +24,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 5rem 10% 10% 10%;
+  padding: 5rem 5% 5% 5%;
 }
 
 .form-bottom > input {
@@ -144,17 +144,44 @@
     width:auto;
 }
 
+.label-icon {
+  margin-right: 5px;
+}
 
+.label-icon-check {
+  cursor: pointer;
+  font-size: 18pt;
+}
 
-.submitButton {
-margin: auto;
-margin-top: 5%;
-margin-bottom: 3%;;
-width: 30%;
-} 
+.span-link {
+  color: #1da0f7;
+  text-decoration: underline;
+}
 
+.checked {
+  color: #0E81CE;
+}
 
+.readable-form {
+  width: 100%;
+  max-width: 40vw;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
 
+.readable-form > h1 {
+  margin: 0;
+  font-weight: lighter;
+}
 
+.readable-form > .span-link {
+  align-self: center;
+  font-size: 20pt;
+  transition: all 0.1s ease-in-out;
+}
 
-
+.readable-form > .span-link:hover {
+  transform: translateX(-5px);
+}

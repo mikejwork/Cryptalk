@@ -42,10 +42,10 @@ function FormLogin(props) {
         </div>
       </section>
       <section className="form-bottom">
-        <label htmlFor="username"><MdIcons.MdPermIdentity/>Username</label>
+        <label htmlFor="username"><MdIcons.MdPermIdentity className="label-icon"/>Username</label>
         <input name="username" onChange={onChange} placeholder="Type your username"/>
 
-        <label htmlFor="password"><MdIcons.MdLockOutline/>Password</label>
+        <label htmlFor="password"><MdIcons.MdLockOutline className="label-icon"/>Password</label>
         <input name="password" onChange={onChange} placeholder="Type your password" type="password"/>
         <button name="signin" onClick={process_login}>Sign in</button>
         <span onClick={() => props.updateFormState("register")}>Don't have an account?</span>
@@ -55,24 +55,32 @@ function FormLogin(props) {
 }
 
 function FormRegister(props) {
-  const initialForm = { firstname: "", lastname: "",username: "",email: "", password: ""};
+  const initialForm = { username: "", password: "", email: "", confirm_terms: false, page: "default"};
   const [formState, setFormState] = useState(initialForm)
 
   async function process_register() {
-    const { firstname, lastname, username, email, password } = formState;
+    const { username, password, email } = formState;
+
     try {
-      await Auth.signUp({
-          username: formState.username,
-          password: formState.password,
-          attributes: {
-              email: formState.email,          // optional
-              given_name: formState.firstname,
-              family_name: formState.lastname   // optional - E.164 number convention
-              // other custom attributes 
-          }
-      });
+      await Auth.signUp({username, password, attributes: { email }});
+      props.updateFormState("confirm");
     } catch (error) {
+      console.log(error);
     }
+  }
+
+  function toggle_confirmation() {
+    setFormState(() => ({
+      ...formState,
+      confirm_terms: !formState.confirm_terms
+    }));
+  }
+
+  function switch_page(desired_page) {
+    setFormState(() => ({
+      ...formState,
+      page: desired_page
+    }));
   }
 
   function onChange(e) {
@@ -83,8 +91,7 @@ function FormRegister(props) {
   }
 
   return (
-    <div className="login-container">
-      <div className="login-form-container">
+    <>
       <section className="form-top">
         <h1>Register</h1>
       </section>
@@ -98,58 +105,68 @@ function FormRegister(props) {
         </div>
       </section>
       <section className="form-bottom">
-                <section className="form-name-section">
-                    <div className="form-name-div">
-                        <label htmlFor="firstname">First Name:</label>
-                        <input name="firstname" onChange={onChange} className="form-name-input" type="text" placeholder="Enter your First Name" />
-                    </div>
-                    <div className="form-name-div">
-                        <label htmlFor="lastname">Last Name:</label>
-                        <input name="lastname" onChange={onChange} className="form-name-input" type="text" placeholder="Enter your Last name" />
-                    </div>
-                </section>
-                <section className="form-user" >
-                    <label htmlFor="username">Username:</label>
-                    <input name="username" onChange={onChange} type="text" placeholder="Enter your User Name" />
-                     <label htmlFor="email">Email:</label>
-                     <input name="email" onChange={onChange} type="text" placeholder="Enter your Email" />
-                    <label htmlFor="password">Password: </label>
-                    <input name="password" onChange={onChange} type="password" placeholder="Enter your Password" />
-                </section>
-                <section className="form-terms">
-                    <a href="Terms-and-Conditions">Terms and Conditions</a>
-                    <a href="Privacy-Policy">Privacy Policy</a>
-                    <section className="form-checkbox-section">
-                        <div className="form-checkbox">
-                            <input className="checkBox" type="checkbox" id="form-terms" />
-                            <label className="checkBoxLabel" htmlFor="form-terms" >I agree to the Terms and Conditions</label>
-                        </div>
-                        <div className="form-checkbox">
-                            <input type="checkbox" id="form-privacy" />
-                            <label htmlFor="form-privacy">I agree to the Privacy Policy</label>
-                        </div>
-                    </section>
-                </section>
-                <button name="signup" onClick={process_register, () => props.updateFormState("confirm")}>Register</button>
-                <span onClick={() => props.updateFormState("login")}>Already have an account?</span>
+        { formState.page === "default" &&
+          <>
+            <label htmlFor="username"><MdIcons.MdPermIdentity className="label-icon"/>Username</label>
+            <input name="username" onChange={onChange} placeholder="Type your username"/>
 
+            <label htmlFor="password"><MdIcons.MdLockOutline className="label-icon"/>Password</label>
+            <input name="password" onChange={onChange} placeholder="Type your password" type="password"/>
+
+            <label htmlFor="email"><MdIcons.MdMailOutline className="label-icon"/>Email address</label>
+            <input name="email" onChange={onChange} placeholder="Type your email" type="email"/>
+
+            {/* MdCheckBox */}
+            <label htmlFor="terms"> { formState.confirm_terms ? <MdIcons.MdCheckBox onClick={toggle_confirmation} className="label-icon label-icon-check checked"/> : <MdIcons.MdCheckBoxOutlineBlank onClick={toggle_confirmation} className="label-icon label-icon-check"/>}<p>I confirm that i have read, consent and agree to Cryptalk's <span onClick={() => switch_page("terms")} className="span-link">Terms & Conditions</span> and <span onClick={() => switch_page("privacy")} className="span-link">Privacy Policy</span>.</p></label>
+
+            <button onClick={process_register}>Sign up</button>
+            <span onClick={() => props.updateFormState("login")}>Already have an account?</span>
+          </>
+        }
+        { formState.page === "terms" &&
+          <>
+            <div className="readable-form">
+              <h1>Terms & Conditions</h1>
+              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis error possimus sunt quod aliquid consequuntur minus a totam molestiae vero, ullam ipsam similique sit illum? Excepturi quis cum quam incidunt. Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit ut earum rem fuga incidunt alias laborum nisi quo blanditiis nobis, veniam nam maiores iure officia quae tempora ab consequuntur. Autem.</p>
+              <span className="span-link" onClick={() => switch_page("default")}><MdIcons.MdKeyboardArrowLeft/></span>
+            </div>
+          </>
+        }
+        { formState.page === "privacy" &&
+          <>
+            <div className="readable-form">
+              <h1>Privacy Policy</h1>
+              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis error possimus sunt quod aliquid consequuntur minus a totam molestiae vero, ullam ipsam similique sit illum? Excepturi quis cum quam incidunt. Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit ut earum rem fuga incidunt alias laborum nisi quo blanditiis nobis, veniam nam maiores iure officia quae tempora ab consequuntur. Autem.</p>
+              <span className="span-link" onClick={() => switch_page("default")}><MdIcons.MdKeyboardArrowLeft/></span>
+            </div>
+          </>
+        }
       </section>
-      </div>
-    </div>
+    </>
   )
 }
 
-
 function FormConfirm(props) {
-  const initialForm = { username: "", code: ""};
+  const initialForm = { username: "", authCode: ""};
   const [formState, setFormState] = useState(initialForm)
 
-  async function confirm_signup() {
-    const { username, code } = formState;
+  async function process_confirm() {
+    const { username, authCode } = formState;
+
     try {
-      await Auth.confirmSignUp(username, code);
+      await Auth.confirmSignUp(username, authCode);
+      props.updateFormState("login")
     } catch (error) {
-        console.log('error confirming sign up', error);
+      console.log(error)
+    }
+  }
+
+  async function process_resend() {
+    const { username } = formState;
+    try {
+      await Auth.resendSignUp(username);
+    } catch (error) {
+      console.log(error)
     }
   }
 
@@ -159,11 +176,10 @@ function FormConfirm(props) {
       [e.target.name]: e.target.value
     }));
   }
-
   return (
     <>
       <section className="form-top">
-        <h1>Confirm Sign up</h1>
+        <h1>Confirm</h1>
       </section>
       <section className="form-divider">
         <div className="custom-shape-divider-top-1629434998">
@@ -175,12 +191,14 @@ function FormConfirm(props) {
         </div>
       </section>
       <section className="form-bottom">
-        <label htmlFor="username"><MdIcons.MdPermIdentity/>Username</label>
-        <input name="username"  onChange={onChange} placeholder="Type your username"/>
+        <label htmlFor="username"><MdIcons.MdPermIdentity className="label-icon"/>Username</label>
+        <input name="username" onChange={onChange} placeholder="Type your username"/>
 
-        <label htmlFor="code"><MdIcons.MdLockOutline/>Enter the code sent to your email</label>
-        <input name="code"  onChange={onChange} placeholder="Enter code" type="text"/>
-        <button name="auth" onClick={confirm_signup}>Sign in</button>
+        <label htmlFor="authCode"><MdIcons.MdLockOutline className="label-icon"/>Confirmation code has been send to your email</label>
+        <input name="authCode" onChange={onChange} placeholder="Type your confirmation code"/>
+
+        <button onClick={process_confirm}>Confirm</button>
+        <span onClick={process_resend}>Resend confirmation code</span>
       </section>
     </>
   )
