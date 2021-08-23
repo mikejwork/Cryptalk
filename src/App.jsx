@@ -10,6 +10,7 @@ import Profile from './components/Profile'
 import Channels from './components/Channels'
 import Navigation from './components/Navigation'
 
+
 function App() {
   return (
       <Router>

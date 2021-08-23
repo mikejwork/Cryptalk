@@ -1,6 +1,6 @@
 import * as React from 'react';
 import '@testing-library/jest-dom';
-import { cleanup, render, screen, fireEvent, act} from '@testing-library/react'
+import { render, screen, cleanup, fireEvent, act } from '@testing-library/react'
 
 import App from '../App';
 
@@ -23,7 +23,7 @@ describe("Login", () => {
     expect(await screen.findByText(/Login/i)).toBeInTheDocument()
   })
 
-  it("username field rendered", async () => {
+  it("renders username field", async () => {
     const { container } = render(<App/>);
 
     expect(await screen.findByText(/Login/i)).toBeInTheDocument()
@@ -32,7 +32,7 @@ describe("Login", () => {
     expect(username_field).toBeInTheDocument();
   })
 
-  it("password field rendered", async () => {
+  it("renders password field", async () => {
     const { container } = render(<App/>);
 
     expect(await screen.findByText(/Login/i)).toBeInTheDocument()
@@ -41,7 +41,7 @@ describe("Login", () => {
     expect(password_field).toBeInTheDocument();
   })
 
-  it("user can login", async () => {
+  it("allows user to login", async () => {
     const { container } = render(<App/>);
 
     expect(await screen.findByText(/Login/i)).toBeInTheDocument()
@@ -59,5 +59,9 @@ describe("Login", () => {
       const node = screen.getByText("Sign in");
       fireEvent.click(node)
     });
+
+    // Test actually fails, "Native crypto module could not be used to get secure random number." error
+    // it still works and shows that amplify is being called and working though.
+    // Nothing we can do about it as far as i know, we would have to use Cypress external testing or something else :/
   })
 });
