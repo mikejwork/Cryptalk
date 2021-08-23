@@ -1,8 +1,8 @@
 {
-    "identityPoolName": "cosc24082150capstone7c29f453_identitypool_7c29f453",
+    "identityPoolName": "cryptalk66970bc2_identitypool_66970bc2",
     "allowUnauthenticatedIdentities": false,
-    "resourceNameTruncated": "cosc247c29f453",
-    "userPoolName": "cosc24082150capstone7c29f453_userpool_7c29f453",
+    "resourceNameTruncated": "crypta66970bc2",
+    "userPoolName": "cryptalk66970bc2_userpool_66970bc2",
     "autoVerifiedAttributes": [
         "email"
     ],
@@ -31,10 +31,10 @@
     "userpoolClientReadAttributes": [
         "email"
     ],
-    "userpoolClientLambdaRole": "cosc247c29f453_userpoolclient_lambda_role",
+    "userpoolClientLambdaRole": "crypta66970bc2_userpoolclient_lambda_role",
     "userpoolClientSetAttributes": false,
-    "sharedId": "7c29f453",
-    "resourceName": "cosc24082150capstone7c29f453",
+    "sharedId": "66970bc2",
+    "resourceName": "cryptalk66970bc2",
     "authSelections": "identityPoolAndUserPool",
     "authRoleArn": {
         "Fn::GetAtt": [
