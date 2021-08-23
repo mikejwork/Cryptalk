@@ -84,10 +84,14 @@ function FormRegister(props) {
   const initialForm = { username: "", password: "", email: "", error_message: "",  confirm_terms: false, page: "default"};
   const [formState, setFormState] = useState(initialForm)
 
+  const processEnter = e => {
+    if (e.key === 'Enter') {
+      process_register();
+    }
+  };
+
   async function process_register() {
     const { username, password, email } = formState;
-
-
 
     if (formState.username === "" || formState.password === "" || formState.email === "") {
       setFormState(() => ({
@@ -156,7 +160,7 @@ function FormRegister(props) {
             </svg>
         </div>
       </section>
-      <section className="form-bottom" >
+      <section className="form-bottom" onKeyPress={processEnter} >
         { formState.page === "default" &&
           <>
             {formState.error_message === "" ? <></> : <p className="error-text">{formState.error_message}</p>}
