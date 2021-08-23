@@ -14,6 +14,12 @@ function FormLogin(props) {
   const initialForm = { username: "", password: "", error_message: ""};
   const [formState, setFormState] = useState(initialForm)
 
+    const processEnter = e => {
+    if (e.key === 'Enter') {
+      process_login();
+    }
+  };
+
   async function process_login() {
     const { username, password } = formState;
 
@@ -59,7 +65,7 @@ function FormLogin(props) {
             </svg>
         </div>
       </section>
-      <section className="form-bottom">
+      <section className="form-bottom" onKeyPress={processEnter} >
         {formState.error_message === "" ? <></> : <p className="error-text">{formState.error_message}</p>}
 
         <label htmlFor="username"><MdIcons.MdPermIdentity className="label-icon"/>Username</label>
@@ -67,7 +73,7 @@ function FormLogin(props) {
 
         <label htmlFor="password"><MdIcons.MdLockOutline className="label-icon"/>Password</label>
         <input name="password" onChange={onChange} placeholder="Type your password" type="password"/>
-        <button name="signin" onClick={process_login}>Sign in</button>
+        <button name="signin"  onClick={process_login}>Sign in</button>
         <span name="registration_link" onClick={() => props.updateFormState("register")}>Don't have an account?</span>
       </section>
     </>
@@ -80,6 +86,8 @@ function FormRegister(props) {
 
   async function process_register() {
     const { username, password, email } = formState;
+
+
 
     if (formState.username === "" || formState.password === "" || formState.email === "") {
       setFormState(() => ({
@@ -148,7 +156,7 @@ function FormRegister(props) {
             </svg>
         </div>
       </section>
-      <section className="form-bottom">
+      <section className="form-bottom" >
         { formState.page === "default" &&
           <>
             {formState.error_message === "" ? <></> : <p className="error-text">{formState.error_message}</p>}
@@ -157,7 +165,7 @@ function FormRegister(props) {
             <input value={formState.username} name="username" onChange={onChange} placeholder="Type your username"/>
 
             <label htmlFor="password"><MdIcons.MdLockOutline className="label-icon"/>Password</label>
-            <input value={formState.password} name="password" onChange={onChange} placeholder="Type your password" type="password"/>
+            <input value={formState.password} name="password" onChange={onChange} placeholder="Type your password (6 characters minimum)" type="password"/>
 
             <label htmlFor="email"><MdIcons.MdMailOutline className="label-icon"/>Email address</label>
             <input value={formState.email} name="email" onChange={onChange} placeholder="Type your email" type="email"/>
