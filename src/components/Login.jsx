@@ -4,10 +4,10 @@ import { Auth, Hub } from "aws-amplify";
 import { AuthContext } from "../contexts/AuthContext";
 
 import '../css/Login.css';
-import '../components/PrivacyPolicy'
 
 import * as MdIcons from "react-icons/md";
-import PrivacyPolicy from '../components/PrivacyPolicy';
+import PrivacyPolicy from './Agreements/PrivacyPolicy';
+import Terms from './Agreements/Terms';
 
 
 function FormLogin(props) {
@@ -129,8 +129,7 @@ function FormRegister(props) {
         { formState.page === "terms" &&
           <>
             <div className="readable-form">
-              <h1>Terms & Conditions</h1>
-              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis error possimus sunt quod aliquid consequuntur minus a totam molestiae vero, ullam ipsam similique sit illum? Excepturi quis cum quam incidunt. Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit ut earum rem fuga incidunt alias laborum nisi quo blanditiis nobis, veniam nam maiores iure officia quae tempora ab consequuntur. Autem.</p>
+              <Terms></Terms>
               <span className="span-link" onClick={() => switch_page("default")}><MdIcons.MdKeyboardArrowLeft/></span>
             </div>
           </>
