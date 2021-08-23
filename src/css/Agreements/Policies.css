@@ -1,0 +1,7 @@
+.policy-container {
+  padding: 0 20% 20% 20%;
+}
+
+.policy-container > h2, h3 {
+  color: #0E81CE;
+}
