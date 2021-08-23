@@ -165,11 +165,14 @@
 .readable-form {
   width: 100%;
   max-width: 40vw;
+  max-height: 30vw;
+  overflow-y: scroll;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
 }
+
 
 .readable-form > h1 {
   margin: 0;
