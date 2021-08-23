@@ -1,0 +1,21 @@
+.footer-container {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.trademark {
+  opacity: 50%;
+}
+
+.hyperlink {
+  color: #0E81CE;
+}
+
+.spacer {
+  margin-left: 10px;
+  margin-right: 10px;
+}
