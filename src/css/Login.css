@@ -1,1 +1,196 @@
-/* Use this for login / signup page */
+.form-top {
+  background-color: #0E81CE;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding: 5%;
+  border-radius: var(--border-radius) var(--border-radius) 0 0;
+}
+
+.form-top > h1 {
+  font-size: xx-large;
+
+  margin: 0;
+}
+
+.form-divider {
+  position: relative;
+}
+
+.form-bottom {
+  background-color: var(--bg);
+  color: var(--text-color);
+  border-radius: var(--border-radius);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 5rem 5% 5% 5%;
+}
+
+.form-bottom > input {
+  margin: 2.5%;
+}
+
+.form-bottom > button {
+  margin: 2.5%;
+  margin-top: 5%;
+  margin-bottom: 5%;
+  width: 100%;
+}
+
+.form-bottom > label {
+  margin-bottom: -2.5%;
+  margin-top: 2.5%;
+  display: flex;
+  align-items: center;
+  align-self: flex-start;
+}
+
+.form-bottom > span {
+  text-decoration: underline;
+  cursor: pointer;
+  color: rgb(155, 155, 155);
+}
+
+.form-bottom > .error-text {
+  margin: 0;
+  color: rgba(173, 0, 0, 0.938);
+  text-align: center;
+}
+
+.login-container {
+  height: calc(99.9vh - var(--nav-size));
+  background: url(../assets/homepage-background.jpg) repeat;
+  background-size: cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.login-form-container {
+  box-shadow: 0px 0px 25px #0000005e;
+  color: var(--bg) !important;
+  border-radius: var(--border-radius);
+  min-width: 30%;
+}
+
+.custom-shape-divider-top-1629434998 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+  line-height: 0;
+}
+
+.custom-shape-divider-top-1629434998 svg {
+  position: relative;
+  display: block;
+  width: calc(110% + 1.3px);
+  height: 50px;
+}
+
+.custom-shape-divider-top-1629434998 .shape-fill {
+    fill: #0E81CE;
+}
+
+
+@media only screen and (max-width: 720px) {
+  .login-form-container {
+    min-width: 90%;
+  }
+
+  .form-divider {
+    margin-top: -1px;
+  }
+}
+
+
+.form-name-section {
+   width:100%;
+}
+
+.form-name-div {
+    display: inline-block;
+    width: 50%;
+}
+
+.form-user {
+    padding-top: 2.5%;
+    width: 100%;
+}
+
+.form-user > input {
+    margin: 2.5%;
+}
+
+.form-name-input {
+  width: 90%;
+  height: 30px;
+  border-radius: .25rem;
+  display: inline-block;
+}
+
+.form-terms {
+    padding-top: 5%;
+    text-align: center;
+}
+
+.form-terms > a {
+    text-align: center;
+    display: block;
+    text-decoration: underline;
+}
+
+.form-checkbox-section {
+    padding-top: 5%;
+}
+
+.form-checkbox > input {
+    width:auto;
+}
+
+.label-icon {
+  margin-right: 5px;
+}
+
+.label-icon-check {
+  cursor: pointer;
+  font-size: 18pt;
+}
+
+.span-link {
+  color: #1da0f7;
+  text-decoration: underline;
+}
+
+.checked {
+  color: #0E81CE;
+}
+
+.readable-form {
+  width: 100%;
+  max-width: 40vw;
+  max-height: 30vw;
+  overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+
+.readable-form > h1 {
+  margin: 0;
+  font-weight: lighter;
+}
+
+.readable-form > .span-link {
+  align-self: center;
+  font-size: 20pt;
+  transition: all 0.1s ease-in-out;
+}
+
+.readable-form > .span-link:hover {
+  transform: translateX(-5px);
+}

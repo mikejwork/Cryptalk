@@ -1,0 +1,15 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-cryptalk-dev-213539-authRole",
+      "UnauthRoleArn": "arn:aws:iam::026314577288:role/amplify-cryptalk-dev-213539-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::026314577288:role/amplify-cryptalk-dev-213539-authRole",
+      "Region": "ap-southeast-2",
+      "DeploymentBucketName": "amplify-cryptalk-dev-213539-deployment",
+      "UnauthRoleName": "amplify-cryptalk-dev-213539-unauthRole",
+      "StackName": "amplify-cryptalk-dev-213539",
+      "StackId": "arn:aws:cloudformation:ap-southeast-2:026314577288:stack/amplify-cryptalk-dev-213539/3fb1e220-0406-11ec-8805-02e42411a4e4",
+      "AmplifyAppId": "dxcdqq68eg4wc"
+    }
+  }
+}

@@ -10,7 +10,7 @@
   <a href="#credits">Credits</a> •
   <a href="#local-setup">Local setup</a> •
   <a href="#showcase">Showcase</a> •
-  <a href="#infrastructure">Infrastructure</a> •
+  <a href="#release-notes">Release Notes</a> •
   <a href="#personal-notes">Personal notes</a>
 </p>
 
@@ -19,3 +19,11 @@
 - Michael Jurie - Software Developer
 - Luke Cocorocchio - Scrum Master
 - Matthew Sesto - Product Owner
+
+## Release Notes
+ - **Release v0.2**
+ - Privacy Policy & Terms & Conditions
+ - User Registration
+ - User Login
+ - User Logout
+ - Base UI / UX Design
