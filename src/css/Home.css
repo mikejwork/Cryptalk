@@ -1,41 +1,55 @@
 .home {
-  height: calc(79.9vh - var(--nav-size));
+  height: calc(99.9vh - var(--nav-size));
   background: url(../assets/homepage-background.jpg) repeat;
   background-size: cover;
-  padding-top: 20vh;
 }
 
-.home-div {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+
+.container {
+  display: grid;
+  grid-template-columns: 0.5fr 0.5fr 0.5fr;
+  grid-template-rows: 0.5fr 0.5fr 0.5fr;
+  gap: 0px 0px;
+  grid-template-areas:
+    ". . ."
+    ". Logo Animated"
+    "Caption Caption Caption";
 }
 
-.home-logo {
-  width: 25vw;
+.Logo {
+  grid-area: Logo;
+  object-fit: cover;
+  width:100%;
 }
 
-.caption {
-  color: #adadad;
-  font-size: 20pt;
-  font-weight:lighter;
-  line-height: 2.5ex;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: -9vh;
+.Animated {
+  grid-area: Animated;
+  /* TODO: Fix animation, make scaleable with page */
 }
 
-.anim {
-  color: #e4e4e4;
-  position: relative;
-  font-size: 60pt;
+.Caption {
+  grid-area: Caption;
+  color: grey;
   font-weight: lighter;
-  margin-bottom: 0.5ex;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  font-size: 3ex;
+  align-self: flex-start;
+  justify-self: center;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 .anim-place {
   position: relative;
@@ -44,7 +58,7 @@
 
   margin-bottom: 0.7ex;
 
-  color: #82BFFE;
+  color: var(--bg-accent);
   animation-name: flick;
   animation-duration: 1s;
   animation-iteration-count: infinite;

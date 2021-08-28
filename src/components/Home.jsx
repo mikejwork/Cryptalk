@@ -5,12 +5,13 @@ function Home() {
   return (
     <>
       <div className="home">
-        <div className="home-div">
-          <img src={process.env.PUBLIC_URL + '/logo-white-crop.png'} alt="" className="home-logo" />
-          <div className="anim"><p>.</p></div>
-          <span className="anim-place">|</span>
+        <div className="container">
+          <img src={process.env.PUBLIC_URL + '/aligned-logo.png'} alt="" className="Logo" />
+
+          <span className="Animated"></span>
+
+          <h3 className="Caption">Secure messaging and voice chat for teams.</h3>
         </div>
-        <h3 className="caption">Secure messaging and voice chat for teams.</h3>
       </div>
     </>
   )

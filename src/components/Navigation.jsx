@@ -1,4 +1,5 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
+import { Storage } from "aws-amplify";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../contexts/AuthContext";
 
@@ -20,7 +21,7 @@ function NavItem(props) {
   return (
     <li className="nav-item">
       <Link name={props.name} to={props.destination} className="nav-item-icon">
-        { props.icon }
+        { props.icon } <p>{ props.name }</p>
       </Link>
     </li>
   )
@@ -34,7 +35,7 @@ function NavBtn(props) {
   return (
     <li className="nav-item">
       <span name={props.name} onClick={onClick} className="nav-item-icon">
-        { props.icon }
+        { props.icon } <p>{ props.name }</p>
       </span>
     </li>
   )
@@ -42,39 +43,35 @@ function NavBtn(props) {
 
 function LoggedInNav() {
   const context = useContext(AuthContext)
+  const [profilePic, setprofilePic] = useState(null)
 
   async function signOut() {
     await Auth.signOut()
     context.updateUser(null)
   }
+
+  async function getProfilePic() {
+    const result = await Storage.get(context.user.attributes.sub + '.jpg', { level: 'public' });
+    await setprofilePic(result)
+  }
+
+  useEffect(() => {
+    getProfilePic()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   return (
     <>
+      <NavItem name="Dashboard" destination="/dashboard" icon={<MdIcons.MdDashboard/>}/>
+
+      <NavItem name="Profile" destination="/profile" icon={<FaIcons.FaUser/>}/>
+
+      <NavBtn name="Sign Out" func={signOut} destination="/authentication" icon={<FaIcons.FaSignOutAlt/>}/>
+
       <li className="nav-item">
         <Link name="username" className="nav-username" to="/profile">{context.user.username}</Link>
+        { profilePic !== null && <img className="user-avatar" src={profilePic} alt=" " width="30" height="30"/>}
       </li>
-
-      <Tooltip text="Dashboard">
-        <NavItem name="dashboard" destination="/dashboard" icon={<MdIcons.MdDashboard/>}/>
-      </Tooltip>
-
-      <Tooltip text="Profile">
-        <NavItem name="profile" destination="/profile" icon={<FaIcons.FaUser/>}/>
-      </Tooltip>
-
-      <Tooltip text="Sign Out">
-        <NavBtn name="signout" func={signOut} destination="/authentication" icon={<FaIcons.FaSignOutAlt/>}/>
-      </Tooltip>
-    </>
-  )
-}
-
-function Tooltip(props) {
-  return (
-    <>
-      <div className="tooltip"> {props.children}
-        <span className="tooltip-text">{props.text}</span>
-      </div>
-
     </>
   )
 }
@@ -82,17 +79,7 @@ function Tooltip(props) {
 function LoggedOutNav() {
   return (
     <>
-      <Tooltip text="Dashboard">
-        <NavItem destination="/" icon={<MdIcons.MdDashboard/>}/>
-      </Tooltip>
-
-      <Tooltip text="Profile">
-        <NavItem destination="/profile" icon={<FaIcons.FaUser/>}/>
-      </Tooltip>
-
-      <Tooltip text="Sign In">
-        <NavItem destination="/authentication" icon={<FaIcons.FaSignInAlt/>}/>
-      </Tooltip>
+      <NavItem name="Login" destination="/authentication" icon={<FaIcons.FaSignInAlt/>}/>
     </>
   )
 }

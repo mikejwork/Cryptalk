@@ -3,5 +3,5 @@
 }
 
 .policy-container > h2, h3 {
-  color: #0E81CE;
+  color: var(--bg-accent);
 }
