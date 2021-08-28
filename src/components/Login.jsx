@@ -1,20 +1,20 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Redirect } from "react-router-dom";
-import { Auth, Hub } from "aws-amplify";
+import { Auth, Hub, Storage } from "aws-amplify";
 import { AuthContext } from "../contexts/AuthContext";
 
 import '../css/Login.css';
 
 import * as MdIcons from "react-icons/md";
-import PrivacyPolicy from './Agreements/PrivacyPolicy';
 import Terms from './Agreements/Terms';
+import PrivacyPolicy from './Agreements/PrivacyPolicy';
 
 
 function FormLogin(props) {
   const initialForm = { username: "", password: "", error_message: ""};
   const [formState, setFormState] = useState(initialForm)
 
-    const processEnter = e => {
+    const process_keypress = e => {
     if (e.key === 'Enter') {
       process_login();
     }
@@ -65,7 +65,7 @@ function FormLogin(props) {
             </svg>
         </div>
       </section>
-      <section className="form-bottom" onKeyPress={processEnter} >
+      <section className="form-bottom" onKeyPress={process_keypress} >
         {formState.error_message === "" ? <></> : <p className="error-text">{formState.error_message}</p>}
 
         <label htmlFor="username"><MdIcons.MdPermIdentity className="label-icon"/>Username</label>
@@ -81,45 +81,87 @@ function FormLogin(props) {
 }
 
 function FormRegister(props) {
-  const initialForm = { username: "", password: "", email: "", error_message: "",  confirm_terms: false, page: "default"};
+  const initialForm = { username: "", password: "", email: "", error_message: "",  confirm_terms: false, page: "default", avatar: null};
   const [formState, setFormState] = useState(initialForm)
 
-  const processEnter = e => {
+  const process_keypress = e => {
     if (e.key === 'Enter') {
       process_register();
     }
   };
 
-  async function process_register() {
-    const { username, password, email } = formState;
+  async function generate_random_avatar() {
+    // Choose a random avatar from the list of default avatars => src/assets/default_avatars
+    // Can easily be increased by adding new files etc.
+    var rand = Math.floor(Math.random() * 24);
+    const response = await fetch(process.env.PUBLIC_URL + '/default_avatars/' + rand + '.jpg')
+    const blob = await response.blob();
+    setFormState(() => ({...formState, avatar: blob}));
+  }
 
-    if (formState.username === "" || formState.password === "" || formState.email === "") {
-      setFormState(() => ({
-        ...formState,
-        error_message: "Please fill in the required fields."
-      }));
+  useEffect(() => {
+    generate_random_avatar()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  async function process_register() {
+    const { username, password, email, confirm_terms, avatar } = formState;
+
+    if (username === "" || password === "" || email === "") {
+      setFormState(() => ({...formState, error_message: "Please fill in the required fields."}));
       return;
     }
 
-    if (!formState.confirm_terms) {
-      setFormState(() => ({
-        ...formState,
-        error_message: "You can't create an account without accepting our Terms & Conditions and Privacy Policy."
-      }));
+    if (!confirm_terms) {
+      setFormState(() => ({...formState, error_message: "You can't create an account without accepting our Terms & Conditions and Privacy Policy."}));
       return;
     }
 
     try {
-      await Auth.signUp({username, password, attributes: { email }});
+      const signup_response = await Auth.signUp({username, password, attributes: { email }});
+
+      if (!avatar) {
+        await generate_random_avatar();
+
+        await Storage.put(signup_response.userSub + '.jpg', avatar)
+      } else {
+        await Storage.put(signup_response.userSub + '.jpg', avatar)
+      }
+
       props.updateFormState("confirm");
     } catch (error) {
       if (error.message) {
-        setFormState(() => ({
-          ...formState,
-          error_message: error.message
-        }));
+        setFormState(() => ({...formState, error_message: error.message}));
       }
     }
+  }
+
+  async function OnFileChange(e) {
+    const file = e.target.files[0];
+
+    if (!file) { return }
+    if (!file.type.startsWith('image/')) { return }
+
+    await setFormState(() => ({...formState, avatar: file, error_message: ""}));
+
+    try {
+      const source = URL.createObjectURL(file);
+      const preview_element = document.getElementById("avatar-preview50")
+      preview_element.src = source;
+    } catch(e) {
+      console.log(e)
+      return;
+    }
+
+    console.log(formState)
+  }
+
+  function onChange(e) {
+    setFormState(() => ({
+      ...formState,
+      [e.target.name]: e.target.value,
+      error_message: ""
+    }));
   }
 
   function toggle_confirmation() {
@@ -138,14 +180,6 @@ function FormRegister(props) {
     }));
   }
 
-  function onChange(e) {
-    setFormState(() => ({
-      ...formState,
-      [e.target.name]: e.target.value,
-      error_message: ""
-    }));
-  }
-
   return (
     <>
       <section className="form-top">
@@ -160,7 +194,7 @@ function FormRegister(props) {
             </svg>
         </div>
       </section>
-      <section className="form-bottom" onKeyPress={processEnter} >
+      <section className="form-bottom" onKeyPress={process_keypress} >
         { formState.page === "default" &&
           <>
             {formState.error_message === "" ? <></> : <p className="error-text">{formState.error_message}</p>}
@@ -173,6 +207,15 @@ function FormRegister(props) {
 
             <label htmlFor="email"><MdIcons.MdMailOutline className="label-icon"/>Email address</label>
             <input value={formState.email} name="email" onChange={onChange} placeholder="Type your email" type="email"/>
+
+            <div className="avatar-container">
+              <div className="avatar-input">
+                <label htmlFor="avatar"><MdIcons.MdPermIdentity className="label-icon"/>User avatar <p className="muted">Select custom or generate random.</p></label>
+                <input className="avatar-input-field" name="avatar" id="avatar" onChange={OnFileChange} type="file"/>
+              </div>
+              { formState.avatar && <div className="avatar-preview"> <img src={URL.createObjectURL(formState.avatar)} id="avatar-preview50" alt="" width="50" height="50"/> </div>}
+              <button onClick={generate_random_avatar} className="avatar-refresh"><MdIcons.MdRefresh/></button>
+            </div>
 
             {/* MdCheckBox */}
             <label htmlFor="terms"> { formState.confirm_terms ? <MdIcons.MdCheckBox onClick={toggle_confirmation} className="label-icon label-icon-check checked"/> : <MdIcons.MdCheckBoxOutlineBlank onClick={toggle_confirmation} className="label-icon label-icon-check"/>}<p>I confirm that i have read, consent and agree to Cryptalk's <span onClick={() => switch_page("terms")} className="span-link">Terms & Conditions</span> and <span onClick={() => switch_page("privacy")} className="span-link">Privacy Policy</span>.</p></label>

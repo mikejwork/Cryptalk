@@ -2,7 +2,7 @@
 
 body {
   margin: 0;
-  background-color: #1d1e1f;
+  background-color: var(--bg-dark);
   color: var(--text-color);
   font-family: 'Titillium Web', sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -10,10 +10,11 @@ body {
 }
 
 :root {
-  --bg: #242526;
-  --bg-accent: #0E81CE;
+  --bg: #202020;
+  --bg-dark: #181818;
+  --bg-accent: #3c99d6;
   --bg-button: #242526;
-  --text-color: #dadce1;
+  --text-color: #ffffff;
   --nav-size: 60px;
   --border: 1px solid var(--bg-accent);
   --border-radius: 10px;
@@ -34,7 +35,7 @@ a {
 button {
   font-family: 'Titillium Web', sans-serif;
   color: var(--bg);
-  background-color: #0E81CE;
+  background-color: var(--bg-accent);
   font-weight: bold;
   border: none;
   border-radius: 2ex;
@@ -67,29 +68,6 @@ input:-webkit-autofill:focus,
 input:-webkit-autofill:active {
     -webkit-transition: "color 9999s ease-out, background-color 9999s ease-out";
     -webkit-transition-delay: 9999s;
-}
-
-.tooltip {
-  position: relative;
-  display: inline-block;
-}
-
-.tooltip-text {
-  background-color: var(--bg);
-  border-radius: var(--border-radius);
-  width: 100px;
-  text-align: center;
-  position: absolute;
-  z-index: 1;
-  top: 150%;
-  left: 50%;
-  margin-left: -50px;
-  opacity: 0;
-  transition: opacity var(--speed) ease-in-out;
-}
-
-.tooltip:hover .tooltip-text {
-  opacity: 100;
 }
 
 /* width */
