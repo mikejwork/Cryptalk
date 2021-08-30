@@ -1,10 +1,15 @@
 .profile-picture {
   height: 150px;
   width: 150px;
-  background-color: var(--bg-accent);
+  border-width: 10%;
+  border:1px solid var(--bg-accent);
   border-radius: 50%;
-  display: inline-block;
+  display: inline-flex;
+  justify-content: center;
+  margin:auto;  
 }
+
+
 .profile-name {
   margin-bottom: 0px;
 }

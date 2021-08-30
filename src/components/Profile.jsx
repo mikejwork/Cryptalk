@@ -1,9 +1,30 @@
-import React from 'react'
 import '../css/Profile.css';
-
+import React, { useContext, useEffect, useState } from 'react'
+import { Storage } from "aws-amplify";
+import { Link } from "react-router-dom";
+import { AuthContext } from "../contexts/AuthContext";
+import { Auth } from "aws-amplify";
 
 
 function Profile() {
+  const context = useContext(AuthContext)
+  const [profilePic, setprofilePic] = useState(null)
+
+
+
+  async function getProfilePic() {
+    console.log(context.user);
+    const result = await Storage.get(context.user.attributes.sub + '.jpg', { level: 'public' });
+    await setprofilePic(result)
+  }
+  useEffect(() => {
+    getProfilePic()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+  
+  
+  
+  
   return (
     <>
       <div className="profile-container">
@@ -21,23 +42,26 @@ function Profile() {
             </div>
           </section>
           <section className="profile-bottom" >
-            <div className = "profile-picture"></div>
-            <h1 className="profile-name">John Smith</h1>
+            <div className = "profile-picture">{ profilePic !== null && <img className="user-avatar" src={profilePic} alt=" " width="150" height="150"/>}</div>
+            
+            <h1 className="profile-name">{context.user.username}</h1>
             <div className="profile-fc">
               <span className="profile-friends">
                 <h1>Friends</h1>
-                <label>12</label>
+                <label>12</label> 
+                {/* Create function to loop through friends */}
               </span>
               <hr className="hr-vertical" />
               <span className="profile-friends">
                 <h1>Channels</h1>
                 <label>3</label>
+                {/* Create function to loop through channels */}
               </span>
             </div>
 
             <section className="profile-information">
               <h1>Email:</h1>
-              <label> s1234567@gmail.com</label> 
+              <label>{context.user.attributes.email} </label> 
               <hr className="hr-horizontal-information" />
             </section>
             <button name="signin"  >Reset Password</button>
