@@ -346,7 +346,7 @@ function Login() {
         { formState === "login" && <FormLogin updateFormState={updateFormState}/> }
         { formState === "register" && <FormRegister updateFormState={updateFormState}/> }
         { formState === "confirm" && <FormConfirm updateFormState={updateFormState}/> }
-        { formState === "redirect" && <Redirect to="/" /> }
+        { formState === "redirect" && <Redirect to="/dashboard" /> }
       </div>
     </div>
   )

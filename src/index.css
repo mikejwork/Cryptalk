@@ -12,6 +12,7 @@ body {
 :root {
   --bg: #202020;
   --bg-dark: #181818;
+  --bg-darker: #111111;
   --bg-accent: #3c99d6;
   --bg-button: #242526;
   --text-color: #ffffff;

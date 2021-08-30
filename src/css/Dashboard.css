@@ -1,0 +1,166 @@
+p, h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+  padding: 0;
+  font-weight: lighter;
+}
+
+h6 {
+  color: grey;
+  margin-top: 3ex;
+}
+
+.background {
+  padding: 5rem 10rem 10rem 10rem;
+  height: calc(99.9vh - var(--nav-size));
+  background: url(../assets/homepage-background.jpg) repeat;
+  background-size: cover;
+}
+
+.dashboard-container {
+  min-height: 100%;
+  border-radius: 2ex;
+  background-color: var(--bg-dark);
+  display: grid;
+  grid-template-columns: 0.35fr 0.55fr 0.5fr;
+  grid-template-rows: 0.5fr 0.5fr 0.5fr;
+  gap: 0px 0px;
+  grid-template-areas:
+    "people feed feed"
+    "people feed feed"
+    "people feed feed";
+}
+
+/* People Section --------------------------------------------------------------- */
+
+.people {
+  grid-area: people;
+  padding: 5ex;
+  display: flex;
+  flex-direction: column;
+  justify-content: stretch;
+  align-items: flex-start;
+}
+
+/* .people:before, .people-list {
+  flex: 1;
+} */
+
+.people-title {
+  padding-bottom: 3ex;
+}
+
+.people-list {
+  width: 100%;
+  flex-grow: 1;
+  padding: 1ex 3ex 3ex 3ex;
+  background-color: var(--bg-darker);
+  border-radius: var(--border-radius);
+}
+
+.people-container {
+  display: flex;
+  align-items: center;
+}
+
+.people-avatar {
+  padding: 1ex;
+  width: 5ex;
+  height: 5ex;
+  border-radius: 50%;
+}
+
+.people-info {
+  padding: 1ex;
+}
+
+.people-info-status {
+  font-size: 10pt;
+  color: grey;
+}
+
+/* Feed Section --------------------------------------------------------------- */
+
+.feed {
+  grid-area: feed;
+  padding: 5ex;
+}
+
+.feed-title {
+  padding-bottom: 3ex;
+}
+
+.feed-post-container {
+  background-color: var(--bg);
+  padding: 3ex;
+  border-radius: var(--border-radius);
+
+  display: grid;
+  grid-template-columns: 0.8fr 0.2fr;
+  grid-template-rows: 0.1fr;
+  gap: 0px 0px;
+  grid-template-areas:
+    "left right";
+}
+
+.feed-list > ul > li {
+  margin-bottom: 3ex;
+}
+
+.feed-post-timestamp {
+  color: rgb(197, 197, 197);
+  grid-area: right;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.feed-post-timestamp-icon {
+  margin: 0.5ex 0.5ex 0ex 0ex;
+  color: var(--bg-accent)
+}
+
+.feed-post-title {
+  margin-bottom: 1ex;
+  color: var(--bg-accent)
+}
+
+.feed-post-users {
+  color: grey;
+  font-size: 10pt;
+}
+
+.feed-post-message {
+  display: inline-flex;
+  font-size: 10pt;
+}
+
+.feed-post-message-content {
+  color: grey;
+  font-size: 10pt;
+  margin-left: 1ex;
+}
+
+.feed-post-tags {
+  display: flex;
+  margin-top: 1ex;
+}
+
+.feed-post-tag {
+  font-size: 10pt;
+  margin-right: 1ex;
+  color: rgb(197, 197, 197);
+  background-color: var(--bg-dark);
+  padding: 0.5ex 2ex 0.5ex 2ex;
+  border-radius: 5px;
+}
+
+.feed-post-button {
+  margin-top: 2ex;
+  border-radius: 5px;
+  font-weight: lighter;
+  color: rgb(197, 197, 197);
+  background-color: var(--bg-dark);
+  display: flex;
+  justify-content: center;
+}
+
+/* Feed Section --------------------------------------------------------------- */
