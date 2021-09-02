@@ -25,6 +25,7 @@ function App() {
             <Route exact path="/authentication"> <Login/> </Route>
             <Route exact path="/channels"> <Channels/> </Route>
             <Route exact path="/profile"> <Profile/> </Route>
+
             <Route exact path="/privacy"> <PolicyPage/> </Route>
             <Route exact path="/terms"> <TermsPage/> </Route>
 

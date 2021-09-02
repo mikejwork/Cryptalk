@@ -9,6 +9,16 @@
   margin:auto;  
 }
 
+.mdIcon-back {
+  font-size:100px;
+  display: inline-block;
+}
+
+.edit-profile {
+  margin: 0 auto;
+  display: inline-block;
+}
+
 
 .profile-name {
   margin-bottom: 0px;
@@ -82,6 +92,7 @@
 .profile-top > h1 {
   font-size: xx-large;
   margin: 0;
+  float:right
 }
 
 .form-divider {
@@ -102,7 +113,7 @@
   margin: 2.5%;
 }
 
-.profile-bottom > button {
+.reset-password-button {
   margin: 2.5%;
   margin-top: 5%;
   margin-bottom: 5%;
@@ -176,6 +187,99 @@
   }
 }
 
+
+.form-name-section {
+  width:100%;
+}
+
+.form-name-div {
+   display: inline-block;
+   width: 50%;
+}
+
+.form-user {
+   padding-top: 2.5%;
+   width: 100%;
+}
+
+.form-user > input {
+   margin: 2.5%;
+}
+
+.form-name-input {
+ width: 90%;
+ height: 30px;
+ border-radius: .25rem;
+ display: inline-block;
+}
+
+.form-terms {
+   padding-top: 5%;
+   text-align: center;
+}
+
+.form-terms > a {
+   text-align: center;
+   display: block;
+   text-decoration: underline;
+}
+
+.form-checkbox-section {
+   padding-top: 5%;
+}
+
+.form-checkbox > input {
+   width:auto;
+}
+
+.label-icon {
+ margin-right: 5px;
+}
+
+.label-icon-check {
+ cursor: pointer;
+ font-size: 18pt;
+}
+
+.span-link {
+ color: #1da0f7;
+ text-decoration: underline;
+}
+
+.checked {
+ color: var(--bg-accent);
+}
+
+.readable-form {
+ width: 100%;
+ max-width: 40vw;
+ max-height: 30vw;
+ overflow-y: scroll;
+ display: flex;
+ flex-direction: column;
+ align-items: flex-start;
+ justify-content: flex-start;
+}
+
+
+.readable-form > h1 {
+ margin: 0;
+ font-weight: lighter;
+}
+
+.readable-form > .span-link {
+ align-self: center;
+ font-size: 20pt;
+ transition: all 0.1s ease-in-out;
+}
+
+.readable-form > .span-link:hover {
+ transform: translateX(-5px);
+}
+
+
+
+
 /* 
 Possibly needed for avatar */
 .avatar-input {
@@ -198,8 +302,7 @@ Possibly needed for avatar */
 
 .avatar-preview {
   display: flex;
-  align-items: center;
-  justify-content: center;
+  justify-content: left;
   width: auto;
   margin-left: 1rem;
 }
