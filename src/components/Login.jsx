@@ -33,6 +33,21 @@ function FormLogin(props) {
 
     try {
       await Auth.signIn(username, password);
+
+      // await Auth.signIn(username, password).then((user) => {
+      //   console.log(user);
+      //   DataStore.query(Friends).then((result) => {
+      //     console.log("friends", result)
+      //     if (result[0] === undefined) {
+      //       DataStore.save(
+      //         new Friends({
+      //           "list": []
+      //         })
+      //       );
+      //     }
+      //   });
+      // });
+
     } catch (error) {
       if (error.message) {
         setFormState(() => ({
@@ -118,16 +133,17 @@ function FormRegister(props) {
     }
 
     try {
-      const signup_response = await Auth.signUp({username, password, attributes: { email }});
-
-      if (!avatar) {
-        await generate_random_avatar();
-
-        await Storage.put(signup_response.userSub + '.jpg', avatar)
-      } else {
-        await Storage.put(signup_response.userSub + '.jpg', avatar)
-      }
-
+      // Sign up user, handle avatar generation if needed
+      Auth.signUp({username, password, attributes: { email }}).then((result) => {
+        if (!avatar) {
+          generate_random_avatar().then(() => {
+            Storage.put(result.userSub + '.jpg', avatar)
+          })
+        } else {
+          Storage.put(result.userSub + '.jpg', avatar)
+        }
+      });
+      // Move user onto the confirmation screen
       props.updateFormState("confirm");
     } catch (error) {
       if (error.message) {
@@ -152,8 +168,6 @@ function FormRegister(props) {
       console.log(e)
       return;
     }
-
-    console.log(formState)
   }
 
   function onChange(e) {
@@ -307,38 +321,12 @@ function Login() {
   const context = useContext(AuthContext);
   const [formState, updateFormState] = useState("login");
 
-   async function checkUser() {
-    try {
-      const user = await Auth.currentAuthenticatedUser();
-      context.updateUser(user)
-      updateFormState("redirect")
-    } catch (error) {
-      context.updateUser(null)
-    }
+  // Fixes issue of datastore not syncing, need to wait for this to be ready before ANY queries, otherwise
+  // Friends list will duplicate and cause a fuckton of issues.
+  // This also lets us keep the auth listeners in AuthContext and clean this login up :)))
+  if (context.datastore_ready) {
+    return (<Redirect to="/dashboard" />)
   }
-
-  async function setAuthListener() {
-    Hub.listen("auth", (data) => {
-      switch(data.payload.event) {
-        case "signIn":
-          checkUser()
-          break;
-        default:
-          break;
-      }
-    });
-  }
-
-  useEffect(() => {
-    checkUser();
-    setAuthListener();
-
-    return () => {
-      Hub.remove("auth");
-    }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   return (
     <div className="login-container">

@@ -1,102 +1,106 @@
-import React, { useState, useContext } from 'react'
-import { useSpring, animated, useTrail } from 'react-spring'
+/* eslint-disable no-loop-func */
+import React, { useContext, useState, useEffect } from 'react';
+import { useSpring, animated } from 'react-spring';
 import { Redirect } from "react-router-dom";
 import { AuthContext } from "../contexts/AuthContext";
 import '../css/Dashboard.css';
 import * as MdIcons from "react-icons/md";
 
-function FeedPost(props) {
+import { Storage, DataStore } from "aws-amplify";
+import { Friends, RequestStorage, RequestType, RequestStatus } from '../models';
 
-  function Tag(props) {
-    return (
-      <div className="feed-post-tag">
-        <p>#{props.tagname}</p>
+function Person(props) {
+  const [avatar, setavatar] = useState(null)
+  const [settingsMenu, setsettingsMenu] = useState(false)
+
+  const styling = useSpring({
+    from: { transform:`translateY(100%)`, opacity: 0 },
+    to: { transform:`translateY(0%)`, opacity: 1 }})
+
+  useEffect(() => {
+    async function fetch() {
+      let temp = await Storage.get(props.data.sub + '.jpg', { level: 'public' });
+      setavatar(temp)
+    }
+    fetch()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  return (
+    <animated.div style={styling} className="people-container">
+      <animated.img style={styling} className="people-avatar" src={avatar} alt=" "/>
+      <div className="people-info">
+        <p className="people-info-name">{props.data.username}</p>
+        <span className="people-info-status"><MdIcons.MdLabel className="status-icon"/>online</span>
       </div>
-    )
-  }
+      <MdIcons.MdChat className="dm-icon"/>
+      <MdIcons.MdSettings className="settings-icon" onClick={() => setsettingsMenu(!settingsMenu)}/>
+      { settingsMenu &&
+        <>
+          <PersonSettings data={props.data}/>
+        </>
+      }
+    </animated.div>
+  )
+}
 
-  function AnnouncementPost() {
-    return (
-      <>
-        <li>
-          <div className="feed-post-container">
-            <p className="feed-post-timestamp"><MdIcons.MdTimer className="feed-post-timestamp-icon"/>{props.timestamp}</p>
-            <div className="feed-post-info">
-              <p className="feed-post-title">{props.title}</p>
-              <p className="feed-post-users">{props.organizer}</p>
-              <div className="feed-post-tags">
-                {props.tags.map((tag) => {
-                  return <Tag tagname={tag.tagname}/>
-                })}
-              </div>
-            </div>
-          </div>
-        </li>
-      </>
-    )
-  }
+function PersonSettings(props) {
+  // const sub = props.data.sub
+  // const username = props.data.sub
 
-  function MeetingPost() {
-    return (
-      <>
-
-      </>
-    )
-  }
-
-  function FriendRequestPost() {
-    return (
-      <>
-
-      </>
-    )
-  }
-
-  function UnreadMessagePost() {
-    return (
-      <>
-        <li>
-          <div className="feed-post-container">
-            <p className="feed-post-timestamp"><MdIcons.MdTimer className="feed-post-timestamp-icon"/>{props.timestamp}</p>
-            <div className="feed-post-info">
-              <p className="feed-post-title">Unread message</p>
-              <p className="feed-post-message">{props.sender}: <p className="feed-post-message-content">{props.message}</p></p>
-            </div>
-            <button className="feed-post-button"><MdIcons.MdMarkunread className="feed-post-timestamp-icon"/> Mark as read</button>
-          </div>
-        </li>
-      </>
-    )
-  }
-
-  switch(props.type) {
-    case "meeting":
-      return <MeetingPost/>
-    case "announcement":
-      return <AnnouncementPost/>
-    case "friend-request":
-      return <FriendRequestPost/>
-    case "unread-message":
-      return <UnreadMessagePost/>
-    default:
-      break;
-  }
+  const styling = useSpring({
+    from: { transform:`translateX(100%)`, opacity: 0 },
+    to: { transform:`translateX(0%)`, opacity: 1 }})
 
   return (
     <>
-      <li>
-        <div className="feed-post-container">
-          <p className="feed-post-timestamp"><MdIcons.MdTimer className="feed-post-timestamp-icon"/>{props.timestamp}</p>
-          <div className="feed-post-info">
-            <p className="feed-post-title">{props.title}</p>
-            {props.message &&  <p className="feed-post-message">{props.sender}: <p className="feed-post-message-content">{props.message}</p></p>}
-            {props.users && <p className="feed-post-users">{props.users}</p>}
-            {props.tags && <div className="feed-post-tags">{props.tags.map((tag) => {return <Tag tagname={tag.tagname}/>})}</div>}
-          </div>
-          {props.message && <button className="feed-post-button"><MdIcons.MdMarkunread className="feed-post-timestamp-icon"/> Mark as read</button>}
-        </div>
-      </li>
+      <animated.div style={styling} className="people-settings-container unselectable">
+        <ul>
+          <li>
+            <span onClick={() => {}}><MdIcons.MdClose className="icon"/>Remove friend</span>
+          </li>
+        </ul>
+      </animated.div>
     </>
+  )
+}
+
+function Request(props) {
+  const styling = useSpring({
+    from: { transform:`translateY(100%)`, opacity: 0 },
+    to: { transform:`translateY(0%)`, opacity: 1 }})
+
+  async function reject() {
+    DataStore.query(RequestStorage, props.id).then((result) => {
+      DataStore.save(RequestStorage.copyOf(result[0], item => {
+        item.status = RequestStatus.REJECTED;
+      }));
+    })
+  }
+
+  async function accept() {
+    DataStore.query(RequestStorage, props.id).then((result) => {
+      DataStore.save(RequestStorage.copyOf(result[0], item => {
+        item.status = RequestStatus.ACCEPTED;
+      }));
+    })
+  }
+
+  if (props.data.status !== "PENDING") {
+    return (<></>)
+  }
+
+  return (
+    <animated.div style={styling} className="request-container">
+      <div className="request-info">
+        <p className="request-title">Incoming Request</p>
+        <p className="request-from">from {props.data.sender_username}</p>
+      </div>
+      <div className="request-actions">
+        <span onClick={accept} className="request-accept"><MdIcons.MdDone/></span>
+        <span onClick={reject} className="request-reject"><MdIcons.MdClose/></span>
+      </div>
+    </animated.div>
   )
 }
 
@@ -104,11 +108,168 @@ function Dashboard() {
   const context = useContext(AuthContext)
   const styling = useSpring({
     from: { transform:`translateY(100%)`, opacity: 0 },
-    to: { transform:`translateY(0%)`, opacity: 1 }
-  })
+    to: { transform:`translateY(0%)`, opacity: 1 }})
 
-  // redirect if not logged in
-  if (!context.user) { return <Redirect to="/authentication"/> }
+  // State
+  const [friends, setFriends] = useState([])
+  const [requests, setRequests] = useState([])
+  const [friend_field, setfriend_field] = useState("")
+
+  useEffect(() => {
+    // BUGFIX: If user was logged in -> closed browser -> came back to the /dashboard page
+    // This would run automatically and not check their login state, this ensures that nothing is
+    // done without datastore being 100% ready
+    if (context.datastore_ready) {
+      handle_friends()
+      handle_incoming()
+      handle_outgoing()
+      // Detects updates in friends
+      const friends_subscription = DataStore.observe(Friends).subscribe(() => handle_friends());
+      // Detects updates in recieved requests
+      const request_subscription = DataStore.observe(RequestStorage, (request) => request.reciever_username("eq", context.user.username)).subscribe(() => handle_incoming());
+      // Detects updates in sent requests
+      const incoming_subscription = DataStore.observe(RequestStorage, (request) => request.sender_username("eq", context.user.username)).subscribe(() => handle_outgoing());
+      return () => {
+        // Cleaup
+        friends_subscription.unsubscribe()
+        request_subscription.unsubscribe()
+        incoming_subscription.unsubscribe()
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [context.datastore_ready])
+  // When a change is detected in datastore_ready, update our subscriptions
+
+  // Run on page load, will obtain the list of friends
+  // if the list doesnt exist, create a new one
+  async function handle_friends() {
+    const result = await DataStore.query(Friends)
+    console.log("friends", result)
+    if (result[0] === undefined) {
+      await DataStore.save(
+          new Friends({
+          "list": []
+        })
+      );
+    }
+
+    DataStore.query(Friends).then((result) => {
+      setFriends(result[0].list)
+    })
+
+  }
+
+  // Handler for all outgoing requests
+  async function handle_outgoing() {
+    const result = await DataStore.query(RequestStorage, (request) => request.sender_username("eq", context.user.username));
+    console.log("outgoing", result)
+    for (let idx = 0; idx < result.length; idx++) {
+      switch (result[idx].status) {
+
+        case RequestStatus.ACCEPTED:
+          var reciever_username = result[idx].reciever_username
+          var reciever_sub = result[idx].reciever_sub
+
+          if (reciever_sub === "")
+            break
+
+          // Check if the friend already exists,
+          let abort = false
+          await DataStore.query(Friends).then((res) => {
+            for (var i = 0; i < res[0].list.length; i++) {
+              if (res[0].list[i].sub === reciever_sub) {
+                abort = true
+                console.log('handle_outgoing::ACCEPTED::FriendAlreadyExists')
+                break;
+              }
+            }
+          })
+          if (abort) { break; }
+
+          // Add as friend
+          await DataStore.query(Friends).then(async (res) => {
+            await DataStore.save(Friends.copyOf(res[0], item => {
+              item.list.push({"sub": reciever_sub, "username": reciever_username})
+            }))
+          })
+
+          // Delete the request
+          const modelToDelete = await DataStore.query(RequestStorage, result[idx].id);
+          await DataStore.delete(modelToDelete);
+          break;
+        default:
+          break;
+      }
+    }
+  }
+
+  // Handler for all incoming requests
+  async function handle_incoming() {
+    const result = await DataStore.query(RequestStorage, (request) => request.reciever_username("eq", context.user.username));
+    console.log("incoming", result)
+    setRequests(result)
+    for (let idx = 0; idx < result.length; idx++) {
+      var sender_sub = result[idx].sender_sub
+      var sender_username = result[idx].sender_username
+
+      // @enum RequestStatus
+      // RequestStatus.ACCEPTED
+      // RequestStatus.REJECTED
+      // RequestStatus.PENDING
+      switch (result[idx].status) {
+        case RequestStatus.ACCEPTED:
+
+          // Check if the friend already exists,
+          let abort = false
+          await DataStore.query(Friends).then((res) => {
+            for (var i = 0; i < res[0].list.length; i++) {
+              if (res[0].list[i].sub === sender_sub) {
+                abort = true
+                console.log('handle_incoming::ACCEPTED::FriendAlreadyExists')
+                break;
+              }
+            }
+          })
+          if (abort) { break; }
+
+          // Add as friend
+          await DataStore.query(Friends).then(async (res) => {
+            await DataStore.save(Friends.copyOf(res[0], item => {
+              item.list.push({"sub": sender_sub, "username": sender_username})
+            }))
+          })
+          // Update the request to include the reciever sub
+          await DataStore.query(RequestStorage, result[idx].id).then(async (res) => {
+            await DataStore.save(RequestStorage.copyOf(res, item => {
+              item.reciever_sub = context.user.attributes.sub;
+            }));
+          })
+          break;
+        default:
+          break;
+      }
+    }
+  }
+
+  // TODO: Create a cron-lambda function to go through all requests that are over ~15 days
+  // and remove them
+  async function send_friend_request() {
+    const username = friend_field;
+    await DataStore.save(
+      new RequestStorage({
+        "sender_sub": context.user.attributes.sub,
+        "sender_username": context.user.username,
+        "reciever_username": username,
+        "reciever_sub": "",
+        "type": RequestType.FRIEND_REQUEST,
+        "status": RequestStatus.PENDING
+      })
+    ).then((result) => {
+      setfriend_field("")
+    });
+  }
+
+  if (!context.datastore_ready) { return <Redirect to="/authentication"/> }
 
   return (
     <div className="background">
@@ -118,45 +279,30 @@ function Dashboard() {
             <h2>People</h2>
           </div>
           <div className="people-list">
-            <h6>ONLINE (4)</h6>
+            <h6>ONLINE ({friends.length})</h6>
+            <hr/>
             <ul>
-              <li>
-                <div className="people-container">
-                  <img className="people-avatar" src={process.env.PUBLIC_URL + '/default_avatars/1.jpg'} alt=" "/>
-                  <div className="people-info">
-                    <p className="people-info-name">Michael Jurie</p>
-                    <p className="people-info-status">custom user status here</p>
-                  </div>
-                </div>
-              </li>
-              <li>
-                <div className="people-container">
-                  <img className="people-avatar" src={process.env.PUBLIC_URL + '/default_avatars/2.jpg'} alt=" "/>
-                  <div className="people-info">
-                    <p className="people-info-name">John Smith</p>
-                    <p className="people-info-status">custom user status here</p>
-                  </div>
-                </div>
-              </li>
-              <li>
-                <div className="people-container">
-                  <img className="people-avatar" src={process.env.PUBLIC_URL + '/default_avatars/3.jpg'} alt=" "/>
-                  <div className="people-info">
-                    <p className="people-info-name">Mark Bevan</p>
-                    <p className="people-info-status">custom user status here</p>
-                  </div>
-                </div>
-              </li>
-              <li>
-                <div className="people-container">
-                  <img className="people-avatar" src={process.env.PUBLIC_URL + '/default_avatars/4.jpg'} alt=" "/>
-                  <div className="people-info">
-                    <p className="people-info-name">Jason Clarke</p>
-                    <p className="people-info-status">custom user status here</p>
-                  </div>
-                </div>
-              </li>
+              { friends.map((friend) => {
+                return (
+                  <li key={friend.sub}>
+                    <Person data={friend}/>
+                  </li>
+                )
+              })}
             </ul>
+            <ul>
+              { requests.map((request) => {
+                return (
+                  <li key={request.id}>
+                    <Request data={request}/>
+                  </li>
+                )
+              })}
+            </ul>
+          </div>
+          <div className="people-add-form">
+            <input name="user-to-add" value={friend_field} onChange={(e) => {setfriend_field(e.target.value);}} placeholder="Add a friend.." type="text"/>
+            <button onClick={send_friend_request}><MdIcons.MdSend/></button>
           </div>
         </animated.div>
         <animated.div style={styling} className="feed">
@@ -166,29 +312,6 @@ function Dashboard() {
           </div>
           <div className="feed-list">
             <ul>
-              {/* Replace this with functional db logic */}
-              <FeedPost
-                type="meeting"
-                title="Team meeting"
-                timestamp="12:00 PM"
-                users="Michael Jurie, John Smith, Mark Bevan, Marcy Wu"
-                tags={[{"tagname": "scrum"}, {"tagname": "team-meeting"}]}
-              />
-
-              <FeedPost
-                type="unread-message"
-                timestamp="6:30 AM"
-                sender="John Smith"
-                message="Hey, ready for the meeting at 12?"
-              />
-
-              <FeedPost
-                type="announcement"
-                title="RMIT Student Experience Survey"
-                timestamp="Friday 10:30 AM"
-                organizer="RMIT Coordinators"
-                tags={[{"tagname": "student-survey"}, {"tagname": "ses"}]}
-              />
             </ul>
           </div>
         </animated.div>

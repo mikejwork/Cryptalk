@@ -1,0 +1,31 @@
+enum RequestStatus {
+  PENDING
+  ACCEPTED
+  REJECTED
+}
+
+enum RequestType {
+  FRIEND_REQUEST
+}
+
+type RequestStorage @model @auth(rules: [{allow: private}]) {
+  id: ID!
+  sender_sub: String!
+  reciever_sub: String!
+  type: RequestType!
+  status: RequestStatus!
+  sender_username: String!
+  reciever_username: String!
+}
+
+type Friend {
+  sub: String!
+  username: String!
+}
+
+type Friends @model @auth(rules: [{allow: owner}]) {
+  id: ID!
+  owner: String
+  list: [Friend!]
+}
+ 
