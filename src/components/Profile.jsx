@@ -20,6 +20,7 @@ function ProfileView(props) {
     getProfilePic()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+  console.log(context.user)
   return (
     <>
       <section className="profile-top">
@@ -59,7 +60,7 @@ function ProfileView(props) {
 
         <section className="profile-information">
           <h1>Email:</h1>
-          <label>{context.user.attributes.email} </label>
+          <label>{context.user.attributes.email} </label> {!context.user.attributes.email_verified && <span className="warning" onClick={() => props.updateFormState("FormConfirm")}> <MdIcons.MdWarning />  Click here to verify your email</span>}
           <hr className="hr-horizontal-information" />
         </section>
         <button className="reset-password-button" name="signin" onClick={() => props.updateFormState("ResetPassword")} >Reset Password</button>
@@ -281,7 +282,7 @@ function FormConfirm(props) {
 
         <label htmlFor="authCode"><MdIcons.MdLockOutline className="label-icon" />Confirmation code has been sent to the new email.</label>
         <input name="authCode" onChange={onChange} placeholder="Type your confirmation code" />
-
+        
         <button onClick={process_confirm}>Confirm</button>
       </section>
     </>

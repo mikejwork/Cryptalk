@@ -9,6 +9,11 @@
   margin:auto;  
 }
 
+.warning {
+  margin-left: 5%;
+  color: var(--warning-color);
+}
+
 .mdIcon-back {
   font-size:100px;
   display: inline-block;
@@ -136,7 +141,7 @@
 
 .profile-bottom > .error-text {
   margin: 0;
-  color: rgba(173, 0, 0, 0.938);
+  color:  var(--warning-color);
   text-align: center;
 }
 

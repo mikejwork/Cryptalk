@@ -15,6 +15,7 @@ body {
   --bg-accent: #3c99d6;
   --bg-button: #242526;
   --text-color: #ffffff;
+  --warning-color: rgba(173, 0, 0, 0.938);
   --nav-size: 60px;
   --border: 1px solid var(--bg-accent);
   --border-radius: 10px;
