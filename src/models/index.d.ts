@@ -1,48 +1,49 @@
 import { ModelInit, MutableModel, PersistentModelConstructor } from "@aws-amplify/datastore";
 
+export enum RequestStatus {
+  PENDING = "PENDING",
+  ACCEPTED = "ACCEPTED",
+  REJECTED = "REJECTED"
+}
 
+export enum RequestType {
+  FRIEND_REQUEST = "FRIEND_REQUEST"
+}
 
+export declare class Friend {
+  readonly sub: string;
+  readonly username: string;
+  constructor(init: ModelInit<Friend>);
+}
 
-
-type BlogMetaData = {
+type RequestStorageMetaData = {
   readOnlyFields: 'createdAt' | 'updatedAt';
 }
 
-type PostMetaData = {
+type FriendsMetaData = {
   readOnlyFields: 'createdAt' | 'updatedAt';
 }
 
-type CommentMetaData = {
-  readOnlyFields: 'createdAt' | 'updatedAt';
-}
-
-export declare class Blog {
+export declare class RequestStorage {
   readonly id: string;
-  readonly name: string;
-  readonly posts?: (Post | null)[];
+  readonly sender_sub: string;
+  readonly reciever_sub: string;
+  readonly type: RequestType | keyof typeof RequestType;
+  readonly status: RequestStatus | keyof typeof RequestStatus;
+  readonly sender_username: string;
+  readonly reciever_username: string;
   readonly createdAt?: string;
   readonly updatedAt?: string;
-  constructor(init: ModelInit<Blog, BlogMetaData>);
-  static copyOf(source: Blog, mutator: (draft: MutableModel<Blog, BlogMetaData>) => MutableModel<Blog, BlogMetaData> | void): Blog;
+  constructor(init: ModelInit<RequestStorage, RequestStorageMetaData>);
+  static copyOf(source: RequestStorage, mutator: (draft: MutableModel<RequestStorage, RequestStorageMetaData>) => MutableModel<RequestStorage, RequestStorageMetaData> | void): RequestStorage;
 }
 
-export declare class Post {
+export declare class Friends {
   readonly id: string;
-  readonly title: string;
-  readonly blog?: Blog;
-  readonly comments?: (Comment | null)[];
+  readonly owner?: string;
+  readonly list?: Friend[];
   readonly createdAt?: string;
   readonly updatedAt?: string;
-  constructor(init: ModelInit<Post, PostMetaData>);
-  static copyOf(source: Post, mutator: (draft: MutableModel<Post, PostMetaData>) => MutableModel<Post, PostMetaData> | void): Post;
-}
-
-export declare class Comment {
-  readonly id: string;
-  readonly post?: Post;
-  readonly content: string;
-  readonly createdAt?: string;
-  readonly updatedAt?: string;
-  constructor(init: ModelInit<Comment, CommentMetaData>);
-  static copyOf(source: Comment, mutator: (draft: MutableModel<Comment, CommentMetaData>) => MutableModel<Comment, CommentMetaData> | void): Comment;
+  constructor(init: ModelInit<Friends, FriendsMetaData>);
+  static copyOf(source: Friends, mutator: (draft: MutableModel<Friends, FriendsMetaData>) => MutableModel<Friends, FriendsMetaData> | void): Friends;
 }

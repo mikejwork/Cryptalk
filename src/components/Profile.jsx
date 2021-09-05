@@ -1,264 +1,171 @@
-import '../css/Profile.css';
 import React, { useContext, useEffect, useState } from 'react'
-import { Auth, Storage } from "aws-amplify";
 import { AuthContext } from "../contexts/AuthContext";
 import { Redirect } from "react-router-dom";
+import { Storage, DataStore, Auth } from "aws-amplify";
+import { Friends } from '../models';
+
+import { useSpring, animated } from 'react-spring';
 import * as MdIcons from "react-icons/md";
+import '../css/Profile.css';
 
-
-function ProfileView(props) {
-  // To add: Status
+function ViewMain(props) {
   const context = useContext(AuthContext)
-  const [profilePic, setprofilePic] = useState(null)
 
-  async function getProfilePic() {
-    const result = await Storage.get(context.user.attributes.sub + '.jpg', { level: 'public' });
-    await setprofilePic(result)
-  }
+  // State
+  const [avatar, setAvatar] = useState(undefined)
+  const [friendCount, setfriendCount] = useState(0)
+  const [channelCount, setchannelCount] = useState(0)
+
+  // Animations
+  const styling = useSpring({
+    from: { opacity: 0 },
+    to: { opacity: 1 }})
 
   useEffect(() => {
-    getProfilePic()
+    fetch_avatar()
+    setchannelCount(0)
+
+    if (context.datastore_ready) {
+      fetch_friends()
+      const friends_subscription = DataStore.observe(Friends).subscribe(() => fetch_friends());
+      return () => { friends_subscription.unsubscribe() }
+    }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-  console.log(context.user)
+  }, [context.datastore_ready])
+
+  async function fetch_avatar() {
+    const result = await Storage.get(context.user.attributes.sub + '.jpg', { level: 'public' });
+    setAvatar(result)
+  }
+
+  async function fetch_friends() {
+    DataStore.query(Friends).then((result) => {
+      setfriendCount(result[0].list.length)
+    })
+  }
+
   return (
     <>
-      <section className="profile-top">
-        <h1>Login</h1>
-      </section>
-      <section className="form-divider">
-        <div className="custom-shape-divider-top-1629434998">
-          <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
-            <path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" opacity=".25" className="shape-fill"></path>
-            <path d="M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z" opacity=".5" className="shape-fill"></path>
-            <path d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z" className="shape-fill"></path>
-          </svg>
-
+      <animated.div style={styling} className="profile-main">
+        <div className="profile-main-title">
+          <h2>Profile</h2>
+          <h6>View your profile details below.</h6>
         </div>
-      </section>
-      <section className="profile-bottom" >
-        <div className="profile-picture">{profilePic !== null && <img className="user-avatar" src={profilePic} alt=" " width="150" height="150" />}</div>
-        <button className="edit-profile" onClick={() => props.updateFormState("ProfileEdit")}>Edit profile</button>
-        <h1 className="profile-name">{context.user.username}</h1>
-
-        {/* This is to still be implemented */}
-        <h4><MdIcons.MdLightbulbOutline /> Status</h4>
-
-        <div className="profile-fc">
-          <span className="profile-friends">
-            <h1>Friends</h1>
-            <label>12</label>
-            {/* Create function to loop through friends */}
-          </span>
-          <hr className="hr-vertical" />
-          <span className="profile-friends">
-            <h1>Channels</h1>
-            <label>3</label>
-            {/* Create function to loop through channels */}
-          </span>
+        <hr/>
+        <div className="profile-main-avatar-container">
+          <img className="profile-main-avatar" src={avatar} alt=" "/>
+          <div className="profile-main-avatar-overlay" onClick={() => props.setView("edit")}><span className="avatar-overlay-text"><MdIcons.MdOpenInNew className="icon-spacer"/>Edit</span></div>
         </div>
-
-        <section className="profile-information">
-          <h1>Email:</h1>
-          <label>{context.user.attributes.email} </label> {!context.user.attributes.email_verified && <span className="warning" onClick={() => props.updateFormState("FormConfirm")}> <MdIcons.MdWarning />  Click here to verify your email</span>}
-          <hr className="hr-horizontal-information" />
-        </section>
-        <button className="reset-password-button" name="signin" onClick={() => props.updateFormState("ResetPassword")} >Reset Password</button>
-      </section>
+        <div className="profile-main-username">
+          <h2>{context.user.username}</h2>
+        </div>
+        <div className="profile-main-email">
+          <h4><MdIcons.MdOpenInNew className="icon-spacer" onClick={() => props.setView("edit")}/>{context.user.attributes.email}</h4>
+          {!context.user.attributes.email_verified && <span className="profile-main-email-warning" onClick={() => props.setView("confirm")}><MdIcons.MdWarning className="icon-spacer"/>Click here to verify your email</span>}
+        </div>
+        <div className="profile-main-stats">
+          <div className="friends">
+            <MdIcons.MdSupervisorAccount/>
+            <h2>Friends</h2>
+            <p>{friendCount}</p>
+          </div>
+          <div className="channels">
+            <MdIcons.MdContacts/>
+            <h2>Channels</h2>
+            <p>{channelCount}</p>
+          </div>
+        </div>
+        <div className="profile-main-reset">
+          <button className="profile-main-reset-button" onClick={() => props.setView("reset")}>Change password</button>
+          <button className="profile-main-mfa-button">Enable MFA</button>
+        </div>
+      </animated.div>
     </>
   )
 }
 
-function ProfileEdit(props) {
+function ViewEdit(props) {
   const context = useContext(AuthContext)
 
-  const [profilePic, setprofilePic] = useState(null)
+  // State
+  const [avatar, setAvatar] = useState(undefined)
+  const [errorMessage, seterrorMessage] = useState("")
+  const [formState, setformState] = useState({avatar: undefined})
 
-  async function getProfilePic() {
-    const result = await Storage.get(context.user.attributes.sub + '.jpg', { level: 'public' });
-    await setprofilePic(result)
-  }
+  // Animations
+  const styling = useSpring({
+    from: { opacity: 0 },
+    to: { opacity: 1 }})
 
   useEffect(() => {
-    getProfilePic()
+    fetch_avatar()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
-  const initialForm = { status: "", email: "", error_message: "", avatar: null };
 
-  const [formState, setFormState] = useState(initialForm)
-
-  async function generate_random_avatar() {
-    var rand = Math.floor(Math.random() * 24);
-    const response = await fetch(process.env.PUBLIC_URL + '/default_avatars/' + rand + '.jpg')
-    const blob = await response.blob();
-    setFormState(() => ({ ...formState, avatar: blob }));
+  async function fetch_avatar() {
+    const result = await Storage.get(context.user.attributes.sub + '.jpg', { level: 'public' });
+    setAvatar(result)
   }
 
-  async function process_change() {
-    const { email, avatar } = formState;
-    //Add status in const when implemented
-    // if (formState.status !== "") {
-    //To be used when status is implemented
-    // }
-    if (formState.avatar) {
-      let result = await Auth.currentAuthenticatedUser();
-      await Storage.put(result.attributes.sub + '.jpg', avatar)
-    }
-    if (!email) {
-      props.updateFormState("ProfileView");
-    }
-    if (email) {
-      let user = await Auth.currentAuthenticatedUser();
-      await Auth.updateUserAttributes(user, {
-        'email': email
+  async function save_information() {
+    const { email, avatar } = formState
+
+    if (avatar !== undefined) {
+      await Storage.put(context.user.attributes.sub + '.jpg', avatar, {
+        progressCallback(progress) {
+          const percent = (progress.loaded / progress.total) * 100;
+          props.setLoader(percent)
+          if (percent === 100) {
+            props.setLoader(0)
+          }
+        },
       });
-      props.updateFormState("FormConfirm");
+    }
+
+    if (email !== "") {
+      // eslint-disable-next-line no-useless-escape
+      const regex_email = (/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
+      if (regex_email.test(email)) {
+        await Auth.updateUserAttributes(context.user, {
+          'email': email
+        }).then(async (result) => {
+          if (result === "SUCCESS") {
+            await Auth.currentAuthenticatedUser().then((result) => {
+              context.updateUser(result);
+            });
+            props.setView("profile")
+          }
+        });
+      } else {
+        console.log('failed regex')
+      }
     }
   }
 
-  async function OnFileChange(e) {
+  function onFileChange(e) {
     const file = e.target.files[0];
 
     if (!file) { return }
     if (!file.type.startsWith('image/')) { return }
-
-    await setFormState(() => ({ ...formState, avatar: file, error_message: "" }));
+    if (file.size > 1000000) {
+      seterrorMessage("Avatar cannot be larger than 2MB!")
+      setformState(() => ({ ...formState, avatar: undefined }));
+      return
+    }
+    seterrorMessage("")
 
     try {
       const source = URL.createObjectURL(file);
-      const preview_element = document.getElementById("avatar-preview50")
-      preview_element.src = source;
-    } catch (e) {
+      setAvatar(source)
+      setformState(() => ({ ...formState, avatar: file }));
+    } catch(e) {
       console.log(e)
-      return;
     }
   }
 
   function onChange(e) {
-    setFormState(() => ({
-      ...formState,
-      [e.target.name]: e.target.value,
-      error_message: ""
-    }));
-  }
-
-  return (
-    <>
-      <section className="profile-top">
-        <MdIcons.MdChevronLeft className="mdIcon-back" onClick={() => props.updateFormState("ProfileView")} />
-        <h1>Edit Profile</h1>
-      </section>
-      <section className="form-divider">
-        <div className="custom-shape-divider-top-1629434998">
-          <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
-            <path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" opacity=".25" className="shape-fill"></path>
-            <path d="M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z" opacity=".5" className="shape-fill"></path>
-            <path d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z" className="shape-fill"></path>
-          </svg>
-        </div>
-      </section>
-      <section className="profile-bottom" >
-        <div className="avatar-container">
-
-          <div className="avatar-input">
-            <div className="profile-picture">
-              {formState.avatar && profilePic !== null && <img className="user-avatar" src={URL.createObjectURL(formState.avatar)} alt={profilePic} width="150" height="150" />}
-            </div>
-            <input className="avatar-input-field" name="avatar" id="avatar" onChange={OnFileChange} type="file" />
-          </div>
-          <button onClick={generate_random_avatar} className="avatar-refresh"><MdIcons.MdRefresh /></button>
-        </div>
-
-        <label htmlFor="status">Change your status</label>
-        <input name="status" value={formState.status} placeholder="Change your status" onChange={onChange} />
-        <label htmlFor="email">Change Email address</label>
-        <input name="email" value={formState.email} placeholder={context.user.attributes.email} onChange={onChange} type="email" />
-
-        <button className="reset-password-button" name="acceptChanges" onClick={process_change} >Accept Changes</button>
-      </section>
-    </>
-  )
-}
-
-
-function ResetPassword(props) {
-  const initialForm = { old_password: "", password: "", error_message: "" };
-
-  const [formState, setFormState] = useState(initialForm)
-
-
-  async function process_password() {
-    const { old_password, password } = formState;
-
-    Auth.currentAuthenticatedUser().then(user => {
-      return Auth.changePassword(user, old_password, password);
-    })
-      .then(() => {
-        props.updateFormState("ProfileView")
-      })
-      .catch(err =>
-        setFormState(() => ({ ...formState, error_message: err.message }))
-      );
-
-
-
-
-  }
-
-  function onChange(e) {
-    setFormState(() => ({
-      ...formState,
-      [e.target.name]: e.target.value,
-      error_message: ""
-    }));
-  }
-
-  return (
-    <>
-      <section className="profile-top">
-        <MdIcons.MdChevronLeft className="mdIcon-back" onClick={() => props.updateFormState("ProfileView")} />
-        <h1>Edit Profile</h1>
-      </section>
-      <section className="form-divider">
-        <div className="custom-shape-divider-top-1629434998">
-          <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
-            <path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" opacity=".25" className="shape-fill"></path>
-            <path d="M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z" opacity=".5" className="shape-fill"></path>
-            <path d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z" className="shape-fill"></path>
-          </svg>
-        </div>
-      </section>
-      <section className="profile-bottom" >
-        {formState.error_message === "" ? <></> : <p className="error-text">{formState.error_message}</p>}
-
-        <label htmlFor="old_password">Old Password</label>
-        <input name="old_password" value={formState.old_password} placeholder="Enter your old password" onChange={onChange} type="password" />
-        <label htmlFor="password">New Password</label>
-        <input name="password" value={formState.password} placeholder="Enter your new password" onChange={onChange} type="password" />
-
-        <button className="reset-password-button" name="acceptChanges" onClick={process_password} >Change password</button>
-      </section>
-    </>
-  )
-}
-
-function FormConfirm(props) {
-  const initialForm = { authCode: "" };
-  const [formState, setFormState] = useState(initialForm)
-
-  async function process_confirm() {
-    const { authCode } = formState;
-    try {
-      await Auth.currentAuthenticatedUser();
-      await Auth.verifyCurrentUserAttributeSubmit('email', authCode);
-      props.updateFormState("ProfileView")
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
-  function onChange(e) {
-    setFormState(() => ({
+    setformState(() => ({
       ...formState,
       [e.target.name]: e.target.value
     }));
@@ -266,50 +173,197 @@ function FormConfirm(props) {
 
   return (
     <>
-      <section className="form-top">
-        <h1>Confirm</h1>
-      </section>
-      <section className="form-divider">
-        <div className="custom-shape-divider-top-1629434998">
-          <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
-            <path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" opacity=".25" className="shape-fill"></path>
-            <path d="M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z" opacity=".5" className="shape-fill"></path>
-            <path d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z" className="shape-fill"></path>
-          </svg>
+      <animated.div style={styling} className="profile-edit">
+        <div className="profile-main-title">
+          <h2>Edit Profile</h2>
+          <h6>Edit your profile details below.</h6>
         </div>
-      </section>
-      <section className="form-bottom">
-
-        <label htmlFor="authCode"><MdIcons.MdLockOutline className="label-icon" />Confirmation code has been sent to the new email.</label>
-        <input name="authCode" onChange={onChange} placeholder="Type your confirmation code" />
-        
-        <button onClick={process_confirm}>Confirm</button>
-      </section>
+        <hr/>
+        <div className="profile-main-avatar-container">
+          <img className="profile-main-avatar" id="avatar-preview" src={avatar} alt=" "/>
+          <p className="profile-main-avatar-error">{errorMessage}</p>
+          <div className="profile-avatar-inputs">
+            <input className="profile-main-avatar-input" onChange={onFileChange} type="file" />
+          </div>
+        </div>
+        <div className="profile-main-email-edit">
+          <div className="profile-avatar-inputs">
+            <input className="profile-main-email-input" name="email" placeholder={context.user.attributes.email} onChange={onChange} type="text" />
+          </div>
+        </div>
+        <button onClick={save_information}><MdIcons.MdSend className="icon-spacer"/>Save all changes</button>
+        <div className="return-span">
+          <span onClick={() => props.setView("profile")}>Return</span>
+        </div>
+      </animated.div>
     </>
   )
 }
 
-
-function Profile() {
-  const [formState, updateFormState] = useState("ProfileView");
+function ViewConfirm(props) {
   const context = useContext(AuthContext)
 
-  if (context.user === null) {
-    return <Redirect to={"authentication"} />
+  // State
+  const [sentTo, setSentTo] = useState("")
+  const [formState, setformState] = useState({code: ""})
+
+  // Animations
+  const styling = useSpring({
+    from: { opacity: 0 },
+    to: { opacity: 1 }})
+
+  useEffect(() => {
+    setSentTo(context.user.attributes.email)
+    send_code()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  async function send_code() {
+    try {
+      await Auth.verifyCurrentUserAttribute('email');
+    } catch (e) {
+      if (e.code === "LimitExceededException") {
+        setformState(() => ({
+          ...formState,
+          "error": e.message
+        }));
+      }
+    }
+  }
+
+  async function submit_code() {
+    const { code } = formState;
+    Auth.verifyCurrentUserAttributeSubmit('email', code).then(async (result) => {
+      console.log(result)
+
+      if (result === "SUCCESS") { Auth.signOut() }
+    })
+  }
+
+  function onChange(e) {
+    setformState(() => ({
+      ...formState,
+      [e.target.name]: e.target.value
+    }));
   }
 
   return (
-    <div className="profile-container">
-      <div className="profile-view-container">
-        {formState === "ProfileView" && <ProfileView updateFormState={updateFormState} />}
-        {formState === "ProfileEdit" && <ProfileEdit updateFormState={updateFormState} />}
-        {formState === "FormConfirm" && <FormConfirm updateFormState={updateFormState} />}
-        {formState === "ResetPassword" && <ResetPassword updateFormState={updateFormState} />}
+    <>
+      <animated.div style={styling} className="profile-confirm">
+        <div className="profile-confirm-title">
+          <h2>Confirm Email</h2>
+          <h6>Enter the confirmation code sent to {sentTo}</h6>
+          <h6>You will be logged-out after confirming, and will have to login again.</h6>
+          <h5 className="error-msg">{formState.error}</h5>
+        </div>
+        <div className="profile-main-email-edit">
+          <div className="profile-avatar-inputs">
+            <input onChange={onChange} className="profile-main-email-input" name="code" placeholder="Confirmation code" type="text" />
+          </div>
+        </div>
+        <button onClick={submit_code}><MdIcons.MdSend className="icon-spacer"/>Confirm</button>
+        <div className="return-span">
+          <span onClick={() => send_code()}>Re-send code</span>
+          <span onClick={() => props.setView("profile")}>Return</span>
+        </div>
+      </animated.div>
+    </>
+  )
+}
 
-        {formState === "redirect" && <Redirect to="/" />}
+function ViewReset(props) {
+  const context = useContext(AuthContext)
 
+  // State
+  const [formState, setformState] = useState({oldPassword: "", newPassword: ""})
+
+  // Animations
+  const styling = useSpring({
+    from: { opacity: 0 },
+    to: { opacity: 1 }})
+
+  async function change() {
+    const { oldPassword, newPassword } = formState;
+
+    try {
+      const result = await Auth.changePassword(context.user, oldPassword, newPassword);
+      // TODO Success notification
+      if (result === "SUCCESS") { Auth.signOut() }
+    } catch(e) {
+      console.log(e)
+      switch (e.code) {
+        case "NotAuthorizedException":
+          setformState(() => ({...formState, "error": e.message }));
+          break;
+        case "InvalidPasswordException":
+          setformState(() => ({...formState, "error": e.message }));
+          break;
+        case "InvalidParameterException":
+          setformState(() => ({...formState, "error": "Please fill in the required fields." }));
+          break;
+        default:
+          break;
+      }
+
+    }
+  }
+
+  function onChange(e) {
+    setformState(() => ({
+      ...formState,
+      [e.target.name]: e.target.value
+    }));
+  }
+
+  return (
+    <>
+      <animated.div style={styling} className="profile-reset">
+          <div className="profile-reset-title">
+            <h2>Change Password</h2>
+            <h6>Enter your old password and desired password below.</h6>
+            <h5 className="error-msg">{formState.error}</h5>
+          </div>
+          <div className="profile-main-email-edit">
+            <div className="profile-reset-inputs">
+              <input onChange={onChange} className="profile-reset-input" name="oldPassword" placeholder="Old password" type="password"/>
+              <input onChange={onChange} className="profile-reset-input" name="newPassword" placeholder="New password" type="password"/>
+            </div>
+          </div>
+          <button onClick={change}><MdIcons.MdSend className="icon-spacer"/>Confirm</button>
+          <div className="return-span">
+            <span onClick={() => props.setView("profile")}>Return</span>
+          </div>
+        </animated.div>
+    </>
+  )
+}
+
+function Profile() {
+  const context = useContext(AuthContext)
+
+  // State
+  const [view, setView] = useState("profile")
+  const [loader, setLoader] = useState(0)
+
+  // Animations
+  const styling = useSpring({
+    from: { opacity: 0 },
+    to: { opacity: 1 }})
+
+  if (!context.datastore_ready) { return <Redirect to="/"/> }
+
+  return (
+    <>
+      <div className="profile-page">
+        <animated.div style={styling} className="profile-container">
+          <div style={{width: loader + "%"}} className="loading-bar"></div>
+          { view === "profile" && <ViewMain setView={setView} setLoader={setLoader}/> }
+          { view === "edit" && <ViewEdit setView={setView} setLoader={setLoader}/> }
+          { view === "confirm" && <ViewConfirm setView={setView} setLoader={setLoader}/> }
+          { view === "reset" && <ViewReset setView={setView} setLoader={setLoader}/> }
+        </animated.div>
       </div>
-    </div>
+    </>
   )
 }
 
