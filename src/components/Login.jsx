@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Redirect } from "react-router-dom";
-import { Auth, Hub, Storage } from "aws-amplify";
+import { Auth, Storage } from "aws-amplify";
 import { AuthContext } from "../contexts/AuthContext";
 
 import '../css/Login.css';
