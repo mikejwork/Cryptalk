@@ -32,8 +32,8 @@ function FormLogin(props) {
     }
 
     try {
+      props.setFormUserName(username)
       await Auth.signIn(username, password);
-
       // await Auth.signIn(username, password).then((user) => {
       //   console.log(user);
       //   DataStore.query(Friends).then((result) => {
@@ -82,7 +82,7 @@ function FormLogin(props) {
       </section>
       <section className="form-bottom" onKeyPress={process_keypress} >
         {formState.error_message === "" ? <></> : <p className="error-text">{formState.error_message}</p>}
-        {formState.error_message === "User is not confirmed." ? <span onClick={() => props.updateFormState("confirm")}>Click here to confirm your email</span> : <></> }
+        {formState.error_message === "User is not confirmed." ? <span className="error-text" onClick={() => props.updateFormState("confirm")}>Confirm your email</span> : <></> }
 
         <label htmlFor="username"><MdIcons.MdPermIdentity className="label-icon"/>Username</label>
         <input name="username" onChange={onChange} placeholder="Type your username"/>
@@ -143,6 +143,8 @@ function FormRegister(props) {
         } else {
           Storage.put(result.userSub + '.jpg', avatar)
         }
+        props.setEmailBlurred(result.codeDeliveryDetails.Destination)
+        props.setFormUserName(username)
       });
       // Move user onto the confirmation screen
       props.updateFormState("confirm");
@@ -261,12 +263,16 @@ function FormRegister(props) {
 }
 
 function FormConfirm(props) {
-  const initialForm = { username: "", authCode: ""};
+  const initialForm = { username: props.form_username, authCode: ""};
   const [formState, setFormState] = useState(initialForm)
 
-  async function process_confirm() {
-    const { username, authCode } = formState;
+  console.log(props.form_username)
+  console.log(props.email_blurred)
 
+
+  async function process_confirm() {
+    const {authCode } = formState;
+    const username = props.form_username
     try {
       await Auth.confirmSignUp(username, authCode);
       props.updateFormState("login")
@@ -305,10 +311,7 @@ function FormConfirm(props) {
         </div>
       </section>
       <section className="form-bottom">
-        <label htmlFor="username"><MdIcons.MdPermIdentity className="label-icon"/>Username</label>
-        <input name="username" onChange={onChange} placeholder="Type your username"/>
-
-        <label htmlFor="authCode"><MdIcons.MdLockOutline className="label-icon"/>Confirmation code has been sent to your email.</label>
+        <label htmlFor="authCode"><MdIcons.MdLockOutline className="label-icon"/>Confirmation code has been sent to {props.email_blurred ? <>{props.email_blurred}</> : <>your email.</>}       </label>
         <input name="authCode" onChange={onChange} placeholder="Type your confirmation code"/>
 
         <button onClick={process_confirm}>Confirm</button>
@@ -321,7 +324,8 @@ function FormConfirm(props) {
 function Login() {
   const context = useContext(AuthContext);
   const [formState, updateFormState] = useState("login");
-
+  const [email_blurred, setEmailBlurred] = useState("")
+  const [form_username, setFormUserName] = useState("")
   // Fixes issue of datastore not syncing, need to wait for this to be ready before ANY queries, otherwise
   // Friends list will duplicate and cause a fuckton of issues.
   // This also lets us keep the auth listeners in AuthContext and clean this login up :)))
@@ -332,9 +336,9 @@ function Login() {
   return (
     <div className="login-container">
       <div className="login-form-container">
-        { formState === "login" && <FormLogin updateFormState={updateFormState}/> }
-        { formState === "register" && <FormRegister updateFormState={updateFormState}/> }
-        { formState === "confirm" && <FormConfirm updateFormState={updateFormState}/> }
+        { formState === "login" && <FormLogin updateFormState={updateFormState} setFormUserName={setFormUserName}/> }
+        { formState === "register" && <FormRegister updateFormState={updateFormState} setEmailBlurred={setEmailBlurred} setFormUserName={setFormUserName}/> }
+        { formState === "confirm" && <FormConfirm updateFormState={updateFormState} email_blurred={email_blurred} form_username={form_username}/> }
         { formState === "redirect" && <Redirect to="/dashboard" /> }
       </div>
     </div>
