@@ -82,6 +82,7 @@ function FormLogin(props) {
       </section>
       <section className="form-bottom" onKeyPress={process_keypress} >
         {formState.error_message === "" ? <></> : <p className="error-text">{formState.error_message}</p>}
+        {formState.error_message === "User is not confirmed." ? <span onClick={() => props.updateFormState("confirm")}>Click here to confirm your email</span> : <></> }
 
         <label htmlFor="username"><MdIcons.MdPermIdentity className="label-icon"/>Username</label>
         <input name="username" onChange={onChange} placeholder="Type your username"/>
