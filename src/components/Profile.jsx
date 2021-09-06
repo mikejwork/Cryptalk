@@ -19,7 +19,8 @@ function ViewMain(props) {
   // Animations
   const styling = useSpring({
     from: { opacity: 0 },
-    to: { opacity: 1 }})
+    to: { opacity: 1 }
+    })
 
   useEffect(() => {
     fetch_avatar()
@@ -191,7 +192,7 @@ function ViewEdit(props) {
             <input className="profile-main-email-input" name="email" placeholder={context.user.attributes.email} onChange={onChange} type="text" />
           </div>
         </div>
-        <button onClick={save_information}><MdIcons.MdSend className="icon-spacer"/>Save all changes</button>
+        <button onClick={save_information}>Save all changes</button>
         <div className="return-span">
           <span onClick={() => props.setView("profile")}>Return</span>
         </div>
@@ -261,9 +262,9 @@ function ViewConfirm(props) {
             <input onChange={onChange} className="profile-main-email-input" name="code" placeholder="Confirmation code" type="text" />
           </div>
         </div>
-        <button onClick={submit_code}><MdIcons.MdSend className="icon-spacer"/>Confirm</button>
+        <button onClick={submit_code}>Confirm</button>
         <div className="return-span">
-          <span onClick={() => send_code()}>Re-send code</span>
+          <span onClick={() => send_code()}>Resend code</span>
           <span onClick={() => props.setView("profile")}>Return</span>
         </div>
       </animated.div>
@@ -329,7 +330,7 @@ function ViewReset(props) {
               <input onChange={onChange} className="profile-reset-input" name="newPassword" placeholder="New password" type="password"/>
             </div>
           </div>
-          <button onClick={change}><MdIcons.MdSend className="icon-spacer"/>Confirm</button>
+          <button onClick={change}>Confirm</button>
           <div className="return-span">
             <span onClick={() => props.setView("profile")}>Return</span>
           </div>

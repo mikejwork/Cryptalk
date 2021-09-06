@@ -95,18 +95,6 @@
   fill: var(--bg-accent);
 }
 
-
-@media only screen and (max-width: 720px) {
-  .login-form-container {
-    min-width: 90%;
-  }
-
-  .form-divider {
-    margin-top: -1px;
-  }
-}
-
-
 .form-name-section {
   width:100%;
 }
@@ -268,4 +256,14 @@
   color:rgb(202, 202, 202);
   font-size: 9pt;
   align-self: flex-end;
+}
+
+@media only screen and (max-width: 720px) {
+  .login-form-container {
+    min-width: 90%;
+  }
+
+  .form-divider {
+    margin-top: -1px;
+  }
 }
