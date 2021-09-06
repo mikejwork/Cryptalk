@@ -18,7 +18,7 @@
 }
 
 .form-bottom {
-  background-color: var(--bg);
+  background-color: var(--bg-dark);
   color: var(--text-color);
   border-radius: var(--border-radius);
   display: flex;
@@ -28,6 +28,7 @@
 }
 
 .form-bottom > input {
+  background-color: var(--bg-dark);
   margin: 2.5%;
 }
 
@@ -60,15 +61,15 @@
 
 .login-container {
   height: calc(99.9vh - var(--nav-size));
-  background: url(../assets/homepage-background.jpg) repeat;
-  background-size: cover;
+  /* background: url(../assets/homepage-background.jpg) repeat;
+  background-size: cover; */
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .login-form-container {
-  box-shadow: 0px 0px 25px #0000005e;
+  /* box-shadow: 0px 0px 25px #0000005e; */
   color: var(--bg) !important;
   border-radius: var(--border-radius);
   min-width: 30%;
@@ -91,7 +92,7 @@
 }
 
 .custom-shape-divider-top-1629434998 .shape-fill {
-    fill: var(--bg-accent);
+  fill: var(--bg-accent);
 }
 
 
@@ -107,21 +108,21 @@
 
 
 .form-name-section {
-   width:100%;
+  width:100%;
 }
 
 .form-name-div {
-    display: inline-block;
-    width: 50%;
+  display: inline-block;
+  width: 50%;
 }
 
 .form-user {
-    padding-top: 2.5%;
-    width: 100%;
+  padding-top: 2.5%;
+  width: 100%;
 }
 
 .form-user > input {
-    margin: 2.5%;
+  margin: 2.5%;
 }
 
 .form-name-input {
@@ -132,22 +133,22 @@
 }
 
 .form-terms {
-    padding-top: 5%;
-    text-align: center;
+  padding-top: 5%;
+  text-align: center;
 }
 
 .form-terms > a {
-    text-align: center;
-    display: block;
-    text-decoration: underline;
+  text-align: center;
+  display: block;
+  text-decoration: underline;
 }
 
 .form-checkbox-section {
-    padding-top: 5%;
+  padding-top: 5%;
 }
 
 .form-checkbox > input {
-    width:auto;
+  width:auto;
 }
 
 .label-icon {
@@ -205,11 +206,18 @@
   align-self: flex-start;
 }
 
+.avatar-input-field {
+  background-color: var(--bg-dark);
+}
+
 .avatar-input-field::-webkit-file-upload-button {
   border: none;
+  font-size: 11pt;
+  font-family: 'Titillium Web', sans-serif;
+  color: var(--bg-darker);
   background-color: var(--bg-accent);
-  border-radius: var(--border-radius);
-  padding-left: 3%; padding-right: 3%;
+  border-radius: 0.5ex;
+  padding: 0.5ex 2ex 0.5ex 2ex;
   cursor: pointer;
 }
 

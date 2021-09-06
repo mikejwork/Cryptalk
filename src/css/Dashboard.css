@@ -13,8 +13,8 @@ h6 {
   transition: all 0.3s ease-in-out;
   padding: 4rem 10rem 10rem 10rem;
   height: calc(99.9vh - var(--nav-size) - 8rem);
-  background: url(../assets/homepage-background.jpg) repeat;
-  background-size: cover;
+  /* background: url(../assets/homepage-background.jpg) repeat;
+  background-size: cover; */
 }
 
 .dashboard-container {
@@ -50,16 +50,16 @@ h6 {
   width: 100%;
   flex-grow: 1;
   padding: 1ex 3ex 3ex 3ex;
-  background-color: var(--bg-darker);
-  border-radius: var(--border-radius) var(--border-radius) 0 0;
+  /* background-color: var(--bg-darker);
+  border-radius: var(--border-radius) var(--border-radius) 0 0; */
 }
 
 .people-add-form {
   display: flex;
   width: 100%;
   padding: 0ex 3ex 3ex 3ex;
-  background-color: var(--bg-darker);
-  border-radius: 0 0 var(--border-radius) var(--border-radius);
+  /* background-color: var(--bg-darker);
+  border-radius: 0 0 var(--border-radius) var(--border-radius); */
 }
 
 .people-add-form > input {
@@ -173,6 +173,7 @@ h6 {
 }
 
 /* Request Section --------------------------------------------------------------- */
+
 .request-container {
   display: flex;
   flex-direction: row;
@@ -228,119 +229,29 @@ h6 {
   color: grey;
 }
 
+/* Notifications Section --------------------------------------------------------------- */
 
-/* Feed Section --------------------------------------------------------------- */
-
-.feed {
-  position: absolute;
-  z-index: -1;
-  grid-area: feed;
+.notifications-container {
   padding: 5ex;
+  grid-area: feed;
+
 }
 
-.feed-title {
-  position: relative;
-  z-index: inherit;
+.notifications-tabs {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly;
   padding-bottom: 3ex;
+  border-bottom: 1px solid;
+  border-image-slice: 1;
+  border-image-source: var(--bg-gradient-border-faint);
 }
 
-.feed-post-container {
-  background-color: var(--bg);
-  padding: 3ex;
-  border-radius: var(--border-radius);
-
-  display: grid;
-  grid-template-columns: 0.8fr 0.2fr;
-  grid-template-rows: 0.1fr;
-  gap: 0px 0px;
-  grid-template-areas:
-    "left right";
+.notifications-tabs > span {
+  transition: all 0.3s ease-in-out;
 }
 
-.feed-list > ul > li {
-  margin-bottom: 3ex;
-}
-
-.feed-post-timestamp {
-  color: rgb(197, 197, 197);
-  grid-area: right;
-  display: flex;
-  justify-content: flex-end;
-}
-
-.feed-post-timestamp-icon {
-  margin: 0.5ex 0.5ex 0ex 0ex;
-  color: var(--bg-accent)
-}
-
-.feed-post-title {
-  margin-bottom: 1ex;
-  color: var(--bg-accent)
-}
-
-.feed-post-users {
-  color: grey;
-  font-size: 10pt;
-}
-
-.feed-post-message {
-  display: inline-flex;
-  font-size: 10pt;
-}
-
-.feed-post-message-content {
-  color: grey;
-  font-size: 10pt;
-  margin-left: 1ex;
-}
-
-.feed-post-tags {
-  display: flex;
-  margin-top: 1ex;
-}
-
-.feed-post-tag {
-  font-size: 10pt;
-  margin-right: 1ex;
-  color: rgb(197, 197, 197);
-  background-color: var(--bg-dark);
-  padding: 0.5ex 2ex 0.5ex 2ex;
-  border-radius: 5px;
-}
-
-.feed-post-button {
-  margin-top: 2ex;
-  border-radius: 5px;
-  font-weight: lighter;
-  color: rgb(197, 197, 197);
-  background-color: var(--bg-dark);
-  display: flex;
-  justify-content: center;
-}
-
-/* Feed Section --------------------------------------------------------------- */
-
-@media only screen and (max-width: 1500px) {
-  .background {
-    padding: 1rem 1rem 1rem 1rem;
-  }
-}
-
-@media only screen and (max-width: 720px) {
-  .background {
-    padding: 0;
-  }
-
-  .dashboard-container {
-    grid-template-areas:
-      "people people people"
-      "feed feed feed"
-      "feed feed feed";
-    padding-right: 3rem;
-  }
-
-  .people-settings-container {
-    left: 75%;
-    top: 100%;
-  }
+.notifications-tabs > span:hover {
+  filter: opacity(0.5);
 }

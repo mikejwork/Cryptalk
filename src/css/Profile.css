@@ -9,16 +9,15 @@
 
 .profile-page {
   height: calc(99.9vh - var(--nav-size));
-  background: url(../assets/homepage-background.jpg) repeat;
-  background-size: cover;
+  /* background: url(../assets/homepage-background.jpg) repeat;
+  background-size: cover; */
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .profile-container {
-  background-color: var(--bg);
-  box-shadow: 0px 0px 25px #0000005e;
+  background-color: var(--bg-dark);
   color: var(--bg) !important;
   border-radius: var(--border-radius);
   max-width: 25rem;

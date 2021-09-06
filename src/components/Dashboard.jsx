@@ -7,28 +7,34 @@ import '../css/Dashboard.css';
 import * as MdIcons from "react-icons/md";
 
 import { Storage, DataStore } from "aws-amplify";
-import { Friends, RequestStorage, RequestType, RequestStatus } from '../models';
+import { RequestStorage, RequestType, RequestStatus } from '../models';
 
 function Person(props) {
   const [avatar, setavatar] = useState(null)
   const [settingsMenu, setsettingsMenu] = useState(false)
+  const [loading, setloading] = useState(true)
 
   const styling = useSpring({
-    from: { transform:`translateY(100%)`, opacity: 0 },
-    to: { transform:`translateY(0%)`, opacity: 1 }})
+    from: { transform: `translateY(200%)` },
+    to: { transform: `translateY(0%)` }})
 
   useEffect(() => {
     async function fetch() {
       let temp = await Storage.get(props.data.sub + '.jpg', { level: 'public' });
       setavatar(temp)
+      setloading(false)
     }
     fetch()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  if (loading) {
+    return ( <></> )
+  }
+
   return (
     <animated.div style={styling} className="people-container">
-      <animated.img style={styling} className="people-avatar" src={avatar} alt=" "/>
+      <img className="people-avatar" src={avatar} alt=" "/>
       <div className="people-info">
         <p className="people-info-name">{props.data.username}</p>
         <span className="people-info-status"><MdIcons.MdLabel className="status-icon"/>online</span>
@@ -47,28 +53,23 @@ function Person(props) {
 function PersonSettings(props) {
   // const sub = props.data.sub
   // const username = props.data.sub
-
-  const styling = useSpring({
-    from: { transform:`translateX(100%)`, opacity: 0 },
-    to: { transform:`translateX(0%)`, opacity: 1 }})
-
   return (
     <>
-      <animated.div style={styling} className="people-settings-container unselectable">
+      <div className="people-settings-container unselectable">
         <ul>
           <li>
             <span onClick={() => {}}><MdIcons.MdClose className="icon"/>Remove friend</span>
           </li>
         </ul>
-      </animated.div>
+      </div>
     </>
   )
 }
 
 function Request(props) {
   const styling = useSpring({
-    from: { transform:`translateY(100%)`, opacity: 0 },
-    to: { transform:`translateY(0%)`, opacity: 1 }})
+    from: { transform: `translateY(200%)` },
+    to: { transform: `translateY(0%)` }})
 
   async function reject() {
     DataStore.query(RequestStorage, props.id).then((result) => {
@@ -104,157 +105,41 @@ function Request(props) {
   )
 }
 
+function DashboardNotifications(props) {
+
+  return (
+    <>
+    </>
+  )
+}
+
+function DashboardMessages(props) {
+
+  return (
+    <>
+    </>
+  )
+}
+
 function Dashboard() {
   const context = useContext(AuthContext)
   const styling = useSpring({
-    from: { transform:`translateY(100%)`, opacity: 0 },
-    to: { transform:`translateY(0%)`, opacity: 1 }})
+    from: { opacity: 0 },
+    to: { opacity: 1 }})
 
   // State
-  const [friends, setFriends] = useState([])
-  const [requests, setRequests] = useState([])
+
   const [friend_field, setfriend_field] = useState("")
-
-  useEffect(() => {
-    // BUGFIX: If user was logged in -> closed browser -> came back to the /dashboard page
-    // This would run automatically and not check their login state, this ensures that nothing is
-    // done without datastore being 100% ready
-    if (context.datastore_ready) {
-      handle_friends()
-      handle_incoming()
-      handle_outgoing()
-      // Detects updates in friends
-      const friends_subscription = DataStore.observe(Friends).subscribe(() => handle_friends());
-      // Detects updates in recieved requests
-      const request_subscription = DataStore.observe(RequestStorage, (request) => request.reciever_username("eq", context.user.username)).subscribe(() => handle_incoming());
-      // Detects updates in sent requests
-      const incoming_subscription = DataStore.observe(RequestStorage, (request) => request.sender_username("eq", context.user.username)).subscribe(() => handle_outgoing());
-      return () => {
-        // Cleaup
-        friends_subscription.unsubscribe()
-        request_subscription.unsubscribe()
-        incoming_subscription.unsubscribe()
-      }
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [context.datastore_ready])
-  // When a change is detected in datastore_ready, update our subscriptions
-
-  // Run on page load, will obtain the list of friends
-  // if the list doesnt exist, create a new one
-  async function handle_friends() {
-    const result = await DataStore.query(Friends)
-    console.log("friends", result)
-    if (result[0] === undefined) {
-      await DataStore.save(
-          new Friends({
-          "list": []
-        })
-      );
-    }
-
-    DataStore.query(Friends).then((result) => {
-      setFriends(result[0].list)
-    })
-
-  }
-
-  // Handler for all outgoing requests
-  async function handle_outgoing() {
-    const result = await DataStore.query(RequestStorage, (request) => request.sender_username("eq", context.user.username));
-    console.log("outgoing", result)
-    for (let idx = 0; idx < result.length; idx++) {
-      switch (result[idx].status) {
-
-        case RequestStatus.ACCEPTED:
-          var reciever_username = result[idx].reciever_username
-          var reciever_sub = result[idx].reciever_sub
-
-          if (reciever_sub === "")
-            break
-
-          // Check if the friend already exists,
-          let abort = false
-          await DataStore.query(Friends).then((res) => {
-            for (var i = 0; i < res[0].list.length; i++) {
-              if (res[0].list[i].sub === reciever_sub) {
-                abort = true
-                console.log('handle_outgoing::ACCEPTED::FriendAlreadyExists')
-                break;
-              }
-            }
-          })
-          if (abort) { break; }
-
-          // Add as friend
-          await DataStore.query(Friends).then(async (res) => {
-            await DataStore.save(Friends.copyOf(res[0], item => {
-              item.list.push({"sub": reciever_sub, "username": reciever_username})
-            }))
-          })
-
-          // Delete the request
-          const modelToDelete = await DataStore.query(RequestStorage, result[idx].id);
-          await DataStore.delete(modelToDelete);
-          break;
-        default:
-          break;
-      }
-    }
-  }
-
-  // Handler for all incoming requests
-  async function handle_incoming() {
-    const result = await DataStore.query(RequestStorage, (request) => request.reciever_username("eq", context.user.username));
-    console.log("incoming", result)
-    setRequests(result)
-    for (let idx = 0; idx < result.length; idx++) {
-      var sender_sub = result[idx].sender_sub
-      var sender_username = result[idx].sender_username
-
-      // @enum RequestStatus
-      // RequestStatus.ACCEPTED
-      // RequestStatus.REJECTED
-      // RequestStatus.PENDING
-      switch (result[idx].status) {
-        case RequestStatus.ACCEPTED:
-
-          // Check if the friend already exists,
-          let abort = false
-          await DataStore.query(Friends).then((res) => {
-            for (var i = 0; i < res[0].list.length; i++) {
-              if (res[0].list[i].sub === sender_sub) {
-                abort = true
-                console.log('handle_incoming::ACCEPTED::FriendAlreadyExists')
-                break;
-              }
-            }
-          })
-          if (abort) { break; }
-
-          // Add as friend
-          await DataStore.query(Friends).then(async (res) => {
-            await DataStore.save(Friends.copyOf(res[0], item => {
-              item.list.push({"sub": sender_sub, "username": sender_username})
-            }))
-          })
-          // Update the request to include the reciever sub
-          await DataStore.query(RequestStorage, result[idx].id).then(async (res) => {
-            await DataStore.save(RequestStorage.copyOf(res, item => {
-              item.reciever_sub = context.user.attributes.sub;
-            }));
-          })
-          break;
-        default:
-          break;
-      }
-    }
-  }
+  const [contentPage, setContentPage] = useState("notifications")
 
   // TODO: Create a cron-lambda function to go through all requests that are over ~15 days
   // and remove them
   async function send_friend_request() {
     const username = friend_field;
+
+    if (username === context.user.username)
+      return
+
     await DataStore.save(
       new RequestStorage({
         "sender_sub": context.user.attributes.sub,
@@ -273,16 +158,16 @@ function Dashboard() {
 
   return (
     <div className="background">
-      <animated.div style={styling} className="dashboard-container">
+      <div className="dashboard-container">
         <animated.div style={styling} className="people">
           <div className="people-title">
             <h2>People</h2>
           </div>
           <div className="people-list">
-            <h6>ONLINE ({friends.length})</h6>
+            <h6>ONLINE ({context.friends.length})</h6>
             <hr/>
             <ul>
-              { friends.map((friend) => {
+              { context.friends.map((friend) => {
                 return (
                   <li key={friend.sub}>
                     <Person data={friend}/>
@@ -291,7 +176,7 @@ function Dashboard() {
               })}
             </ul>
             <ul>
-              { requests.map((request) => {
+              { context.requests.map((request) => {
                 return (
                   <li key={request.id}>
                     <Request data={request}/>
@@ -305,17 +190,25 @@ function Dashboard() {
             <button onClick={send_friend_request}><MdIcons.MdSend/></button>
           </div>
         </animated.div>
-        <animated.div style={styling} className="feed">
-          <div className="feed-title">
-            <h2>Your Feed</h2>
-            <h6>Unread notifications</h6>
+
+        <div className="notifications-container">
+          <div className="notifications-tabs">
+            <span onClick={() => setContentPage("notifications")}><h2>Notifications</h2></span>
+            <span onClick={() => setContentPage("messages")}><h2>Messages</h2></span>
           </div>
-          <div className="feed-list">
-            <ul>
-            </ul>
-          </div>
-        </animated.div>
-      </animated.div>
+          { contentPage === "notifications" &&
+            <>
+              <DashboardNotifications/>
+            </>
+          }
+          { contentPage === "messages" &&
+            <>
+              <DashboardMessages/>
+            </>
+          }
+        </div>
+
+      </div>
     </div>
   )
 }

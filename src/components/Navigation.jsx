@@ -62,15 +62,19 @@ function LoggedInNav() {
 
   return (
     <>
+      <NavItem name="Channels" destination="/channels" icon={<MdIcons.MdContacts/>}/>
+
       <NavItem name="Dashboard" destination="/dashboard" icon={<MdIcons.MdDashboard/>}/>
 
       <NavItem name="Profile" destination="/profile" icon={<FaIcons.FaUser/>}/>
 
-      <NavBtn name="Sign Out" func={signOut} destination="/authentication" icon={<FaIcons.FaSignOutAlt/>}/>
+      <NavBtn name="Logout" func={signOut} destination="/authentication" icon={<FaIcons.FaSignOutAlt/>}/>
 
       <li className="nav-item">
-        <Link name="username" className="nav-username" to="/profile">{context.user.username}</Link>
-        { profilePic !== null && <img className="user-avatar" src={profilePic} alt=" " width="30" height="30"/>}
+        <div className="nav-user-container">
+          <Link name="username" className="nav-username" to="/profile">{context.user.username}</Link>
+          { profilePic !== null && <img className="user-avatar" src={profilePic} alt=" " width="30" height="30"/>}
+        </div>
       </li>
     </>
   )
@@ -91,7 +95,7 @@ function Navigation() {
     <Navbar>
       <li className="nav-logo">
         <Link className="nav-logo-link" to="/">
-          <img src={process.env.PUBLIC_URL + '/logo-white-crop.png'} alt="logo"/>
+          <img src={process.env.PUBLIC_URL + '/logo_assets/3000x3000-Logo.png'} alt="logo"/>
         </Link>
       </li>
       { context ? <>{ context.user ? <LoggedInNav/> : <LoggedOutNav/> }</> : <></>}
