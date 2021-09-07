@@ -231,8 +231,9 @@ function FormRegister(props) {
               <button onClick={generate_random_avatar} className="avatar-refresh"><MdIcons.MdRefresh/></button>
             </div>
 
-            {/* MdCheckBox */}
+            <br/>
             <label htmlFor="terms"> { formState.confirm_terms ? <MdIcons.MdCheckBox onClick={toggle_confirmation} className="label-icon label-icon-check checked"/> : <MdIcons.MdCheckBoxOutlineBlank onClick={toggle_confirmation} className="label-icon label-icon-check"/>}<p>I confirm that i have read, consent and agree to Cryptalk's <span onClick={() => switch_page("terms")} className="span-link">Terms & Conditions</span> and <span onClick={() => switch_page("privacy")} className="span-link">Privacy Policy</span>.</p></label>
+            <br/>
 
             <button onClick={process_register}>Sign up</button>
             <span onClick={() => props.updateFormState("login")}>Already have an account?</span>

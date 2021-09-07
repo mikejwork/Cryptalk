@@ -121,7 +121,7 @@ function DashboardNotifications(props) {
   const [notifications, setNotifications] = useState([])
 
   useEffect(() => {
-    setNotifications([1])
+    setNotifications([])
   }, [])
 
   return (
@@ -129,6 +129,7 @@ function DashboardNotifications(props) {
       <div className="notifications-list">
         { notifications.length === 0 ?
           <>
+            <MdIcons.MdPlaylistAddCheck className="notifications-uptodate-icon"/>
             <p className="notifications-uptodate">You're all up to date!</p>
           </>
         :

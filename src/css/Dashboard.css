@@ -321,6 +321,13 @@ h6 {
   font-size: 11pt;
 }
 
+.notifications-uptodate-icon {
+  color: grey;
+  align-self: center;
+  font-size: 26pt;
+  margin-left: 0.5ex;
+}
+
 @media only screen and (max-width: 1120px) {
   .dashboard-container {
     grid-template-areas:
