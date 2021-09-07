@@ -100,6 +100,7 @@ function AuthContextProvider(props) {
   async function handle_friends() {
     const result = await DataStore.query(Friends)
     console.log("friends", result)
+
     if (result[0] === undefined) {
       await DataStore.save(
           new Friends({
@@ -111,7 +112,6 @@ function AuthContextProvider(props) {
     DataStore.query(Friends).then((result) => {
       setFriends(result[0].list)
     })
-
   }
 
   // Handler for all outgoing requests

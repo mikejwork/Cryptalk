@@ -12,29 +12,41 @@ import { RequestStorage, RequestType, RequestStatus } from '../models';
 function Person(props) {
   const [avatar, setavatar] = useState(null)
   const [settingsMenu, setsettingsMenu] = useState(false)
-  const [loading, setloading] = useState(true)
+  const [imageLoaded, setImageLoaded] = useState(false);
+  const [ready, setReady] = useState(false)
 
   const styling = useSpring({
     from: { transform: `translateY(200%)` },
-    to: { transform: `translateY(0%)` }})
+    to: { transform: `translateY(0%)` },
+    delay: 100,
+    onRest: (r) => {
+      setReady(true)
+    }
+    })
 
   useEffect(() => {
-    async function fetch() {
-      let temp = await Storage.get(props.data.sub + '.jpg', { level: 'public' });
-      setavatar(temp)
-      setloading(false)
+    if (ready) {
+      fetch()
     }
-    fetch()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [ready])
 
-  if (loading) {
-    return ( <></> )
+  function fetch() {
+    Storage.get(props.data.sub + '.jpg', { level: 'public' }).then((result) => {
+      setavatar(result)
+    });
   }
 
   return (
     <animated.div style={styling} className="people-container">
-      <img className="people-avatar" src={avatar} alt=" "/>
+      {!imageLoaded &&
+        <>
+          <div className="smooth-preloader">
+            <span className="loader"/>
+          </div>
+        </>
+      }
+      <img className={`people-avatar img-${imageLoaded ? "visible" : "hidden"}`} onLoad={() => setImageLoaded(true)} src={avatar} alt=" "/>
       <div className="people-info">
         <p className="people-info-name">{props.data.username}</p>
         <span className="people-info-status"><MdIcons.MdLabel className="status-icon"/>online</span>
@@ -106,17 +118,41 @@ function Request(props) {
 }
 
 function DashboardNotifications(props) {
+  const [notifications, setNotifications] = useState([])
+
+  useEffect(() => {
+    setNotifications([])
+  }, [])
 
   return (
     <>
+      <div className="notifications-list">
+        { notifications.length === 0 ?
+          <>
+            <MdIcons.MdPlaylistAddCheck className="notifications-uptodate-icon"/>
+            <p className="notifications-uptodate">You're all up to date!</p>
+          </>
+        :
+          <>
+            <p className="notifications-uptodate">Notification</p>
+          </>
+        }
+      </div>
     </>
   )
 }
 
-function DashboardMessages(props) {
+function AddField(props) {
+  const styling = useSpring({
+    from: { opacity: 0 },
+    to: { opacity: 1 }})
 
   return (
     <>
+      <animated.div style={styling} className="people-add-anim">
+        <input name="user-to-add" value={props.friend_field} onChange={(e) => {props.setfriend_field(e.target.value);}} placeholder="Add a friend.." type="text"/>
+        <button onClick={props.sendReq}><MdIcons.MdSend/></button>
+      </animated.div>
     </>
   )
 }
@@ -130,7 +166,7 @@ function Dashboard() {
   // State
 
   const [friend_field, setfriend_field] = useState("")
-  const [contentPage, setContentPage] = useState("notifications")
+  const [friend_field_toggle, setfriend_field_toggle] = useState(false)
 
   // TODO: Create a cron-lambda function to go through all requests that are over ~15 days
   // and remove them
@@ -151,6 +187,7 @@ function Dashboard() {
       })
     ).then((result) => {
       setfriend_field("")
+      setfriend_field_toggle(false)
     });
   }
 
@@ -185,27 +222,19 @@ function Dashboard() {
               })}
             </ul>
           </div>
-          <div className="people-add-form">
-            <input name="user-to-add" value={friend_field} onChange={(e) => {setfriend_field(e.target.value);}} placeholder="Add a friend.." type="text"/>
-            <button onClick={send_friend_request}><MdIcons.MdSend/></button>
+          <div className="people-add">
+              <span onClick={() => setfriend_field_toggle(!friend_field_toggle)}><MdIcons.MdPlaylistAdd/></span>
+              {friend_field_toggle &&
+                <AddField friend_field={friend_field} setfriend_field={setfriend_field} sendReq={send_friend_request}/>
+              }
           </div>
         </animated.div>
 
         <div className="notifications-container">
           <div className="notifications-tabs">
-            <span onClick={() => setContentPage("notifications")}><h2>Notifications</h2></span>
-            <span onClick={() => setContentPage("messages")}><h2>Messages</h2></span>
+            <h2>Notifications</h2>
           </div>
-          { contentPage === "notifications" &&
-            <>
-              <DashboardNotifications/>
-            </>
-          }
-          { contentPage === "messages" &&
-            <>
-              <DashboardMessages/>
-            </>
-          }
+          <DashboardNotifications/>
         </div>
 
       </div>

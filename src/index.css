@@ -14,7 +14,7 @@ body {
   --bg-dark: #181818;
   --bg-darker: #111111;
   --bg-light: #e6e6e6;
-  --bg-accent: rgb(60, 157, 202);
+  --bg-accent: #3c9dca;
 
   --bg-gradient-border: linear-gradient(90deg, var(--bg-dark) 0%, var(--bg-accent) 50%, var(--bg-dark) 100%);
   --bg-gradient-border-faint: linear-gradient(90deg, rgba(24,24,24,1) 0%, rgba(60, 157, 202, 0.233) 50%, rgba(24,24,24,1) 100%);
@@ -61,7 +61,7 @@ button {
 
 button:hover {
   filter: brightness(0.9);
-  box-shadow: 0 2px 20px #0e81ce31;
+  /* box-shadow: 0 2px 20px #0e81ce31; */
 }
 
 img {
@@ -70,7 +70,7 @@ img {
 
 input {
   border: none;
-  background-color: var(--bg);
+  background-color: var(--bg-dark);
   color: var(--text-color);
   border-bottom: 1px solid #dadce131;
   padding: 2.5%;

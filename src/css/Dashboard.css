@@ -54,28 +54,48 @@ h6 {
   border-radius: var(--border-radius) var(--border-radius) 0 0; */
 }
 
-.people-add-form {
-  display: flex;
+.people-add {
   width: 100%;
-  padding: 0ex 3ex 3ex 3ex;
-  /* background-color: var(--bg-darker);
-  border-radius: 0 0 var(--border-radius) var(--border-radius); */
-}
-
-.people-add-form > input {
-  padding-left: 3ex;
-  border: none;
-  border-radius: var(--border-radius) 0 0 var(--border-radius);
-}
-
-.people-add-form > button {
-  width: 2.5rem;
-  height: auto;
-  border: none;
   display: flex;
+  flex-direction: row;
   justify-content: center;
   align-items: center;
-  border-radius: 0 var(--border-radius) var(--border-radius) 0;
+  margin-top: auto;
+}
+
+.people-add-anim {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin-top: auto;
+}
+
+.people-add > span {
+  color: grey;
+  font-size: 16pt;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.people-add-anim > input {
+  background-color: var(--bg-darker);
+  border-radius: var(--border-radius);
+}
+
+.people-add-anim > button {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+
+  width: 5ex;
+  height: auto;
+  color: white;
+  border-radius: 0;
+  background-color: var(--bg-dark);
 }
 
 .people-container {
@@ -88,10 +108,45 @@ h6 {
 
 .people-avatar {
   width: 5ex;
+  height: 5ex;
   margin-right: 3ex;
   border-radius: 50%;
   box-shadow: 0 0px 10px #0000009c;
+  transition: opacity 1s;
   /* border: var(--border); */
+}
+
+.img-visible {
+  opacity: 1;
+}
+
+.img-hidden {
+  opacity: 0;
+}
+
+.smooth-preloader {
+  width: 5ex;
+  height: 5ex;
+  border-radius: 50%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.smooth-preloader > .loader {
+  width: 5ex;
+  height: 5ex;
+  border-radius: 50%;
+  background-color: var(--bg-darker);
+  border-top: 2px dotted #3498db; /* Blue */
+
+  display: inline-block;
+  animation: spin 2s linear infinite;
 }
 
 .people-info {
@@ -243,9 +298,6 @@ h6 {
   align-items: center;
   justify-content: space-evenly;
   padding-bottom: 3ex;
-  border-bottom: 1px solid;
-  border-image-slice: 1;
-  border-image-source: var(--bg-gradient-border-faint);
 }
 
 .notifications-tabs > span {
@@ -254,4 +306,33 @@ h6 {
 
 .notifications-tabs > span:hover {
   filter: opacity(0.5);
+}
+
+.notifications-list {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+
+}
+
+.notifications-uptodate {
+  color: grey;
+  align-self: center;
+  font-size: 11pt;
+}
+
+.notifications-uptodate-icon {
+  color: grey;
+  align-self: center;
+  font-size: 26pt;
+  margin-left: 0.5ex;
+}
+
+@media only screen and (max-width: 1120px) {
+  .dashboard-container {
+    grid-template-areas:
+      "people people people"
+      "feed feed feed"
+      "feed feed feed";
+    }
 }

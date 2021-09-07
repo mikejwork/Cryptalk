@@ -238,10 +238,14 @@
   margin-top: 3ex;
   font-size: 10pt;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   text-decoration: underline;
+}
+
+.return-span > span {
+  margin: 0;
 }
 
 /* ViewConfirm ---------------------------------------------------- */
