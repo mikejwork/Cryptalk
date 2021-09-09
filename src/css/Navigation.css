@@ -3,6 +3,9 @@ span {
 }
 
 .navbar {
+  top: 0;
+  position: sticky;
+  z-index: 1;
   height: var(--nav-size);
   background-color: var(--bg);
   padding: 0 2rem;
