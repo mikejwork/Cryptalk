@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useSpring, animated } from 'react-spring'
 import * as MdIcons from "react-icons/md";
 
@@ -7,32 +7,40 @@ import '../css/Footer.css';
 function Footer() {
   const [open, setOpen] = useState(false)
 
-  function onMouseEnter(e) {
-    setOpen(true)
-  }
+  const [styling, api] = useSpring(() => ({
+    marginLeft: "0rem"
+  }))
 
-  function onMouseLeave(e) {
-    setOpen(false)
-  }
+  const [arrowStyle, apiArrow] = useSpring(() => ({
+    transform: `rotate(0deg)`
+  }))
 
-  function FooterMenu(props) {
-    const styling = useSpring({
-      from: { transform:`translateX(-100%)`, opacity: 0 },
-      to: { transform:`translateX(0%)`, opacity: 1 }
+  function toggle_menu() {
+    api.start({
+      marginLeft: open ? "-26.5rem" : "0rem"
     })
-    return (
-      <animated.div style={styling} className="footer-menu">  
-        <a href="/privacy" className="hyperlink">Privacy Policy</a>
-        <a href="/terms" className="hyperlink">Terms & Conditions</a>
-        <span className="trademark">© 2021 Cryptalk</span>
-      </animated.div>
-    )
+    apiArrow.start({
+      transform: open ? `rotate(180deg)` : `rotate(0deg)`
+    })
   }
+
+  useEffect(() => {
+    toggle_menu()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [open])
+
+  // margin-left: -18.3rem;
 
   return (
-    <div onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave} className="footer-container">
-      <button className="footer-button"><MdIcons.MdHelpOutline/></button>
-      {open && <FooterMenu/>}
+    <div className="footer-container">
+      <animated.div style={styling} className="footer-items">
+        <ul>
+          <li><a href="/terms">Terms & Conditions</a></li>
+          <li><a href="/privacy">Privacy Policy</a></li>
+          <li>© 2021 Cryptalk</li>
+        </ul>
+      </animated.div>
+      <button onClick={() => setOpen(!open)} className="footer-button"><animated.div className="arrow-div" style={arrowStyle}><MdIcons.MdKeyboardArrowLeft/></animated.div></button>
     </div>
   )
 }

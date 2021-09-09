@@ -266,10 +266,6 @@ function FormConfirm(props) {
   const initialForm = { username: props.form_username, authCode: ""};
   const [formState, setFormState] = useState(initialForm)
 
-  console.log(props.form_username)
-  console.log(props.email_blurred)
-
-
   async function process_confirm() {
     const {authCode } = formState;
     const username = props.form_username
