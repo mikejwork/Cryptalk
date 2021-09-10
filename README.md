@@ -27,7 +27,7 @@
  - User Registration
  - User Login
  - User Logout
- - Base UI / UX Design
+ - Base UI / UX Design  
 **Release v0.3**
  - Change Password
  - User Avatar
