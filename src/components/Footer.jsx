@@ -8,7 +8,7 @@ function Footer() {
   const [open, setOpen] = useState(false)
 
   const [styling, api] = useSpring(() => ({
-    marginLeft: "0rem"
+    marginLeft: "-26.5rem"
   }))
 
   const [arrowStyle, apiArrow] = useSpring(() => ({
@@ -17,7 +17,7 @@ function Footer() {
 
   function toggle_menu() {
     api.start({
-      marginLeft: open ? "-26.5rem" : "0rem"
+      marginLeft: open ? "0rem" : "-26.5rem"
     })
     apiArrow.start({
       transform: open ? `rotate(180deg)` : `rotate(0deg)`
