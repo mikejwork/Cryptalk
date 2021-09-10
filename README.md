@@ -28,6 +28,13 @@
  - User Login
  - User Logout
  - Base UI / UX Design
+**Release v0.3**
+ - Change Password
+ - User Avatar
+ - View Profile
+ - Edit Profile
+ - Add Friend
+ - Dashboard
 
  ## Technologies
  - Node.js
@@ -36,4 +43,3 @@
  - Amplify DataStore
  - GraphQL
  - AWS Cognito
- - Socket.io
