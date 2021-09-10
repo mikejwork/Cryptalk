@@ -3,10 +3,16 @@ span {
 }
 
 .navbar {
+  z-index: 2000;
+  top: 0;
+  position: sticky;
   height: var(--nav-size);
-  background-color: var(--bg);
-  padding: 0 2rem;
-  border-bottom: var(--border);
+  background-color: var(--bg-dark);
+  padding: 0 3rem;
+  font-size: 12pt;
+  border-bottom: 1px solid;
+  border-image-slice: 1;
+  border-image-source: var(--bg-gradient-border);
 }
 
 .navbar-nav {
@@ -17,7 +23,7 @@ span {
 }
 
 .nav-logo {
-  width: auto;
+  height: 100%;
   margin-right: auto;
   display: flex;
   align-items: center;
@@ -25,20 +31,19 @@ span {
 }
 
 .nav-logo-link {
-  width: auto;
   display: flex;
   align-items: center;
   justify-content: flex-start;
 }
 
 .nav-logo-link > img {
-  max-height: 3ex;
+  max-height: var(--nav-size);
 }
 
 .nav-item {
   width: auto;
-  padding-left: 1rem;
-  padding-right: 1rem;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
   height: 100%;
   display: flex;
   align-items: center;
@@ -52,6 +57,30 @@ span {
   transition: all .2s ease-in-out;
 }
 
+.nav-item-icon > p {
+  margin-left: 5px;
+}
+
 .nav-item-icon:hover {
-  transform: scale(1.1);
+  filter: opacity(0.5);
+}
+
+.nav-user-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav-username {
+  margin: 0ex 2ex 0ex 3ex ;
+  transition: all .2s ease-in-out;
+}
+
+.nav-username:hover {
+  filter: opacity(0.5);
+}
+
+.user-avatar {
+  border-radius: 50%;
+  box-shadow: 0 2px 20px #000000c0;
 }

@@ -1,0 +1,338 @@
+p, h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+  padding: 0;
+  font-weight: lighter;
+}
+
+h6 {
+  color: grey;
+  margin-top: 3ex;
+}
+
+.background {
+  transition: all 0.3s ease-in-out;
+  padding: 4rem 10rem 10rem 10rem;
+  height: calc(99.9vh - var(--nav-size) - 8rem);
+  /* background: url(../assets/homepage-background.jpg) repeat;
+  background-size: cover; */
+}
+
+.dashboard-container {
+  min-height: 100%;
+  border-radius: 2ex;
+  background-color: var(--bg-dark);
+  display: grid;
+  grid-template-columns: 0.35fr 0.55fr 0.5fr;
+  grid-template-rows: 0.5fr 0.5fr 0.5fr;
+  gap: 0px 0px;
+  grid-template-areas:
+    "people feed feed"
+    "people feed feed"
+    "people feed feed";
+}
+
+/* People Section --------------------------------------------------------------- */
+
+.people {
+  grid-area: people;
+  padding: 5ex;
+  display: flex;
+  flex-direction: column;
+  justify-content: stretch;
+  align-items: flex-start;
+}
+
+.people-title {
+  padding-bottom: 3ex;
+}
+
+.people-list {
+  width: 100%;
+  flex-grow: 1;
+  padding: 1ex 3ex 3ex 3ex;
+  /* background-color: var(--bg-darker);
+  border-radius: var(--border-radius) var(--border-radius) 0 0; */
+}
+
+.people-add {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin-top: auto;
+}
+
+.people-add-anim {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin-top: auto;
+}
+
+.people-add > span {
+  color: grey;
+  font-size: 16pt;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.people-add-anim > input {
+  background-color: var(--bg-darker);
+  border-radius: var(--border-radius);
+}
+
+.people-add-anim > button {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+
+  width: 5ex;
+  height: auto;
+  color: white;
+  border-radius: 0;
+  background-color: var(--bg-dark);
+}
+
+.people-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  margin-bottom: 2ex;
+}
+
+.people-avatar {
+  width: 5ex;
+  height: 5ex;
+  margin-right: 3ex;
+  border-radius: 50%;
+  box-shadow: 0 0px 10px #0000009c;
+  transition: opacity 1s;
+  /* border: var(--border); */
+}
+
+.img-visible {
+  opacity: 1;
+}
+
+.img-hidden {
+  opacity: 0;
+}
+
+.smooth-preloader {
+  width: 5ex;
+  height: 5ex;
+  border-radius: 50%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.smooth-preloader > .loader {
+  width: 5ex;
+  height: 5ex;
+  border-radius: 50%;
+  background-color: var(--bg-darker);
+  border-top: 2px dotted #3498db; /* Blue */
+
+  display: inline-block;
+  animation: spin 2s linear infinite;
+}
+
+.people-info {
+  font-size: 11pt;
+  flex-grow: 1;
+}
+
+
+.people-info-status {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  color: grey;
+}
+
+.people-info-status > .status-icon {
+  color: green;
+  margin-right: 1ex;
+  margin-top: 0.2ex;
+}
+
+.settings-icon {
+  margin-left: 1ex;
+  color: grey;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+.dm-icon {
+  margin-left: 1ex;
+  color: grey;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+.people-container > .settings-icon:hover {
+  transform: rotate(180deg);
+  filter: brightness(1.3);
+}
+
+.people-container > .dm-icon:hover {
+  filter: brightness(1.3);
+}
+
+.people-settings-container {
+  z-index: 20;
+  border-radius: var(--border-radius);
+  font-size: 10pt;
+  position: absolute;
+  width: 10rem;
+  left: 105%;
+  background-color: var(--bg);
+}
+
+.people-settings-container > ul > li > span {
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  transition: all 0.1s ease-in-out;
+  padding: 2ex 2ex 2ex 2ex;
+}
+
+.people-settings-container > ul > li > hr {
+  margin: 0;
+}
+
+.people-settings-container > ul > li > span > .icon {
+  margin-right: 1ex;
+}
+
+.people-settings-container > ul > li {
+  transition: all 0.1s ease-in-out;
+  opacity: 0.5;
+}
+
+.people-settings-container > ul > li:hover {
+  opacity: 1;
+}
+
+/* Request Section --------------------------------------------------------------- */
+
+.request-container {
+  display: flex;
+  flex-direction: row;
+  margin-top: 3ex;
+}
+
+.request-info {
+  width: 70%;
+}
+
+.request-actions {
+  padding-top: 0.5ex;
+  width: 30%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+}
+.request-actions > span > i {
+  font-size: 10pt;
+  margin-top: -0.5ex;
+}
+
+.request-actions > span {
+  margin: 0;
+  font-size: 14pt;
+}
+
+.request-accept {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-right: 0.5ex;
+  color: var(--bg-accent);
+  transition: all 0.3s ease-in-out;
+}
+
+.request-reject {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-left: 0.5ex;
+  color: rgb(201, 113, 62);
+  transition: all 0.3s ease-in-out;
+}
+
+.request-accept:hover, .request-reject:hover {
+  transform: scale(1.3);
+}
+
+.request-from {
+  font-size: 10pt;
+  color: grey;
+}
+
+/* Notifications Section --------------------------------------------------------------- */
+
+.notifications-container {
+  padding: 5ex;
+  grid-area: feed;
+
+}
+
+.notifications-tabs {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly;
+  padding-bottom: 3ex;
+}
+
+.notifications-tabs > span {
+  transition: all 0.3s ease-in-out;
+}
+
+.notifications-tabs > span:hover {
+  filter: opacity(0.5);
+}
+
+.notifications-list {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+
+}
+
+.notifications-uptodate {
+  color: grey;
+  align-self: center;
+  font-size: 11pt;
+}
+
+.notifications-uptodate-icon {
+  color: grey;
+  align-self: center;
+  font-size: 26pt;
+  margin-left: 0.5ex;
+}
+
+@media only screen and (max-width: 1120px) {
+  .dashboard-container {
+    grid-template-areas:
+      "people people people"
+      "feed feed feed"
+      "feed feed feed";
+    }
+}

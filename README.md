@@ -11,6 +11,7 @@
   <a href="#local-setup">Local setup</a> •
   <a href="#showcase">Showcase</a> •
   <a href="#release-notes">Release Notes</a> •
+  <a href="#technologies">Technologies</a> •
   <a href="#personal-notes">Personal notes</a>
 </p>
 
@@ -21,9 +22,18 @@
 - Matthew Sesto - Product Owner
 
 ## Release Notes
- - **Release v0.2**
+**Release v0.2**
  - Privacy Policy & Terms & Conditions
  - User Registration
  - User Login
  - User Logout
  - Base UI / UX Design
+
+ ## Technologies
+ - Node.js
+ - React.js
+ - AWS Amplify
+ - Amplify DataStore
+ - GraphQL
+ - AWS Cognito
+ - Socket.io

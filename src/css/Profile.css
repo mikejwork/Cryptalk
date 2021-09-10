@@ -1,4 +1,336 @@
-.profile {
-  text-align: center;
-  margin: 0 auto;
+.icon-spacer {
+  margin-right: 0.5ex;
+}
+
+.status-icon {
+  margin-right: 0.5ex;
+  color: #3ba55d;
+}
+
+.profile-page {
+  height: calc(99.9vh - var(--nav-size));
+  /* background: url(../assets/homepage-background.jpg) repeat;
+  background-size: cover; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.profile-container {
+  background-color: var(--bg-dark);
+  color: var(--bg) !important;
+  border-radius: var(--border-radius);
+  max-width: 25rem;
+  min-width: 25rem;
+  padding: 5ex;
+}
+
+.loading-bar {
+  height: 0.5ex;
+  position: absolute;
+  background-color: var(--bg-accent);
+  border-radius: var(--border-radius) var(--border-radius) 0 0;
+  top: 0;
+  left: 0;
+}
+
+/* ViewMain ---------------------------------------------------- */
+
+.profile-main {
+  color: var(--text-color);
+}
+
+.profile-main-title {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 3ex;
+}
+
+.profile-main-avatar-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 3ex;
+}
+
+.profile-main-avatar {
+  width: 25ex;
+  height: 25ex;
+  border-radius: 50%;
+  border: 0.2px solid rgba(255, 255, 255, 0.103);
+  box-shadow: 0px 0px 25px #0000005e;
+}
+
+.profile-main-avatar-overlay {
+  width: 25ex;
+  height: 25ex;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background-color: rgba(26, 26, 26, 0.753);
+  position: absolute;
+  transition: all 0.3s ease-in-out;
+  opacity: 0;
+}
+
+.profile-main-avatar-overlay:hover {
+  opacity: 1;
+}
+
+.avatar-overlay-text {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.profile-main-username {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.profile-main-email {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: grey;
+  margin-bottom: 5ex;
+}
+
+.profile-main-email > h4 {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.profile-main-email > h4 > .icon-spacer {
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+.profile-main-email > h4 > .icon-spacer:hover {
+  color: var(--bg-accent)
+}
+
+.profile-main-email-warning {
+  color: rgba(173, 0, 0, 0.938);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.profile-main-stats {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly;
+  margin-bottom: 2ex;
+}
+
+.profile-main-stats > .friends, .channels {
+  width: 10ex;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.profile-main-stats > .friends > p, .channels > p {
+  color: grey;
+}
+
+.profile-main-stats > .friends > h2, .channels > h2 {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.profile-main-reset {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin-top: 5ex;
+}
+
+.profile-main-reset-button, .profile-main-mfa-button {
+  width: 30ex;
+  padding: 1ex 5ex 1ex 5ex;
+  margin: 1ex;
+  font-weight: lighter;
+  color: var(--text-color);
+  background-color: var(--bg-darker);
+  border-radius: var(--border-radius);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ViewEdit ---------------------------------------------------- */
+
+.profile-edit {
+  color: var(--text-color);
+  width: 100%;
+  padding-top: 0;
+}
+
+.profile-main-avatar-input {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.profile-main-avatar-input::-webkit-file-upload-button {
+  border: none;
+  margin-right: 2ex;
+  padding: 0.5ex 2ex 0.5ex 2ex;
+  border-radius: var(--border-radius);
+  font-family: 'Titillium Web', sans-serif;
+  color: var(--text-color);
+  background-color: var(--bg-darker);
+}
+
+.profile-main-avatar-error {
+  margin-top: 3ex;
+  color:rgba(173, 0, 0, 0.938);
+}
+
+.profile-avatar-inputs {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.profile-edit > button {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-top: 3ex;
+  padding: 1.5ex;
+  font-weight: lighter;
+  color: var(--text-color);
+  background-color: var(--bg-darker);
+  border-radius: var(--border-radius);
+}
+
+.profile-main-email-edit > h6 {
+  color: var(--text-color);
+}
+
+.profile-main-email-edit > h6 > i {
+  color: grey;
+  align-self: flex-end;
+}
+
+.return-span {
+  color: grey;
+  margin-top: 3ex;
+  font-size: 10pt;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-decoration: underline;
+}
+
+.return-span > span {
+  margin: 0;
+}
+
+/* ViewConfirm ---------------------------------------------------- */
+
+.profile-confirm {
+  color: var(--text-color);
+  width: 100%;
+  padding-top: 0;
+}
+
+.profile-confirm-title {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 3ex;
+}
+
+.profile-confirm-title > h6 {
+  margin: 0;
+}
+
+.profile-confirm-title > .error-msg {
+  color:rgba(173, 0, 0, 0.938);
+  margin-top: 3ex;
+}
+
+.profile-confirm > button {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-top: 3ex;
+  padding: 1.5ex;
+  font-weight: lighter;
+  color: var(--text-color);
+  background-color: var(--bg-darker);
+  border-radius: var(--border-radius);
+}
+/* ViewReset ---------------------------------------------------- */
+
+.profile-reset {
+  color: var(--text-color);
+  width: 100%;
+  padding-top: 0;
+}
+
+.profile-reset-title {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 3ex;
+}
+
+.profile-reset-title > h6 {
+  margin: 0;
+  margin-top: 2ex;
+}
+
+.profile-reset-title > .error-msg {
+  color:rgba(173, 0, 0, 0.938);
+  margin-top: 3ex;
+}
+
+.profile-reset > button {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-top: 3ex;
+  padding: 1.5ex;
+  font-weight: lighter;
+  color: var(--text-color);
+  background-color: var(--bg-darker);
+  border-radius: var(--border-radius);
+}
+
+.profile-reset-inputs {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.profile-reset-input {
+  margin-bottom: 3ex;
 }

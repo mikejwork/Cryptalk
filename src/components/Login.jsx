@@ -1,20 +1,20 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Redirect } from "react-router-dom";
-import { Auth, Hub } from "aws-amplify";
+import { Auth, Storage } from "aws-amplify";
 import { AuthContext } from "../contexts/AuthContext";
 
 import '../css/Login.css';
 
 import * as MdIcons from "react-icons/md";
-import PrivacyPolicy from './Agreements/PrivacyPolicy';
 import Terms from './Agreements/Terms';
+import PrivacyPolicy from './Agreements/PrivacyPolicy';
 
 
 function FormLogin(props) {
   const initialForm = { username: "", password: "", error_message: ""};
   const [formState, setFormState] = useState(initialForm)
 
-    const processEnter = e => {
+    const process_keypress = e => {
     if (e.key === 'Enter') {
       process_login();
     }
@@ -32,7 +32,22 @@ function FormLogin(props) {
     }
 
     try {
+      props.setFormUserName(username)
       await Auth.signIn(username, password);
+      // await Auth.signIn(username, password).then((user) => {
+      //   console.log(user);
+      //   DataStore.query(Friends).then((result) => {
+      //     console.log("friends", result)
+      //     if (result[0] === undefined) {
+      //       DataStore.save(
+      //         new Friends({
+      //           "list": []
+      //         })
+      //       );
+      //     }
+      //   });
+      // });
+
     } catch (error) {
       if (error.message) {
         setFormState(() => ({
@@ -65,8 +80,9 @@ function FormLogin(props) {
             </svg>
         </div>
       </section>
-      <section className="form-bottom" onKeyPress={processEnter} >
+      <section className="form-bottom" onKeyPress={process_keypress} >
         {formState.error_message === "" ? <></> : <p className="error-text">{formState.error_message}</p>}
+        {formState.error_message === "User is not confirmed." ? <span className="error-text" onClick={() => props.updateFormState("confirm")}>Confirm your email</span> : <></> }
 
         <label htmlFor="username"><MdIcons.MdPermIdentity className="label-icon"/>Username</label>
         <input name="username" onChange={onChange} placeholder="Type your username"/>
@@ -81,45 +97,88 @@ function FormLogin(props) {
 }
 
 function FormRegister(props) {
-  const initialForm = { username: "", password: "", email: "", error_message: "",  confirm_terms: false, page: "default"};
+  const initialForm = { username: "", password: "", email: "", error_message: "",  confirm_terms: false, page: "default", avatar: null};
   const [formState, setFormState] = useState(initialForm)
 
-  const processEnter = e => {
+  const process_keypress = e => {
     if (e.key === 'Enter') {
       process_register();
     }
   };
 
-  async function process_register() {
-    const { username, password, email } = formState;
+  async function generate_random_avatar() {
+    // Choose a random avatar from the list of default avatars => src/assets/default_avatars
+    // Can easily be increased by adding new files etc.
+    var rand = Math.floor(Math.random() * 24);
+    const response = await fetch(process.env.PUBLIC_URL + '/default_avatars/' + rand + '.jpg')
+    const blob = await response.blob();
+    setFormState(() => ({...formState, avatar: blob}));
+  }
 
-    if (formState.username === "" || formState.password === "" || formState.email === "") {
-      setFormState(() => ({
-        ...formState,
-        error_message: "Please fill in the required fields."
-      }));
+  useEffect(() => {
+    generate_random_avatar()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  async function process_register() {
+    const { username, password, email, confirm_terms, avatar } = formState;
+
+    if (username === "" || password === "" || email === "") {
+      setFormState(() => ({...formState, error_message: "Please fill in the required fields."}));
       return;
     }
 
-    if (!formState.confirm_terms) {
-      setFormState(() => ({
-        ...formState,
-        error_message: "You can't create an account without accepting our Terms & Conditions and Privacy Policy."
-      }));
+    if (!confirm_terms) {
+      setFormState(() => ({...formState, error_message: "You can't create an account without accepting our Terms & Conditions and Privacy Policy."}));
       return;
     }
 
     try {
-      await Auth.signUp({username, password, attributes: { email }});
+      // Sign up user, handle avatar generation if needed
+      Auth.signUp({username, password, attributes: { email }}).then((result) => {
+        if (!avatar) {
+          generate_random_avatar().then(() => {
+            Storage.put(result.userSub + '.jpg', avatar)
+          })
+        } else {
+          Storage.put(result.userSub + '.jpg', avatar)
+        }
+        props.setEmailBlurred(result.codeDeliveryDetails.Destination)
+        props.setFormUserName(username)
+      });
+      // Move user onto the confirmation screen
       props.updateFormState("confirm");
     } catch (error) {
       if (error.message) {
-        setFormState(() => ({
-          ...formState,
-          error_message: error.message
-        }));
+        setFormState(() => ({...formState, error_message: error.message}));
       }
     }
+  }
+
+  async function OnFileChange(e) {
+    const file = e.target.files[0];
+
+    if (!file) { return }
+    if (!file.type.startsWith('image/')) { return }
+
+    await setFormState(() => ({...formState, avatar: file, error_message: ""}));
+
+    try {
+      const source = URL.createObjectURL(file);
+      const preview_element = document.getElementById("avatar-preview50")
+      preview_element.src = source;
+    } catch(e) {
+      console.log(e)
+      return;
+    }
+  }
+
+  function onChange(e) {
+    setFormState(() => ({
+      ...formState,
+      [e.target.name]: e.target.value,
+      error_message: ""
+    }));
   }
 
   function toggle_confirmation() {
@@ -138,14 +197,6 @@ function FormRegister(props) {
     }));
   }
 
-  function onChange(e) {
-    setFormState(() => ({
-      ...formState,
-      [e.target.name]: e.target.value,
-      error_message: ""
-    }));
-  }
-
   return (
     <>
       <section className="form-top">
@@ -160,7 +211,7 @@ function FormRegister(props) {
             </svg>
         </div>
       </section>
-      <section className="form-bottom" onKeyPress={processEnter} >
+      <section className="form-bottom" onKeyPress={process_keypress} >
         { formState.page === "default" &&
           <>
             {formState.error_message === "" ? <></> : <p className="error-text">{formState.error_message}</p>}
@@ -174,8 +225,18 @@ function FormRegister(props) {
             <label htmlFor="email"><MdIcons.MdMailOutline className="label-icon"/>Email address</label>
             <input value={formState.email} name="email" onChange={onChange} placeholder="Type your email" type="email"/>
 
-            {/* MdCheckBox */}
+            <div className="avatar-container">
+              <div className="avatar-input">
+                <label htmlFor="avatar"><MdIcons.MdPermIdentity className="label-icon"/>User avatar <p className="muted">Select custom or generate random.</p></label>
+                <input className="avatar-input-field" name="avatar" id="avatar" onChange={OnFileChange} type="file"/>
+              </div>
+              { formState.avatar && <div className="avatar-preview"> <img src={URL.createObjectURL(formState.avatar)} id="avatar-preview50" alt="" width="50" height="50"/> </div>}
+              <button onClick={generate_random_avatar} className="avatar-refresh"><MdIcons.MdRefresh/></button>
+            </div>
+
+            <br/>
             <label htmlFor="terms"> { formState.confirm_terms ? <MdIcons.MdCheckBox onClick={toggle_confirmation} className="label-icon label-icon-check checked"/> : <MdIcons.MdCheckBoxOutlineBlank onClick={toggle_confirmation} className="label-icon label-icon-check"/>}<p>I confirm that i have read, consent and agree to Cryptalk's <span onClick={() => switch_page("terms")} className="span-link">Terms & Conditions</span> and <span onClick={() => switch_page("privacy")} className="span-link">Privacy Policy</span>.</p></label>
+            <br/>
 
             <button onClick={process_register}>Sign up</button>
             <span onClick={() => props.updateFormState("login")}>Already have an account?</span>
@@ -203,12 +264,12 @@ function FormRegister(props) {
 }
 
 function FormConfirm(props) {
-  const initialForm = { username: "", authCode: ""};
+  const initialForm = { username: props.form_username, authCode: ""};
   const [formState, setFormState] = useState(initialForm)
 
   async function process_confirm() {
-    const { username, authCode } = formState;
-
+    const {authCode } = formState;
+    const username = props.form_username
     try {
       await Auth.confirmSignUp(username, authCode);
       props.updateFormState("login")
@@ -247,10 +308,7 @@ function FormConfirm(props) {
         </div>
       </section>
       <section className="form-bottom">
-        <label htmlFor="username"><MdIcons.MdPermIdentity className="label-icon"/>Username</label>
-        <input name="username" onChange={onChange} placeholder="Type your username"/>
-
-        <label htmlFor="authCode"><MdIcons.MdLockOutline className="label-icon"/>Confirmation code has been sent to your email.</label>
+        <label htmlFor="authCode"><MdIcons.MdLockOutline className="label-icon"/>Confirmation code has been sent to {props.email_blurred ? <>{props.email_blurred}</> : <>your email.</>}       </label>
         <input name="authCode" onChange={onChange} placeholder="Type your confirmation code"/>
 
         <button onClick={process_confirm}>Confirm</button>
@@ -263,47 +321,22 @@ function FormConfirm(props) {
 function Login() {
   const context = useContext(AuthContext);
   const [formState, updateFormState] = useState("login");
-
-   async function checkUser() {
-    try {
-      const user = await Auth.currentAuthenticatedUser();
-      context.updateUser(user)
-      updateFormState("redirect")
-    } catch (error) {
-      context.updateUser(null)
-    }
+  const [email_blurred, setEmailBlurred] = useState("")
+  const [form_username, setFormUserName] = useState("")
+  // Fixes issue of datastore not syncing, need to wait for this to be ready before ANY queries, otherwise
+  // Friends list will duplicate and cause a fuckton of issues.
+  // This also lets us keep the auth listeners in AuthContext and clean this login up :)))
+  if (context.datastore_ready) {
+    return (<Redirect to="/dashboard" />)
   }
-
-  async function setAuthListener() {
-    Hub.listen("auth", (data) => {
-      switch(data.payload.event) {
-        case "signIn":
-          checkUser()
-          break;
-        default:
-          break;
-      }
-    });
-  }
-
-  useEffect(() => {
-    checkUser();
-    setAuthListener();
-
-    return () => {
-      Hub.remove("auth");
-    }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   return (
     <div className="login-container">
       <div className="login-form-container">
-        { formState === "login" && <FormLogin updateFormState={updateFormState}/> }
-        { formState === "register" && <FormRegister updateFormState={updateFormState}/> }
-        { formState === "confirm" && <FormConfirm updateFormState={updateFormState}/> }
-        { formState === "redirect" && <Redirect to="/" /> }
+        { formState === "login" && <FormLogin updateFormState={updateFormState} setFormUserName={setFormUserName}/> }
+        { formState === "register" && <FormRegister updateFormState={updateFormState} setEmailBlurred={setEmailBlurred} setFormUserName={setFormUserName}/> }
+        { formState === "confirm" && <FormConfirm updateFormState={updateFormState} email_blurred={email_blurred} form_username={form_username}/> }
+        { formState === "redirect" && <Redirect to="/dashboard" /> }
       </div>
     </div>
   )
