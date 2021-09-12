@@ -20,7 +20,7 @@ function Footer() {
       marginLeft: open ? "0rem" : "-26.5rem"
     })
     apiArrow.start({
-      transform: open ? `rotate(180deg)` : `rotate(0deg)`
+      transform: open ? `rotate(0deg)` : `rotate(180deg)`
     })
   }
 

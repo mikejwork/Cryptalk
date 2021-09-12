@@ -66,12 +66,12 @@ function ViewMain(props) {
           {!context.user.attributes.email_verified && <span className="profile-main-email-warning" onClick={() => props.setView("confirm")}><MdIcons.MdWarning className="icon-spacer"/>Click here to verify your email</span>}
         </div>
         <div className="profile-main-stats">
-          <div className="friends">
+          <div className="profile-main-stats-friends">
             <MdIcons.MdSupervisorAccount/>
             <h2>Friends</h2>
             <p>{friendCount}</p>
           </div>
-          <div className="channels">
+          <div className="profile-main-stats-channels">
             <MdIcons.MdContacts/>
             <h2>Channels</h2>
             <p>{channelCount}</p>

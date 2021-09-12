@@ -2,7 +2,7 @@
 import React, { useState, useEffect, createContext } from "react";
 import { Auth, Hub, DataStore } from "aws-amplify";
 
-import { Friends, RequestStorage, RequestStatus } from '../models';
+import { Friends, RequestStorage, RequestStatus, Channel } from '../models';
 
 export const AuthContext = createContext();
 
@@ -10,6 +10,7 @@ function AuthContextProvider(props) {
   const [user, setUser] = useState(null);
   const [friend_list, setFriends] = useState([])
   const [request_list, setRequests] = useState([])
+  const [channels_list, setChannels] = useState([])
   const [loading, setLoading] = useState(true);
   const [datastore_ready, setdatastore_ready] = useState(false)
 
@@ -78,17 +79,22 @@ function AuthContextProvider(props) {
       handle_friends()
       handle_incoming()
       handle_outgoing()
+      handle_channels()
       // Detects updates in friends
       const friends_subscription = DataStore.observe(Friends).subscribe(() => handle_friends());
       // Detects updates in recieved requests
       const request_subscription = DataStore.observe(RequestStorage, (request) => request.reciever_username("eq", user.username)).subscribe(() => handle_incoming());
       // Detects updates in sent requests
       const incoming_subscription = DataStore.observe(RequestStorage, (request) => request.sender_username("eq", user.username)).subscribe(() => handle_outgoing());
+      // Detects updates in channels
+      const channels_subscription = DataStore.observe(Channel, (channel) => channel.users("contains", user.attributes.sub)).subscribe(() => handle_channels())
+
       return () => {
-        // Cleaup
+        // Cleanup
         friends_subscription.unsubscribe()
         request_subscription.unsubscribe()
         incoming_subscription.unsubscribe()
+        channels_subscription.unsubscribe()
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -99,7 +105,7 @@ function AuthContextProvider(props) {
   // if the list doesnt exist, create a new one
   async function handle_friends() {
     const result = await DataStore.query(Friends)
-    console.log("friends", result)
+    // console.log("friends", result)
 
     if (result[0] === undefined) {
       await DataStore.save(
@@ -117,7 +123,7 @@ function AuthContextProvider(props) {
   // Handler for all outgoing requests
   async function handle_outgoing() {
     const result = await DataStore.query(RequestStorage, (request) => request.sender_username("eq", user.username));
-    console.log("outgoing", result)
+    // console.log("outgoing", result)
     for (let idx = 0; idx < result.length; idx++) {
       switch (result[idx].status) {
 
@@ -161,7 +167,7 @@ function AuthContextProvider(props) {
   // Handler for all incoming requests
   async function handle_incoming() {
     const result = await DataStore.query(RequestStorage, (request) => request.reciever_username("eq", user.username));
-    console.log("incoming", result)
+    // console.log("incoming", result)
     setRequests(result)
     for (let idx = 0; idx < result.length; idx++) {
       var sender_sub = result[idx].sender_sub
@@ -206,6 +212,21 @@ function AuthContextProvider(props) {
     }
   }
 
+  async function handle_channels() {
+    let filtered = []
+    await DataStore.query(Channel).then((result) => {
+      for (var i in result) {
+        for (var k in result[i].users) {
+          if (result[i].users[k].sub === user.attributes.sub) {
+            filtered.push(result[i])
+          }
+        }
+      }
+    })
+    console.log("channels", filtered)
+    setChannels(filtered)
+  }
+
   if (loading) {
     // TODO, make something nicer, maybe a loading gif?
     return <></>;
@@ -218,7 +239,8 @@ function AuthContextProvider(props) {
         updateUser: setUser,
         datastore_ready: datastore_ready,
         friends: friend_list,
-        requests: request_list
+        requests: request_list,
+        channels: channels_list
       }}>
       {props.children}
     </AuthContext.Provider>
