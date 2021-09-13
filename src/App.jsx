@@ -14,6 +14,7 @@ import Navigation from './components/Navigation'
 
 import {PolicyPage} from './components/Agreements/PrivacyPolicy';
 import {TermsPage} from './components/Agreements/Terms';
+import PasswordRecovery from "./components/Password-Recovery";
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
             <Route exact path="/dashboard"> <Dashboard/> </Route>
             <Route exact path="/channels"> <Channels/> </Route>
             <Route exact path="/profile"> <Profile/> </Route>
+            <Route exact path="/recover"> <PasswordRecovery/> </Route>
 
 
           </Switch>
