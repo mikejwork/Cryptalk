@@ -116,8 +116,6 @@ function FormPassRecover(props) {
         <button onClick={process_confirm}>Confirm</button>
       </section>
     </>
-
-
   )
 }
 

@@ -20,7 +20,7 @@ function ViewMain(props) {
   const styling = useSpring({
     from: { opacity: 0 },
     to: { opacity: 1 }
-    })
+  })
 
   useEffect(() => {
     fetch_avatar()
@@ -53,26 +53,26 @@ function ViewMain(props) {
           <h2>Profile</h2>
           <h6>View your profile details below.</h6>
         </div>
-        <hr/>
+        <hr />
         <div className="profile-main-avatar-container">
-          <img className="profile-main-avatar" src={avatar} alt=" "/>
-          <div className="profile-main-avatar-overlay" onClick={() => props.setView("edit")}><span className="avatar-overlay-text"><MdIcons.MdOpenInNew className="icon-spacer"/>Edit</span></div>
+          <img className="profile-main-avatar" src={avatar} alt=" " />
+          <div className="profile-main-avatar-overlay" onClick={() => props.setView("edit")}><span className="avatar-overlay-text"><MdIcons.MdOpenInNew className="icon-spacer" />Edit</span></div>
         </div>
         <div className="profile-main-username">
           <h2>{context.user.username}</h2>
         </div>
         <div className="profile-main-email">
-          <h4><MdIcons.MdOpenInNew className="icon-spacer" onClick={() => props.setView("edit")}/>{context.user.attributes.email}</h4>
-          {!context.user.attributes.email_verified && <span className="profile-main-email-warning" onClick={() => props.setView("confirm")}><MdIcons.MdWarning className="icon-spacer"/>Click here to verify your email</span>}
+          <h4><MdIcons.MdOpenInNew className="icon-spacer" onClick={() => props.setView("edit")} />{context.user.attributes.email}</h4>
+          {!context.user.attributes.email_verified && <span className="profile-main-email-warning" onClick={() => props.setView("confirm")}><MdIcons.MdWarning className="icon-spacer" />Click here to verify your email</span>}
         </div>
         <div className="profile-main-stats">
           <div className="friends">
-            <MdIcons.MdSupervisorAccount/>
+            <MdIcons.MdSupervisorAccount />
             <h2>Friends</h2>
             <p>{friendCount}</p>
           </div>
           <div className="channels">
-            <MdIcons.MdContacts/>
+            <MdIcons.MdContacts />
             <h2>Channels</h2>
             <p>{channelCount}</p>
           </div>
@@ -92,12 +92,13 @@ function ViewEdit(props) {
   // State
   const [avatar, setAvatar] = useState(undefined)
   const [errorMessage, seterrorMessage] = useState("")
-  const [formState, setformState] = useState({avatar: undefined})
+  const [formState, setformState] = useState({ avatar: undefined })
 
   // Animations
   const styling = useSpring({
     from: { opacity: 0 },
-    to: { opacity: 1 }})
+    to: { opacity: 1 }
+  })
 
   useEffect(() => {
     fetch_avatar()
@@ -160,7 +161,7 @@ function ViewEdit(props) {
       const source = URL.createObjectURL(file);
       setAvatar(source)
       setformState(() => ({ ...formState, avatar: file }));
-    } catch(e) {
+    } catch (e) {
       console.log(e)
     }
   }
@@ -179,9 +180,9 @@ function ViewEdit(props) {
           <h2>Edit Profile</h2>
           <h6>Edit your profile details below.</h6>
         </div>
-        <hr/>
+        <hr />
         <div className="profile-main-avatar-container">
-          <img className="profile-main-avatar" id="avatar-preview" src={avatar} alt=" "/>
+          <img className="profile-main-avatar" id="avatar-preview" src={avatar} alt=" " />
           <p className="profile-main-avatar-error">{errorMessage}</p>
           <div className="profile-avatar-inputs">
             <input className="profile-main-avatar-input" onChange={onFileChange} type="file" />
@@ -206,16 +207,16 @@ function ViewConfirm(props) {
 
   // State
   const [sentTo, setSentTo] = useState("")
-  const [formState, setformState] = useState({code: ""})
+  const [formState, setformState] = useState({ code: "", error: "" })
 
   // Animations
   const styling = useSpring({
     from: { opacity: 0 },
-    to: { opacity: 1 }})
+    to: { opacity: 1 }
+  })
 
   useEffect(() => {
     setSentTo(context.user.attributes.email)
-    send_code()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -234,11 +235,13 @@ function ViewConfirm(props) {
 
   async function submit_code() {
     const { code } = formState;
-    Auth.verifyCurrentUserAttributeSubmit('email', code).then(async (result) => {
-      console.log(result)
+      Auth.verifyCurrentUserAttributeSubmit('email', code).then(() => {
+        Auth.signOut()
+      }).catch ((e) => 
+      setformState(() => ({ ...formState, error: e.message }))
+      );
 
-      if (result === "SUCCESS") { Auth.signOut() }
-    })
+
   }
 
   function onChange(e) {
@@ -276,12 +279,13 @@ function ViewReset(props) {
   const context = useContext(AuthContext)
 
   // State
-  const [formState, setformState] = useState({oldPassword: "", newPassword: ""})
+  const [formState, setformState] = useState({ oldPassword: "", newPassword: "" })
 
   // Animations
   const styling = useSpring({
     from: { opacity: 0 },
-    to: { opacity: 1 }})
+    to: { opacity: 1 }
+  })
 
   async function change() {
     const { oldPassword, newPassword } = formState;
@@ -290,17 +294,17 @@ function ViewReset(props) {
       const result = await Auth.changePassword(context.user, oldPassword, newPassword);
       // TODO Success notification
       if (result === "SUCCESS") { Auth.signOut() }
-    } catch(e) {
+    } catch (e) {
       console.log(e)
       switch (e.code) {
         case "NotAuthorizedException":
-          setformState(() => ({...formState, "error": e.message }));
+          setformState(() => ({ ...formState, "error": e.message }));
           break;
         case "InvalidPasswordException":
-          setformState(() => ({...formState, "error": e.message }));
+          setformState(() => ({ ...formState, "error": e.message }));
           break;
         case "InvalidParameterException":
-          setformState(() => ({...formState, "error": "Please fill in the required fields." }));
+          setformState(() => ({ ...formState, "error": "Please fill in the required fields." }));
           break;
         default:
           break;
@@ -319,22 +323,22 @@ function ViewReset(props) {
   return (
     <>
       <animated.div style={styling} className="profile-reset">
-          <div className="profile-reset-title">
-            <h2>Change Password</h2>
-            <h6>Enter your old password and desired password below.</h6>
-            <h5 className="error-msg">{formState.error}</h5>
+        <div className="profile-reset-title">
+          <h2>Change Password</h2>
+          <h6>Enter your old password and desired password below.</h6>
+          <h5 className="error-msg">{formState.error}</h5>
+        </div>
+        <div className="profile-main-email-edit">
+          <div className="profile-reset-inputs">
+            <input onChange={onChange} className="profile-reset-input" name="oldPassword" placeholder="Old password" type="password" />
+            <input onChange={onChange} className="profile-reset-input" name="newPassword" placeholder="New password" type="password" />
           </div>
-          <div className="profile-main-email-edit">
-            <div className="profile-reset-inputs">
-              <input onChange={onChange} className="profile-reset-input" name="oldPassword" placeholder="Old password" type="password"/>
-              <input onChange={onChange} className="profile-reset-input" name="newPassword" placeholder="New password" type="password"/>
-            </div>
-          </div>
-          <button onClick={change}>Confirm</button>
-          <div className="return-span">
-            <span onClick={() => props.setView("profile")}>Return</span>
-          </div>
-        </animated.div>
+        </div>
+        <button onClick={change}>Confirm</button>
+        <div className="return-span">
+          <span onClick={() => props.setView("profile")}>Return</span>
+        </div>
+      </animated.div>
     </>
   )
 }
@@ -349,19 +353,20 @@ function Profile() {
   // Animations
   const styling = useSpring({
     from: { opacity: 0 },
-    to: { opacity: 1 }})
+    to: { opacity: 1 }
+  })
 
-  if (!context.datastore_ready) { return <Redirect to="/"/> }
+  if (!context.datastore_ready) { return <Redirect to="/" /> }
 
   return (
     <>
       <div className="profile-page">
         <animated.div style={styling} className="profile-container">
-          <div style={{width: loader + "%"}} className="loading-bar"></div>
-          { view === "profile" && <ViewMain setView={setView} setLoader={setLoader}/> }
-          { view === "edit" && <ViewEdit setView={setView} setLoader={setLoader}/> }
-          { view === "confirm" && <ViewConfirm setView={setView} setLoader={setLoader}/> }
-          { view === "reset" && <ViewReset setView={setView} setLoader={setLoader}/> }
+          <div style={{ width: loader + "%" }} className="loading-bar"></div>
+          {view === "profile" && <ViewMain setView={setView} setLoader={setLoader} />}
+          {view === "edit" && <ViewEdit setView={setView} setLoader={setLoader} />}
+          {view === "confirm" && <ViewConfirm setView={setView} setLoader={setLoader} />}
+          {view === "reset" && <ViewReset setView={setView} setLoader={setLoader} />}
         </animated.div>
       </div>
     </>
