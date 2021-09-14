@@ -1,7 +1,16 @@
-.policy-container {
-  padding: 0 20% 20% 20%;
+.agreement-page {
+  padding: 1rem 15rem 15rem 15rem;
 }
 
-.policy-container > h2, h3 {
+.agreement-page > h1, h2, h3 {
   color: var(--bg-accent);
+}
+
+.agreement-page > h5 {
+  color: grey;
+  margin-left: 3ex;
+}
+
+.agreement-page > li {
+  color: grey;
 }
