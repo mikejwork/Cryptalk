@@ -1,10 +1,9 @@
 import React from 'react'
-
-import '../../css/Agreements/Policies.css';
+import styles from '../../css/Agreements/Legal.module.css';
 
 function PrivacyPolicy() {
   return (
-    <div className="agreement-page" style={{padding: "0"}}>
+    <div className={styles.agreementPage} style={{padding: "0"}}>
       <h2>Privacy Policy</h2>
       <p>
         Cryptalk is committed to providing quality services to you and this policy outlines our ongoing obligations to you in respect of how we manage your Personal Information.
@@ -88,9 +87,9 @@ function PrivacyPolicy() {
   )
 }
 
-export function PolicyPage() {
+export function PrivacyPolicyPage() {
   return (
-    <div className="agreement-page">
+    <div className={styles.agreementPage}>
       <h2>Privacy Policy</h2>
       <p>
         Cryptalk is committed to providing quality services to you and this policy outlines our ongoing obligations to you in respect of how we manage your Personal Information.

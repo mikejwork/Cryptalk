@@ -1,8 +1,9 @@
 import React from 'react'
+import styles from '../../css/Agreements/Legal.module.css';
 
-function Terms() {
+function TermsAndConditions() {
   return (
-    <div className="agreement-page" style={{padding: "0"}}>
+    <div className={styles.agreementPage} style={{padding: "0"}}>
       <h2>Terms & Conditions</h2>
       <p>These terms and conditions (the "Terms and Conditions") govern the use of www.captstone-cryptalk.com (the "site"). This site is owned and operated by RMIT University.</p>
       <p>By using this site, you indicate that you have read and understand these Terms and Conditions and agree to abide by them at all times.</p>
@@ -83,9 +84,9 @@ function Terms() {
   )
 }
 
-export function TermsPage() {
+export function TermsAndConditionsPage() {
   return (
-    <div className="agreement-page">
+    <div className={styles.agreementPage}>
       <h2>Terms & Conditions</h2>
       <p>These terms and conditions (the "Terms and Conditions") govern the use of www.captstone-cryptalk.com (the "site"). This site is owned and operated by RMIT University.</p>
       <p>By using this site, you indicate that you have read and understand these Terms and Conditions and agree to abide by them at all times.</p>
@@ -166,4 +167,4 @@ export function TermsPage() {
   )
 }
 
-export default Terms
+export default TermsAndConditions

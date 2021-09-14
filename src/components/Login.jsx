@@ -6,8 +6,8 @@ import { AuthContext } from "../contexts/AuthContext";
 import '../css/Login.css';
 
 import * as MdIcons from "react-icons/md";
-import Terms from './Agreements/Terms';
-import PrivacyPolicy from './Agreements/PrivacyPolicy';
+import TermsAndConditions from './Legal/TermsAndConditions';
+import PrivacyPolicy from './Legal/PrivacyPolicy';
 
 
 function FormLogin(props) {
@@ -245,7 +245,7 @@ function FormRegister(props) {
         { formState.page === "terms" &&
           <>
             <div className="readable-form">
-              <Terms></Terms>
+              <TermsAndConditions/>
               <span className="span-link" onClick={() => switch_page("default")}><MdIcons.MdKeyboardArrowLeft/></span>
             </div>
           </>
@@ -253,7 +253,7 @@ function FormRegister(props) {
         { formState.page === "privacy" &&
           <>
             <div className="readable-form">
-              <PrivacyPolicy></PrivacyPolicy>
+              <PrivacyPolicy/>
               <span className="span-link" onClick={() => switch_page("default")}><MdIcons.MdKeyboardArrowLeft/></span>
             </div>
           </>

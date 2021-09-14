@@ -1,16 +1,16 @@
-.agreement-page {
+.agreementPage {
   padding: 1rem 15rem 15rem 15rem;
 }
 
-.agreement-page > h1, h2, h3 {
+.agreementPage > h1, h2, h3 {
   color: var(--bg-accent);
 }
 
-.agreement-page > h5 {
+.agreementPage > h5 {
   color: grey;
   margin-left: 3ex;
 }
 
-.agreement-page > li {
+.agreementPage > li {
   color: grey;
 }
