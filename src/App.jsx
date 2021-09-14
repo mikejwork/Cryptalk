@@ -8,12 +8,13 @@ import Home from './components/Home'
 import Login from './components/Login'
 import Footer from './components/Footer'
 import Profile from './components/Profile'
-import Channels from './components/Channels'
+import Channels from './components/Channels/Channels'
+import ChannelSettings from './components/Channels/ChannelsSettings'
 import Dashboard from './components/Dashboard'
 import Navigation from './components/Navigation'
 
-import {PolicyPage} from './components/Agreements/PrivacyPolicy';
-import {TermsPage} from './components/Agreements/Terms';
+import {PrivacyPolicyPage} from './components/Legal/PrivacyPolicy';
+import {TermsAndConditionsPage} from './components/Legal/TermsAndConditions';
 
 function App() {
   return (
@@ -21,16 +22,14 @@ function App() {
         <AuthContextProvider>
           <Navigation/>
           <Switch>
-
-            <Route exact path="/"> <Home/> </Route>
-            <Route exact path="/authentication"> <Login/> </Route>
-            <Route exact path="/privacy"> <PolicyPage/> </Route>
-            <Route exact path="/terms"> <TermsPage/> </Route>
-            <Route exact path="/dashboard"> <Dashboard/> </Route>
-            <Route exact path="/channels"> <Channels/> </Route>
-            <Route exact path="/profile"> <Profile/> </Route>
-
-
+            <Route exact path="/"><Home/></Route>
+            <Route exact path="/authentication"><Login/></Route>
+            <Route exact path="/privacy"><PrivacyPolicyPage/></Route>
+            <Route exact path="/terms"><TermsAndConditionsPage/></Route>
+            <Route exact path="/dashboard"><Dashboard/></Route>
+            <Route exact path="/profile"><Profile/></Route>
+            <Route exact path="/channels"><Channels/></Route>
+            <Route exact path="/channels/edit/:channelID"><ChannelSettings/></Route>
           </Switch>
           <Footer/>
         </AuthContextProvider>

@@ -15,7 +15,9 @@ body {
   --bg-darker: #111111;
   --bg-light: #e6e6e6;
   --bg-accent: #3c9dca;
+  --bg-accent-dark: #3c9dca1a;
 
+  --bg-gradient-border-vert: linear-gradient(0deg, var(--bg-dark) 0%, rgba(60, 157, 202, 0.582) 100%);
   --bg-gradient-border: linear-gradient(90deg, var(--bg-dark) 0%, var(--bg-accent) 50%, var(--bg-dark) 100%);
   --bg-gradient-border-faint: linear-gradient(90deg, rgba(24,24,24,1) 0%, rgba(60, 157, 202, 0.233) 50%, rgba(24,24,24,1) 100%);
 

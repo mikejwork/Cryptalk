@@ -132,7 +132,7 @@
   margin-bottom: 2ex;
 }
 
-.profile-main-stats > .friends, .channels {
+.profile-main-stats > .profile-main-stats-friends, .profile-main-stats-channels {
   width: 10ex;
   display: flex;
   flex-direction: column;
@@ -140,11 +140,11 @@
   justify-content: center;
 }
 
-.profile-main-stats > .friends > p, .channels > p {
+.profile-main-stats > .profile-main-stats-friends > p, .profile-main-stats-channels > p {
   color: grey;
 }
 
-.profile-main-stats > .friends > h2, .channels > h2 {
+.profile-main-stats > .profile-main-stats-friends > h2, .profile-main-stats-channels > h2 {
   display: flex;
   flex-direction: row;
   align-items: center;
