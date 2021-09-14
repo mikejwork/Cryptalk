@@ -15,6 +15,7 @@ import Navigation from './components/Navigation'
 
 import {PrivacyPolicyPage} from './components/Legal/PrivacyPolicy';
 import {TermsAndConditionsPage} from './components/Legal/TermsAndConditions';
+import PasswordRecovery from "./components/Password-Recovery";
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
             <Route exact path="/profile"><Profile/></Route>
             <Route exact path="/channels"><Channels/></Route>
             <Route exact path="/channels/edit/:channelID"><ChannelSettings/></Route>
+            <Route exact path="/recover"> <PasswordRecovery/> </Route>
           </Switch>
           <Footer/>
         </AuthContextProvider>
