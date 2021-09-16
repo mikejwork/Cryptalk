@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useSpring, animated } from 'react-spring'
 import * as MdIcons from "react-icons/md";
 
-import '../css/Footer.css';
+import styles from '../../css/Footer/Footer.module.css';
 
 function Footer() {
   const [open, setOpen] = useState(false)
@@ -29,18 +29,19 @@ function Footer() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open])
 
-  // margin-left: -18.3rem;
-
   return (
-    <div className="footer-container">
-      <animated.div style={styling} className="footer-items">
-        <ul>
-          <li><a href="/terms">Terms & Conditions</a></li>
-          <li><a href="/privacy">Privacy Policy</a></li>
-          <li>© 2021 Cryptalk</li>
-        </ul>
-      </animated.div>
-      <button onClick={() => setOpen(!open)} className="footer-button"><animated.div className="arrow-div" style={arrowStyle}><MdIcons.MdKeyboardArrowLeft/></animated.div></button>
+    <div className={styles.footer}>
+      <div className={styles.footerSpacer}></div>
+      <div className={styles.footerContainer}>
+        <animated.div style={styling} className={styles.footerItems}>
+          <ul>
+            <li><a href="/terms">Terms & Conditions</a></li>
+            <li><a href="/privacy">Privacy Policy</a></li>
+            <li>© 2021 Cryptalk</li>
+          </ul>
+        </animated.div>
+        <button onClick={() => setOpen(!open)}><animated.div className={styles.arrowDiv} style={arrowStyle}><MdIcons.MdKeyboardArrowLeft/></animated.div></button>
+      </div>
     </div>
   )
 }

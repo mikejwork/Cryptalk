@@ -4,7 +4,7 @@
   position: absolute;
 }
 
-.home-container {
+.homeContainer {
   height: 100%;
   background-color: var(--bg-dark);
   display: grid;
@@ -16,7 +16,7 @@
     "title title image";
 }
 
-.home-title {
+.homeTitle {
   width: 100%;
   padding-left: 3ex;
   padding-right: 3ex;
@@ -25,44 +25,34 @@
   flex-direction: column;
 }
 
-.home-title > h1 {
+.homeTitle > h1 {
   font-weight: 600;
   font-size: 8ex;
 }
 
-.home-title > p {
+.homeTitle > p {
   font-size: 3ex;
-  color: rgb(199, 199, 199);
+  font-weight: 100;
+  color: rgb(143, 143, 143);
 }
 
-.home-title > button {
-  padding: 1.5ex;
+.homeTitle > button {
   margin-top: 3ex;
   margin-bottom: 3ex;
   width: 50%;
-
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-
-  font-weight: lighter;
-  color: var(--text-color);
-  background-color: var(--bg-darker);
-  border-radius: var(--border-radius);
 }
 
-.home-title > img {
+.homeTitle > img {
   width: 15ex;
   margin-left: -4ex;
   margin-bottom: -5ex;
 }
 
-.home-image {
+.homeImage {
   grid-area: image;
 }
 
-.home-image > img {
+.homeImage > img {
   width: 37rem;
 }
 
@@ -71,32 +61,32 @@
     padding: 4rem 8rem 8rem 8rem;
   }
 
-  .home-container {
+  .homeContainer {
     grid-template-areas:
       "title title title"
       "image image image";
   }
 
-  .home-title {
+  .homeTitle {
     margin-bottom: 5ex;
     justify-content: center;
     align-items: center;
   }
 
-  .home-image {
+  .homeImage {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
   }
 
-  .home-title > img {
+  .homeTitle > img {
     width: 15ex;
     margin-left: 0ex;
     margin-bottom: -5ex;
   }
 
-  .home-title > p {
+  .homeTitle > p {
     text-align: center;
   }
 }

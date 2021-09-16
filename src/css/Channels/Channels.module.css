@@ -1,0 +1,86 @@
+.channels {
+  padding: 5ex;
+  height: calc(99.9vh - var(--nav-size) - 12ex);
+}
+
+.gridContainer {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  gap: 0px 0px;
+  grid-template-columns: 0.3fr 0.5fr 0.5fr 0.5fr;
+  grid-template-rows: 0.1fr 0.5fr 0.5fr 0.05fr;
+  grid-template-areas:
+    "title chatTitle none none"
+    "list chat chat sublist"
+    "list chat chat sublist"
+    "actions form form sublist";
+}
+
+.gridTitle {
+  grid-area: title;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  font-weight: 100;
+  border-bottom: 1px solid rgba(128, 128, 128, 0.103);
+  background-color: var(--bg-darker);
+  padding: 0ex 3ex 0ex 3ex;
+}
+
+.searchBar {
+  width: 100%;
+  color: grey;
+  border-radius: var(--border-radius);
+  background-color: var(--bg);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0.5ex 2ex 0.5ex 2ex;
+}
+
+.searchBar > .icon {
+  margin-right: 1ex;
+}
+
+.searchBar > input {
+  padding: 0;
+  margin: 0;
+  background-color: transparent;
+}
+
+.gridList {
+  padding: 2ex;
+  grid-area: list;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--bg-darker);
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 1ex;
+}
+
+
+.header > h5 {
+  font-weight: 700;
+}
+
+.header > .spacer {
+  flex: 1;
+  margin: 0ex 2ex 0ex 2ex;
+  border-bottom: 1px solid rgba(128, 128, 128, 0.116);
+}
+
+.header > .icon {
+  color: grey;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.header > .icon:hover {
+  color: var(--bg-accent)
+}

@@ -1,0 +1,114 @@
+.MdIcon {
+  margin-right: 1ex;
+  color: grey;
+  cursor: pointer;
+}
+
+.MdIcon:hover {
+  color: var(--bg-accent);
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+}
+
+.title {
+  padding: 2ex 0ex 2ex 0ex;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.avatar {
+  padding: 2ex 0ex 2ex 0ex;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.avatar > img {
+  width: 30ex;
+  height: 30ex;
+  border-radius: 50%;
+  box-shadow: 0 0 20px 2px rgba(0, 0, 0, 0.200);
+}
+
+.avatarOverlay {
+  background-color: #0f0f0fb2;
+  color: var(--bg-accent);
+  border: 1px dashed var(--bg-accent);
+  stroke-dashoffset: 5ex;
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30ex;
+  height: 30ex;
+  border-radius: 50%;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.avatarOverlay:hover {
+  opacity: 1;
+}
+
+.info {
+  padding: 2ex 0ex 2ex 0ex;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.info > h4 {
+  color: grey;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.info > u {
+  color: var(--warning);
+  cursor: pointer;
+}
+
+.stats {
+  padding: 2ex 0ex 2ex 0ex;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.statsFriends {
+  width: 20ex;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.statsChannels {
+  width: 20ex;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.actions {
+  padding: 2ex 0ex 2ex 0ex;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.actions > button {
+  width: 30ex;
+  margin: 0ex 2ex 0ex 2ex;
+}

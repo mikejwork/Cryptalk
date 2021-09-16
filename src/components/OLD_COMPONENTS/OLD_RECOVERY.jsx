@@ -1,9 +1,9 @@
 import React, { useState, useContext } from 'react';
 import { Redirect } from "react-router-dom";
 import { Auth } from "aws-amplify";
-import { AuthContext } from "../contexts/AuthContext";
+import { AuthContext } from "../../contexts/AuthContext";
 
-import '../css/Login.css';
+// import '../../css/Login.css';
 
 import * as MdIcons from "react-icons/md";
 
@@ -85,7 +85,7 @@ function FormPassRecover(props) {
     }));
   }
 
-  
+
   const process_keypress = e => {
     if (e.key === 'Enter') {
         process_confirm();

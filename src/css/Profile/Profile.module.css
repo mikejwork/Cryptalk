@@ -1,0 +1,12 @@
+.profile {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5ex 0ex 5ex 0ex;
+}
+
+.profileContainer {
+  display: flex;
+  flex-direction: column;
+  width: 50rem;
+}
