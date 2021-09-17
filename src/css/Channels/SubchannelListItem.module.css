@@ -1,0 +1,29 @@
+.container {
+  display: flex;
+  flex-direction: row;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  margin-bottom: 2ex;
+  font-size: 11pt;
+  padding: 1ex 0ex 1ex 0ex;
+}
+
+.container:hover {
+  background-color: var(--bg);
+}
+
+.infoContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.channelIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 5ex;
+}
+
+.name {
+  font-weight: bold;
+}

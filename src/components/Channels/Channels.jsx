@@ -1,12 +1,15 @@
 import React, { useState, useEffect, useContext } from 'react'
-import { Channel, SubChannel, SubChannelType, Messages, MessageType } from '../../models';
+import { SubChannel } from '../../models';
 import { AuthContext } from "../../contexts/AuthContext";
 import { DataStore, SortDirection } from "aws-amplify";
 import { Redirect } from "react-router-dom";
 
 import DMListItem from './DMListItem'
+import ChannelContent from './ChannelContent'
 import ChannelListItem from './ChannelListItem'
+import SubchannelListItem from './SubchannelListItem'
 
+import * as HiIcons from "react-icons/hi";
 import * as MdIcons from "react-icons/md";
 import styles from '../../css/Channels/Channels.module.css';
 
@@ -19,10 +22,9 @@ function Channels() {
   const [SubChannels, setSubChannels] = useState()
   const [_ChatType, set_ChatType] = useState("CHANNELS")
 
-  // useEffect
-  useEffect(() => {
-    set_SubChannel(undefined)
-  }, [_Channel])
+  // useEffect(() => {
+  //   set_SubChannel(undefined)
+  // }, [_Channel])
 
   useEffect(() => {
     if (context.datastore_ready && _Channel) {
@@ -68,22 +70,19 @@ function Channels() {
         </div>
         <div className={styles.gridList}>
 
+          {/* GROUPS ----------------------------------------------- */}
           <div className={styles.header}>
             <h5 className="subcomment">GROUPS</h5>
             <div className={styles.spacer}/>
             <MdIcons.MdAdd className={styles.icon}/>
           </div>
           { context.channels.map((channel) => {
-            // Current selection highlighting
-            var selected = false
-            if (channel === _Channel) {
-              selected = true
-            }
             return (
-              <ChannelListItem data={channel} selected={selected} set_Channel={set_Channel}/>
+              <ChannelListItem data={channel} set_Channel={set_Channel} key={channel.id}/>
             )
           })}
 
+          {/* DIRECT MESSAGES -------------------------------------- */}
           <div className={styles.header}>
             <h5 className="subcomment">DIRECT MESSAGES</h5>
             <div className={styles.spacer}/>
@@ -91,10 +90,74 @@ function Channels() {
           </div>
           { context.friends.map((friend) => {
             return (
-              <DMListItem data={friend}/>
+              <DMListItem data={friend} key={friend.sub}/>
             )
           })}
+        </div>
+        <div className={styles.subTitle}>
+          {_SubChannel ?
+            <>
+              { _SubChannel.type === "TEXT" ? <p><HiIcons.HiHashtag/></p> : <p><HiIcons.HiMicrophone/></p>}
+              <div className={styles.subTitleContainer}>
+                <h2>{_SubChannel.name}</h2>
+                <p>{_SubChannel.users.length} members</p>
+              </div>
+            </>
+          :
+            <>
+              { _Channel &&
+                <>
+                  <p><HiIcons.HiHashtag/></p>
+                  <div className={styles.subTitleContainer}>
+                    <h3>No channel selected</h3>
+                    <p>select a channel to start talking</p>
+                  </div>
+                </>
+              }
+            </>
+          }
+        </div>
+        <div className={styles.sublist}>
+          { SubChannels !== undefined ?
+            <>
+              {/* TEXT SUB-CHANNELS ------------------------------------ */}
+              <div className={styles.header}>
+                <h5 className="subcomment">TEXT</h5>
+                <div className={styles.spacer}/>
+              </div>
 
+              { SubChannels.map((subChannel) => {
+                if (subChannel.type !== "TEXT") { return null }
+                return (
+                  <SubchannelListItem data={subChannel} set_SubChannel={set_SubChannel} key={subChannel.id}/>
+                )
+              })}
+
+              {/* VOICE SUB-CHANNELS ----------------------------------- */}
+              <div className={styles.header}>
+                <h5 className="subcomment">VOICE</h5>
+                <div className={styles.spacer}/>
+              </div>
+
+              { SubChannels.map((subChannel) => {
+                if (subChannel.type !== "VOICE") { return null }
+                return (
+                  <SubchannelListItem data={subChannel} set_SubChannel={set_SubChannel} key={subChannel.id}/>
+                )
+              })}
+            </>
+          :
+            <div className={styles.noneMsg}>
+              <p>No channel selected</p>
+            </div>
+          }
+        </div>
+        <div className={styles.contentHead}>
+          {/* Empty for now, maybe a user list of avatars? */}
+          {/* Timestamp of last activity */}
+        </div>
+        <div className={styles.content}>
+          <ChannelContent data={_SubChannel}/>
         </div>
       </div>
     </div>

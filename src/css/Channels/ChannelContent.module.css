@@ -1,0 +1,57 @@
+.container {
+  height: 100%;
+  display: grid;
+  gap: 0px 0px;
+  grid-template-columns: 0.5fr 0.5fr;
+  grid-template-rows: 0.90fr 0.05fr;
+  grid-template-areas:
+    "messages   messages"
+    "inputForm  inputForm";
+}
+
+.messages {
+  grid-area: messages;
+  flex-grow: 1;
+}
+
+.inputForm {
+  grid-area: inputForm;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0ex 2ex 0ex 2ex;
+}
+
+.inputForm > input {
+  flex: 1;
+}
+
+.inputForm > .attatchFileIcon {
+  color: grey;
+  margin-right: 1ex;
+  font-size: 16pt;
+}
+
+.inputForm > .attatchFileIcon:hover {
+  color: var(--bg-accent);
+}
+
+.inputForm > .emojiMenuIcon {
+  color: grey;
+  margin-right: 1ex;
+  font-size: 16pt;
+}
+
+.inputForm > .emojiMenuIcon:hover {
+  color: var(--bg-accent);
+}
+
+.inputForm > .sendIcon {
+  color: grey;
+  margin-left: 1ex;
+  font-size: 16pt;
+}
+
+.inputForm > .sendIcon:hover {
+  color: var(--bg-accent);
+}

@@ -1,6 +1,6 @@
 .channels {
-  padding: 5ex;
-  height: calc(99.9vh - var(--nav-size) - 12ex);
+  /* padding: 5ex; */
+  height: calc(99.9vh - var(--nav-size) - 0ex);
 }
 
 .gridContainer {
@@ -8,13 +8,13 @@
   height: 100%;
   display: grid;
   gap: 0px 0px;
-  grid-template-columns: 0.3fr 0.5fr 0.5fr 0.5fr;
+  grid-template-columns: 0.2fr 0.2fr 0.5fr 0.5fr;
   grid-template-rows: 0.1fr 0.5fr 0.5fr 0.05fr;
   grid-template-areas:
-    "title chatTitle none none"
-    "list chat chat sublist"
-    "list chat chat sublist"
-    "actions form form sublist";
+    "title    subTitle    contentHead   contentHead"
+    "list     sublist     content       content"
+    "list     sublist     content       content"
+    "actions  subActions  content       content";
 }
 
 .gridTitle {
@@ -23,7 +23,6 @@
   flex-direction: row;
   align-items: center;
   font-weight: 100;
-  border-bottom: 1px solid rgba(128, 128, 128, 0.103);
   background-color: var(--bg-darker);
   padding: 0ex 3ex 0ex 3ex;
 }
@@ -64,7 +63,6 @@
   margin-bottom: 1ex;
 }
 
-
 .header > h5 {
   font-weight: 700;
 }
@@ -83,4 +81,53 @@
 
 .header > .icon:hover {
   color: var(--bg-accent)
+}
+
+.subTitle {
+  grid-area: subTitle;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  font-weight: 700;
+  background-color: #1d1c1c;
+  padding: 0ex 0ex 0ex 3ex;
+  border-left: 1px solid #353535;
+}
+
+.subTitle > p {
+  display: flex;
+  align-items: center;
+  color: grey;
+  font-size: 18pt;
+  margin-right: 1ex;
+}
+
+.subTitleContainer > p {
+  font-size: 9pt;
+  color: grey;
+}
+
+.sublist {
+  padding: 2ex;
+  grid-area: sublist;
+  background-color: #1d1c1c;
+  border-left: 1px solid #353535;
+  border-right: 1px solid #353535;
+}
+
+.noneMsg {
+  color: grey;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.contentHead {
+  grid-area: contentHead;
+  background-color: #1d1c1c;
+  border-bottom: 1px solid #353535;
+}
+
+.content {
+  grid-area: content;
 }
