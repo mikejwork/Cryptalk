@@ -1,33 +1,3 @@
-<script>@import url('https://fonts.googleapis.com/css2?family=Titillium+Web:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700&display=swap');
-</script>
-
-<style>
-body {
-	font-family: 'Titillium Web', sans-serif;
-}
-
-Hash {
-	color: grey;
-}
-
-.infoContainer {
-	display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    height: 10ex;
-	margin: 5ex 0ex 10ex 0ex;
-    padding: 0 20% 0 20%;
-}
-
-.infoContainer > h4 {
-	float: right;
-}
-
-.spacer {
-	border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-}
-</style>
-
 <div align="center">
     <img src="https://i.imgur.com/vUI6rcQ.png" alt="Cryptalk" width="450">
 </div>
@@ -60,6 +30,7 @@ Hash {
           	- Luke Cocorocchio - Scrum Master<br/>
           	- Matthew Sesto - Product Owner<br/>
     </div>
+	
     <div>
     	<Hash>#</Hash> <strong>Technology</strong><br/>
  			- Node.js<br/>
