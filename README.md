@@ -54,18 +54,18 @@ Hash {
 
 <div class="infoContainer">
 	<div>
-    	<Hash>#</Hash> <strong>Credits</strong>
-          	- Braden Smith - Software Developer
-          	- Michael Jurie - Software Developer
-          	- Luke Cocorocchio - Scrum Master
-          	- Matthew Sesto - Product Owner
+    	<Hash>#</Hash> <strong>Credits</strong><br/>
+          	- Braden Smith - Software Developer<br/>
+          	- Michael Jurie - Software Developer<br/>
+          	- Luke Cocorocchio - Scrum Master<br/>
+          	- Matthew Sesto - Product Owner<br/>
     </div>
     <div>
-    	<Hash>#</Hash> <strong>Technology</strong>
- 			- Node.js
- 			- React.js
- 			- AWS Amplify, Datastore, Cognito
-            - GraphQL
+    	<Hash>#</Hash> <strong>Technology</strong><br/>
+ 			- Node.js<br/>
+ 			- React.js<br/>
+ 			- AWS Amplify, Datastore, Cognito<br/>
+            - GraphQL<br/>
     </div>
 </div>
 
