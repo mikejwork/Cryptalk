@@ -22,22 +22,17 @@
   </a>
 </div>
 
-<div class="infoContainer">
-	<div>
-    	<Hash>#</Hash> <strong>Credits</strong><br/>
-          	- Braden Smith - Software Developer<br/>
-          	- Michael Jurie - Software Developer<br/>
-          	- Luke Cocorocchio - Scrum Master<br/>
-          	- Matthew Sesto - Product Owner<br/>
-    </div>
-	
-    <div>
-    	<Hash>#</Hash> <strong>Technology</strong><br/>
- 			- Node.js<br/>
- 			- React.js<br/>
- 			- AWS Amplify, Datastore, Cognito<br/>
-            - GraphQL<br/>
-    </div>
-</div>
 
-<div class="spacer"/>
+<Hash>#</Hash> <strong>Credits</strong><br/>
+- Braden Smith - Software Developer<br/>
+- Michael Jurie - Software Developer<br/>
+- Luke Cocorocchio - Scrum Master<br/>
+- Matthew Sesto - Product Owner<br/>
+
+<hr/>
+
+<Hash>#</Hash> <strong>Technology</strong><br/>
+- Node.js<br/>
+- React.js<br/>
+- AWS Amplify, Datastore, Cognito<br/>
+- GraphQL<br/>
