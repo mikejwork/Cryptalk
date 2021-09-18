@@ -80,6 +80,7 @@ function AuthContextProvider(props) {
       handle_incoming()
       handle_outgoing()
       handle_channels()
+
       // Detects updates in friends
       const friends_subscription = DataStore.observe(Friends).subscribe(() => handle_friends());
       // Detects updates in recieved requests
@@ -87,7 +88,7 @@ function AuthContextProvider(props) {
       // Detects updates in sent requests
       const incoming_subscription = DataStore.observe(RequestStorage, (request) => request.sender_username("eq", user.username)).subscribe(() => handle_outgoing());
       // Detects updates in channels
-      const channels_subscription = DataStore.observe(Channel, (channel) => channel.users("contains", user.attributes.sub)).subscribe(() => handle_channels())
+      const channels_subscription = DataStore.observe(Channel).subscribe(() => handle_channels())
 
       return () => {
         // Cleanup

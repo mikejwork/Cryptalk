@@ -13,7 +13,7 @@ import Profile from './components/Profile/Profile'
 
 // # Channels `/channels`
 import Channels from './components/Channels/Channels'
-// import ChannelSettings from './components/Channels/ChannelsSettings'
+import EditChannel from './components/Channels/EditChannel/EditChannel'
 
 // # Dashboard `/dashboard`
 import Dashboard from './components/Dashboard'
@@ -36,7 +36,7 @@ function App() {
             <Route exact path="/dashboard"><Dashboard/></Route>
             <Route exact path="/profile"><Profile/></Route>
             <Route exact path="/channels"><Channels/></Route>
-            {/* <Route exact path="/channels/edit/:channelID"><ChannelSettings/></Route> */}
+            <Route exact path="/channels/edit/:channelID"><EditChannel/></Route>
             <Route exact path="/privacy"><PrivacyPolicy/></Route>
             <Route exact path="/terms"><TermsAndConditions/></Route>
           </Switch>

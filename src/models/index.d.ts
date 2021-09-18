@@ -85,6 +85,8 @@ export declare class Channel {
   readonly description: string;
   readonly users?: User[];
   readonly sub_channels?: (SubChannel | null)[];
+  readonly icon: string;
+  readonly owner_id: string;
   readonly createdAt?: string;
   readonly updatedAt?: string;
   constructor(init: ModelInit<Channel, ChannelMetaData>);

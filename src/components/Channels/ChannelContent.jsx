@@ -3,13 +3,17 @@ import React, { useContext, useState, useEffect } from 'react'
 import * as MdIcons from "react-icons/md";
 import { DataStore, SortDirection } from "aws-amplify";
 import { AuthContext } from "../../contexts/AuthContext";
-import { Channel, SubChannel, SubChannelType, Messages, MessageType } from '../../models';
+import { Messages, MessageType } from '../../models';
 import styles from '../../css/Channels/ChannelContent.module.css';
+
+import EmojiMenu from '../Wrappers/Emoji/EmojiMenu'
+
+import MessageSorter from './MessageSorter'
 
 function ChannelContent(props) {
   const context = useContext(AuthContext)
 
-  const [formState, setformState] = useState({})
+  const [formState, setformState] = useState({message: ""})
   const [_Messages, set_Messages] = useState([])
 
   useEffect(() => {
@@ -32,28 +36,61 @@ function ChannelContent(props) {
     }));
   }
 
+  function onKeyPress(e) {
+    if (e.key === "Enter") {
+      sendMessage()
+    }
+  }
+
   async function getMessages() {
     const result = await DataStore.query(Messages, (message) => message.subchannelID("eq", props.data.id), {
       sort: msg => msg.createdAt(SortDirection.ASCENDING) //SortDirection.DESCENDING
     })
     set_Messages(result)
-    console.log("Messages", result)
 
     if (document.getElementById("message-end") !== null) {
       document.getElementById("message-end").scrollIntoView({ behavior: "smooth" })
     }
   }
 
-  return (
-    <div className={styles.container}>
-      <div className={styles.messages}>
+  async function sendMessage() {
+    const { message } = formState
+    const username = context.user.username
+    const id = context.user.attributes.sub
+    const type = MessageType.TEXT
+    const subchannelID = props.data.id
 
+    // Error checking
+    // regex ensures the message isnt empty, or just spaces
+    if (message === undefined) { return }
+    if (!/[^\s]/.test(message)) { return }
+
+    await DataStore.save(
+      new Messages({
+        "author_username": username,
+        "author_id": id,
+        "content": message,
+        "type": type,
+        "subchannelID": subchannelID
+      })
+    )
+    setformState({message: ""})
+    document.getElementById("message").value = ""
+  }
+
+  return (
+    <div className={styles.container} onKeyPress={onKeyPress}>
+      <div className={styles.messages}>
+        { _Messages &&
+          <MessageSorter _Messages={_Messages}/>
+        }
+        <div id="message-end" className={styles.messageEnd}/>
       </div>
       <div className={styles.inputForm}>
         <MdIcons.MdAttachFile className={styles.attatchFileIcon}/>
-        <MdIcons.MdTagFaces className={styles.emojiMenuIcon}/>
-        <input autoComplete="off" spellCheck="false" id="message" name="message" type="text" placeholder="Write a message.."/>
-        <MdIcons.MdSend className={styles.sendIcon}/>
+        <EmojiMenu setting="APPEND" formState={formState} setformState={setformState} className={styles.emojiMenuIcon}/>
+        <input value={formState.message} onChange={onChange} autoComplete="off" spellCheck="false" id="message" name="message" type="text" placeholder="Write a message.."/>
+        <MdIcons.MdSend onClick={sendMessage} className={styles.sendIcon}/>
       </div>
     </div>
   )

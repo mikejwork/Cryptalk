@@ -3,7 +3,7 @@
   display: grid;
   gap: 0px 0px;
   grid-template-columns: 0.5fr 0.5fr;
-  grid-template-rows: 0.90fr 0.05fr;
+  grid-template-rows: 0.9fr 0.1fr;
   grid-template-areas:
     "messages   messages"
     "inputForm  inputForm";
@@ -12,6 +12,13 @@
 .messages {
   grid-area: messages;
   flex-grow: 1;
+  padding: 0ex 1ex 0ex 1ex;
+  overflow-y: auto;
+}
+
+.messageEnd {
+  width: 100%;
+  margin-top: 3ex;
 }
 
 .inputForm {
@@ -19,7 +26,7 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  padding: 0ex 2ex 0ex 2ex;
+  padding: 1ex 2ex 0ex 2ex;
 }
 
 .inputForm > input {
@@ -33,16 +40,6 @@
 }
 
 .inputForm > .attatchFileIcon:hover {
-  color: var(--bg-accent);
-}
-
-.inputForm > .emojiMenuIcon {
-  color: grey;
-  margin-right: 1ex;
-  font-size: 16pt;
-}
-
-.inputForm > .emojiMenuIcon:hover {
   color: var(--bg-accent);
 }
 

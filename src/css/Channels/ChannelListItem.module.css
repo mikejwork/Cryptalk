@@ -3,7 +3,6 @@
   flex-direction: row;
   border-radius: var(--border-radius);
   cursor: pointer;
-  margin-bottom: 2ex;
   font-size: 11pt;
   padding: 1ex 0ex 1ex 0ex;
 }

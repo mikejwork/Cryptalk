@@ -9,12 +9,24 @@
   display: grid;
   gap: 0px 0px;
   grid-template-columns: 0.2fr 0.2fr 0.5fr 0.5fr;
-  grid-template-rows: 0.1fr 0.5fr 0.5fr 0.05fr;
+  grid-template-rows: 0.1fr 0.5fr 0.5fr;
   grid-template-areas:
     "title    subTitle    contentHead   contentHead"
     "list     sublist     content       content"
-    "list     sublist     content       content"
-    "actions  subActions  content       content";
+    "list     sublist     content       content";
+}
+
+.gridContainerPopup {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  gap: 0px 0px;
+  grid-template-columns: 0.2fr 0.2fr 0.5fr 0.5fr;
+  grid-template-rows: 0.1fr 0.5fr 0.5fr;
+  grid-template-areas:
+    "title  popup popup popup"
+    "list   popup popup popup"
+    "list   popup popup popup";
 }
 
 .gridTitle {
@@ -61,6 +73,7 @@
   flex-direction: row;
   align-items: center;
   margin-bottom: 1ex;
+  margin-top: 1ex;
 }
 
 .header > h5 {
@@ -103,8 +116,9 @@
 }
 
 .subTitleContainer > p {
-  font-size: 9pt;
+  font-size: 8pt;
   color: grey;
+  margin-left: 4.2ex;
 }
 
 .sublist {
@@ -126,8 +140,95 @@
   grid-area: contentHead;
   background-color: #1d1c1c;
   border-bottom: 1px solid #353535;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.contentHeadContainer {
+  padding: 0ex 3ex 0ex 3ex;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.contentHeadContainer > p {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  color: grey;
+  margin-right: 1ex;
+}
+
+.contentHeadContainer > .spacer {
+  flex: 1;
+  margin: 0ex 2ex 0ex 2ex;
+  border-bottom: 1px solid rgba(128, 128, 128, 0.116);
+}
+
+.adminActionsContainer {
+  width: 100%;
+  padding: 0ex 3ex 0ex 3ex;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  justify-self: flex-end;
+}
+
+.adminActionsContainer > div {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 1ex 2ex 1ex 2ex;
+  cursor: pointer;
+  border-radius: var(--border-radius);
+}
+
+.adminActionsContainer > div:hover {
+  background-color: rgba(128, 128, 128, 0.3);
+}
+
+.editCog {
+  font-size: 15pt;
+  color: var(--bg-accent);
+  cursor: pointer;
+  margin-left: 1ex;
 }
 
 .content {
   grid-area: content;
+}
+
+.gridPopup {
+  grid-area: popup;
+  display: grid;
+  gap: 0px 0px;
+  grid-template-columns: 0.3fr 0.7fr 0.3fr;
+  grid-template-rows: 0.2fr 0.45fr 0.2fr;
+  grid-template-areas:
+    "a a a"
+    "c b d"
+    "e e e";
+  border-left: 1px solid #353535;
+}
+
+.gridPopup > img {
+  position: absolute;
+  z-index: -1;
+  opacity: 0.07;
+}
+
+.gridPopup > p {
+  padding: 1ex;
+  position: absolute;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  color: grey;
+  cursor: pointer;
+}
+
+.gridPopup > p:active {
+  transform: scale(0.9);
 }
