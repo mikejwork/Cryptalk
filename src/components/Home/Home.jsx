@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Redirect } from "react-router-dom";
 import { useSpring, animated } from 'react-spring';
-import '../css/Home.css';
+import style from '../../css/Home/Home.module.css';
 
 function Home() {
   const [redirect, setredirect] = useState(false)
@@ -17,15 +17,15 @@ function Home() {
 
   return (
     <>
-      <div className="home">
-        <animated.div style={pageStyling} className="home-container">
-          <div className="home-title">
+      <div className={style.home}>
+        <animated.div style={pageStyling} className={style.homeContainer}>
+          <div className={style.homeTitle}>
             <img src={process.env.PUBLIC_URL + '/logo_assets/3000x3000-Logo.png'} alt="Cryptalk logo."/>
             <h1>Cryptalk</h1>
             <p>Secure text and voice chat, designed for teams, used by teams.</p>
             <button onClick={() => setredirect(true)}>Get started</button>
           </div>
-          <div className="home-image">
+          <div className={style.homeImage}>
             <img src={process.env.PUBLIC_URL + '/vector_assets/home-1.svg'} alt="Two figures interacting with a web-application."/>
           </div>
         </animated.div>

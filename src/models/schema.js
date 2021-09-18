@@ -261,6 +261,20 @@ export const schema = {
                         "associatedWith": "channelID"
                     }
                 },
+                "icon": {
+                    "name": "icon",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "owner_id": {
+                    "name": "owner_id",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": true,
+                    "attributes": []
+                },
                 "createdAt": {
                     "name": "createdAt",
                     "isArray": false,
@@ -544,5 +558,5 @@ export const schema = {
             }
         }
     },
-    "version": "19b3e1f7b1025531ad31c8d16cde0ac7"
+    "version": "32183fce2c5629ef647557c5511a350c"
 };

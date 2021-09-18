@@ -1,0 +1,65 @@
+.popup {
+  grid-area: b;
+  padding: 3ex;
+  border-radius: var(--border-radius);
+  background-color: var(--bg-darker);
+  display: flex;
+  flex-direction: column;
+}
+
+.popup > h1 {
+  font-weight: 600;
+}
+
+.inputs {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.inputs p {
+  color: grey;
+}
+
+.inputDetails {
+  padding-left: 1ex;
+  width: 50%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.inputDetails > input {
+  background-color: var(--bg-dark);
+  margin-bottom: 1ex;
+}
+
+.inputIcon {
+  padding-right: 1ex;
+  width: 50%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.inputIconSelect {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.inputIconSelect > P {
+  font-size: 28pt;
+  width: 3ex;
+}
+
+.preview {
+  display: flex;
+  flex-direction: row;
+}
+
+.preview > button {
+  width: 100%;
+}

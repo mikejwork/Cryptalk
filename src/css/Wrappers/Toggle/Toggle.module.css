@@ -1,0 +1,24 @@
+.container {
+  color: black;
+  background-color: white;
+  height: 2ex;
+  width: 4.5ex;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0.4ex;
+  border-radius: 25%/50%;
+  cursor: pointer;
+}
+
+.toggle {
+  color: white;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  height: 2ex;
+  width: 2ex;
+  border-radius: 50%;
+  background-color: white;
+}

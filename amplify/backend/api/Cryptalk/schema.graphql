@@ -38,6 +38,8 @@ type Channel @model @auth(rules: [{allow: private}]) {
   description: String!
   users: [User!]
   sub_channels: [SubChannel] @connection(keyName: "byChannel", fields: ["id"])
+  icon: String!
+  owner_id: String!
 }
 
 enum RequestStatus {
