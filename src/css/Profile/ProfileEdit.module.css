@@ -1,0 +1,54 @@
+.container {
+  display: flex;
+  flex-direction: column;
+}
+
+.title {
+  padding: 2ex 0ex 2ex 0ex;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.avatar {
+  padding: 2ex 0ex 2ex 0ex;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.avatar > img {
+  width: 30ex;
+  height: 30ex;
+  border-radius: 50%;
+  box-shadow: 0 0 20px 2px rgba(0, 0, 0, 0.200);
+}
+
+.info {
+  padding: 2ex 20ex 2ex 20ex;
+  display: flex;
+  flex-direction: column;
+}
+
+.info > input {
+  margin: 1ex 0ex 3ex 0ex;
+}
+
+.actions {
+  padding: 2ex 0ex 2ex 0ex;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.actions > u {
+  color: grey;
+  cursor: pointer;
+}
+
+.actions > button {
+  width: 30ex;
+  margin: 0ex 2ex 0ex 2ex;
+}

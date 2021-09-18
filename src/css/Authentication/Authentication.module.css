@@ -1,0 +1,7 @@
+.authentication {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  padding: 5% 30% 5% 30%;
+}
