@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import AvatarImg from '../Wrappers/AvatarImg'
+import UserAvatar from '../Wrappers/Avatar/UserAvatar'
 import { AuthContext } from "../../contexts/AuthContext";
 import styles from '../../css/Channels/MessageSorter.module.css';
 
@@ -57,7 +57,7 @@ function ChatBubble(props) {
       <div className={styles.i_container}>
         <div className={`${props.appendPrevious ? styles.i_chatBubbleAppend : styles.i_chatBubble}`}>
           <div className={styles.chatBubbleAvatar} style={{marginTop: `${props.appendPrevious ? "-5ex" : "0ex"}`}}>
-            <AvatarImg style={{visibility: `${props.appendPrevious ? "hidden" : "visible"}`}} alt={`${props._Message.author_username} + "'s avatar."`} id={props._Message.author_id}/>
+            <UserAvatar style={{visibility: `${props.appendPrevious ? "hidden" : "visible"}`}} alt={`${props._Message.author_username} + "'s avatar."`} id={props._Message.author_id}/>
           </div>
           {!props.appendPrevious &&
             <>
@@ -80,7 +80,7 @@ function ChatBubble(props) {
     return (
       <div className={`${props.appendPrevious ? styles.chatBubbleAppend : styles.chatBubble}`}>
         <div className={styles.chatBubbleAvatar} style={{marginTop: `${props.appendPrevious ? "-5ex" : "0ex"}`}}>
-          <AvatarImg style={{visibility: `${props.appendPrevious ? "hidden" : "visible"}`}} alt={`${props._Message.author_username} + "'s avatar."`} id={props._Message.author_id}/>
+          <UserAvatar style={{visibility: `${props.appendPrevious ? "hidden" : "visible"}`}} alt={`${props._Message.author_username} + "'s avatar."`} id={props._Message.author_id}/>
         </div>
         {!props.appendPrevious &&
           <>
@@ -156,38 +156,6 @@ function MessageSorter(props) {
         return (
           <ChatBubble _Message={message} isIncoming={isIncoming} isImage={isImage} isFile={isFile} appendPrevious={appendPrevious} key={message.id}/>
         )
-
-        // if (index !== 0 && relativeIndex > 0) {
-        //   if (relativeIndex < getRelativeIndex(props._Messages.at(index - 1).createdAt)) {
-        //     return (
-        //       <div key={message.id}>
-        //         <div className={styles.timeSpacer}>
-        //           <div className={styles.spacer}/>
-        //           <p>{getRelativeDate(message.createdAt)}</p>
-        //           <div className={styles.spacer}/>
-        //         </div>
-
-        //         <ChatBubble _Message={message} isIncoming={isIncoming} isImage={isImage} isFile={isFile} appendPrevious={false} key={message.id}/>
-        //       </div>
-        //     )
-        //   }
-        // } else {
-        //   return (
-        //       <div key={message.id}>
-        //         <div className={styles.timeSpacer}>
-        //           <div className={styles.spacer}/>
-        //           <p>{getRelativeDate(message.createdAt)}</p>
-        //           <div className={styles.spacer}/>
-        //         </div>
-
-        //         <ChatBubble _Message={message} isIncoming={isIncoming} isImage={isImage} isFile={isFile} appendPrevious={false} key={message.id}/>
-        //       </div>
-        //     )
-        // }
-        // return (
-        //   <ChatBubble _Message={message} isIncoming={isIncoming} isImage={isImage} isFile={isFile} appendPrevious={appendPrevious} key={message.id}/>
-        // )
-
       })}
     </div>
   )

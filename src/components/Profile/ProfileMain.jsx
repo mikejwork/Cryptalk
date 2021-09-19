@@ -1,7 +1,8 @@
 import React, { useContext, useState, useEffect } from "react";
 import { AuthContext } from "../../contexts/AuthContext";
-import { Storage, DataStore } from "aws-amplify";
+import { DataStore } from "aws-amplify";
 import { Friends } from "../../models";
+import UserAvatar from '../Wrappers/Avatar/UserAvatar'
 
 import * as MdIcons from "react-icons/md";
 import style from "../../css/Profile/ProfileMain.module.css";
@@ -10,13 +11,8 @@ function ProfileMain(props) {
   const context = useContext(AuthContext);
 
   // State - Storage
-  const [_Avatar, set_Avatar] = useState(undefined)
   const [_NumFriends, set_NumFriends] = useState(0)
   const [_NumChannels, set_NumChannels] = useState(0)
-
-  async function get_avatar() {
-    set_Avatar(await Storage.get(context.user.attributes.sub + ".jpg"))
-  }
 
   async function get_friends() {
     DataStore.query(Friends).then((result) => {
@@ -25,7 +21,6 @@ function ProfileMain(props) {
   }
 
   useEffect(() => {
-    get_avatar()
     if (context.datastore_ready) {
       get_friends()
       set_NumChannels(0) // TODO
@@ -41,7 +36,7 @@ function ProfileMain(props) {
       </div>
       <hr/>
       <div className={style.avatar}>
-        <img src={_Avatar} alt=" "/>
+        <UserAvatar key={context.user.attributes.sub} alt="User profile picture" id={context.user.attributes.sub}/>
         <div onClick={() => props.set_View("EDIT")} className={style.avatarOverlay}><MdIcons.MdOpenInNew className="MdIcon"/></div>
       </div>
       <div className={style.info}>

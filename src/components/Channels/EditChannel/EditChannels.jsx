@@ -44,7 +44,7 @@ function EditChannels(props) {
         <hr/>
       </div>
       <div className={styles.subContainer}>
-        <div className={styles.subContainerDiv}>
+        <div className={styles.subContainerDivHalf}>
           <h6 className={styles.subtitle}>SUBCHANNELS</h6>
           <hr/>
           { props._SubChannels &&
@@ -60,7 +60,7 @@ function EditChannels(props) {
             </div>
           }
         </div>
-        <div className={styles.subContainerDiv}>
+        <div className={styles.subContainerDivHalf}>
           <h6 className={styles.subtitle}>CREATE NEW SUBCHANNEL</h6>
           <hr/>
           <div className={styles.setting}>
