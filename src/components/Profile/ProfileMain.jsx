@@ -29,7 +29,7 @@ function ProfileMain(props) {
   }, [context.datastore_ready])
 
   return (
-    <div className={style.container}>
+    <div className={style.container} id="cypress-profileMain">
       <div className={style.title}>
         <h2>Profile</h2>
         <h5 className="subcomment">View your profile details below.</h5>
@@ -37,10 +37,10 @@ function ProfileMain(props) {
       <hr/>
       <div className={style.avatar}>
         <UserAvatar key={context.user.attributes.sub} alt="User profile picture" id={context.user.attributes.sub}/>
-        <div onClick={() => props.set_View("EDIT")} className={style.avatarOverlay}><MdIcons.MdOpenInNew className="MdIcon"/></div>
+        <div onClick={() => props.set_View("EDIT")} className={style.avatarOverlay} id="cypress-profileAvatarEdit"><MdIcons.MdOpenInNew className="MdIcon"/></div>
       </div>
       <div className={style.info}>
-        <h2>{context.user.username}</h2>
+        <h2 id="cypress-profileUsername">{context.user.username}</h2>
         <h4><MdIcons.MdOpenInNew onClick={() => props.set_View("EDIT")} className={style.MdIcon}/>{context.user.attributes.email}</h4>
         { !context.user.attributes.email_verified &&
           <>
@@ -61,8 +61,8 @@ function ProfileMain(props) {
         </div>
       </div>
       <div className={style.actions}>
-        <button onClick={() => props.set_View("RESET")}>Change password</button>
-        <button onClick={() => props.set_View("MAIN")}>Two-factor Authentication</button>
+        <button onClick={() => props.set_View("RESET")} id="cypress-changePassword">Change password</button>
+        <button onClick={() => props.set_View("MAIN")} id="cypress-twoFactor">Two-factor Authentication</button>
       </div>
     </div>
   )

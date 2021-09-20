@@ -29,7 +29,7 @@ function Profile() {
   if (!context.datastore_ready) { return <Redirect to="/"/>; }
 
   return (
-    <div className={style.profile}>
+    <div className={style.profile} id="cypress-profile">
       <div className={style.profileContainer}>
         { CurrentView() }
       </div>

@@ -30,17 +30,17 @@ function Footer() {
   }, [open])
 
   return (
-    <div className={styles.footer}>
+    <div className={styles.footer} id="cypress-footerDiv">
       <div className={styles.footerSpacer}></div>
       <div className={styles.footerContainer}>
-        <animated.div style={styling} className={styles.footerItems}>
+        <animated.div style={styling} className={styles.footerItems} id="cypress-footerAnimated">
           <ul>
-            <li><a href="/terms">Terms & Conditions</a></li>
-            <li><a href="/privacy">Privacy Policy</a></li>
+            <li><a href="/terms" id="cypress-terms">Terms & Conditions</a></li>
+            <li><a href="/privacy" id="cypress-privacy">Privacy Policy</a></li>
             <li>© 2021 Cryptalk</li>
           </ul>
         </animated.div>
-        <button onClick={() => setOpen(!open)}><animated.div className={styles.arrowDiv} style={arrowStyle}><MdIcons.MdKeyboardArrowLeft/></animated.div></button>
+        <button onClick={() => setOpen(!open)}><animated.div className={styles.arrowDiv} style={arrowStyle} id="cypress-footerBtn"><MdIcons.MdKeyboardArrowLeft/></animated.div></button>
       </div>
     </div>
   )
