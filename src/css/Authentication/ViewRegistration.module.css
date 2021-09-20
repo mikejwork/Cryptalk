@@ -1,14 +1,39 @@
 .container {
   width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+  display: grid;
+  gap: 0px 0px;
+  grid-template-columns: 0.5fr 0.5fr;
+  grid-template-areas:
+    "form   photo";
 }
 
-.form {
+.photo {
+  width: 100%;
+  padding: 3ex;
+  grid-area: photo;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--bg);
+  border-bottom-right-radius: 15px;
+  border-top-right-radius: 15px;
+}
+
+.photo > img {
+  width: 80%;
+  height: 100%;
+}
+
+
+.form{
+  padding:10% 15% 10% 15%;
+  background-color: var(--bg-login);
+  grid-area: form;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
 }
 
 .form u {
@@ -18,4 +43,70 @@
 
 .form u:hover {
   color: #696969;
+}
+
+.form input,
+.form button{ 
+  margin-bottom: 1.5em;
+}
+
+.form input,
+.form label,
+.form button {
+  width: 100%;
+}
+
+.confirmLabel {
+  margin-bottom: 1.5em;
+ }
+
+ .avatarForm {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-areas:
+    "file  avatar";
+  margin-bottom: 1.5em;
+
+}
+.fileDiv {
+  grid-area: file;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.fileDiv input {
+  width: 87%;
+}
+
+ .avatarDiv {
+  grid-area: avatar;
+  border-radius: 4%;
+  width: 70%;
+  margin-left: auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--bg-light);
+}
+
+.avatarDiv button{
+  color: var(--bg-light);
+  width:30%;
+  background-color: var(--bg-darker);
+  margin-top: 1.5em;
+  margin-right:1.5em;
+}
+
+.avatarDiv img {
+  border-radius: 5%;
+}
+
+@media only screen and (max-width: 1300px) {
+  .avatarForm {
+    display: block;
+  }
+  
 }

@@ -2,23 +2,27 @@
   width: 100%;
   display: grid;
   gap: 0px 0px;
-  grid-template-columns: 3fr 5fr;
+  grid-template-columns: 0.5fr 0.5fr;
   grid-template-areas:
     "form   photo";
 }
+
 .photo {
+  width: 100%;
+  padding: 3ex;
   grid-area: photo;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background-color: var(--bg);
-  overflow: hidden;
   border-bottom-right-radius: 15px;
   border-top-right-radius: 15px;
 }
 
 .photo > img {
-  width: 90%;
-  height: 90%;
-  padding: 5%;
-
+  width: 100%;
+  height: 100%;
 }
 
 .form{
@@ -39,10 +43,13 @@
   color: #696969;
 }
 
-.form > input, button{ 
+.form input,
+.form button{ 
   margin-bottom: 1.5em;
 }
 
-.form > input, label, button {
+.form input,
+.form label,
+.form button {
   width: 70%;
 }

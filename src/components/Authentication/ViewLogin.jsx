@@ -48,14 +48,14 @@ function ViewLogin(props) {
 
         {/* Username */}
         <label htmlFor="username"><MdIcons.MdPermIdentity/> Username</label>
-        <input name="username" onChange={onChange} placeholder="Username.."/>
+        <input name="username" onChange={onChange} placeholder="Username.." id="cypress-usernameField"/>
 
         {/* Password */}
         <label htmlFor="password"><MdIcons.MdLockOutline/> Password</label>
-        <input name="password" onChange={onChange} placeholder="Password.." type="password"/>
+        <input name="password" onChange={onChange} placeholder="Password.." type="password" id="cypress-passwordField"/>
 
         {/* Actions */}
-        <button onClick={submit}>Sign in</button>
+        <button onClick={submit} id="cypress-signIn">Sign in</button>
         <u onClick={() => props.set_View("REGISTRATION")}>Don't have an account?</u>
         <u onClick={() => props.set_View("RECOVERY")}>Forgot your password?</u>
       </div>
