@@ -131,8 +131,8 @@ function Channels() {
             }
           </div>
           <div className={styles.contentHead}>
-            {/* Empty for now, maybe a user list of avatars? */}
-            {/* Timestamp of last activity */}
+            {/* TODO: Timestamp of last activity */}
+            {/* Reformat to make it look nicer too */}
             { _SubChannel &&
               <>
                 <div className={styles.contentHeadContainer} style={{width: "100%"}}>

@@ -56,14 +56,13 @@ function ChatBubble(props) {
     return (
       <div className={styles.i_container}>
         <div className={`${props.appendPrevious ? styles.i_chatBubbleAppend : styles.i_chatBubble}`}>
-          <div className={styles.chatBubbleAvatar} style={{marginTop: `${props.appendPrevious ? "-5ex" : "0ex"}`}}>
-            <UserAvatar style={{visibility: `${props.appendPrevious ? "hidden" : "visible"}`}} alt={`${props._Message.author_username} + "'s avatar."`} id={props._Message.author_id}/>
+          <div className={styles.chatBubbleAvatar} style={{marginTop: `${props.appendPrevious ? "-5ex" : "0ex"}`, visibility: `${props.appendPrevious ? "hidden" : "visible"}`}}>
+            <UserAvatar alt={`${props._Message.author_username} + "'s avatar."`} id={props._Message.author_id}/>
           </div>
           {!props.appendPrevious &&
             <>
               <div className={styles.i_chatBubbleName}>
                 <p>{props._Message.author_username}</p>
-                {/* <div className={styles.spacer}/>*/}
               </div>
               <div className={styles.chatBubbleTime}>
                 <p></p>
@@ -79,14 +78,13 @@ function ChatBubble(props) {
   } else {
     return (
       <div className={`${props.appendPrevious ? styles.chatBubbleAppend : styles.chatBubble}`}>
-        <div className={styles.chatBubbleAvatar} style={{marginTop: `${props.appendPrevious ? "-5ex" : "0ex"}`}}>
-          <UserAvatar style={{visibility: `${props.appendPrevious ? "hidden" : "visible"}`}} alt={`${props._Message.author_username} + "'s avatar."`} id={props._Message.author_id}/>
+        <div className={styles.chatBubbleAvatar} style={{marginTop: `${props.appendPrevious ? "-5ex" : "0ex"}`, visibility: `${props.appendPrevious ? "hidden" : "visible"}`}}>
+          <UserAvatar alt={`${props._Message.author_username} + "'s avatar."`} id={props._Message.author_id}/>
         </div>
         {!props.appendPrevious &&
           <>
             <div className={styles.chatBubbleName}>
               <p>{props._Message.author_username}</p>
-              {/* <div className={styles.spacer}/>*/}
             </div>
             <div className={styles.chatBubbleTime}>
               <p></p>
