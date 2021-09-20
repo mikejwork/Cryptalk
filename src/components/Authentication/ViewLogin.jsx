@@ -37,10 +37,11 @@ function ViewLogin(props) {
 
   return (
     <div className={style.container}>
-      <div className={style.title}>
-        <h1>Login</h1>
-      </div>
+  
       <div className={style.form} onKeyPress={onKeyPress}>
+        <div className={style.title}>
+          <h1>Login</h1>
+        </div>
         {/* Error messages */}
         { formState.error === "" ? <></> : <p className="error">{formState.error}</p>}
         { formState.error.includes("not confirmed") && <u onClick={() => props.set_View("CONFIRM")} className="error">Click here to confirm your email.</u>}
@@ -58,7 +59,13 @@ function ViewLogin(props) {
         <u onClick={() => props.set_View("REGISTRATION")}>Don't have an account?</u>
         <u onClick={() => props.set_View("RECOVERY")}>Forgot your password?</u>
       </div>
+      <div className={style.photo}>
+        <img src={process.env.PUBLIC_URL + '/vector_assets/login-1.svg'} alt="Two figures interacting with a web-application."/>
+      </div>
+      
+    
     </div>
+    
   )
 }
 

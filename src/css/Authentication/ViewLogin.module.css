@@ -1,14 +1,33 @@
 .container {
   width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+  display: grid;
+  gap: 0px 0px;
+  grid-template-columns: 3fr 5fr;
+  grid-template-areas:
+    "form   photo";
+}
+.photo {
+  grid-area: photo;
+  background-color: var(--bg);
+  overflow: hidden;
+  border-bottom-right-radius: 15px;
+  border-top-right-radius: 15px;
 }
 
-.form {
+.photo > img {
+  width: 90%;
+  height: 90%;
+  padding: 5%;
+
+}
+
+.form{
+  background-color:var(--bg-login);
+  grid-area: form;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
 }
 
 .form u {
@@ -18,4 +37,12 @@
 
 .form u:hover {
   color: #696969;
+}
+
+.form > input, button{ 
+  margin-bottom: 1.5em;
+}
+
+.form > input, label, button {
+  width: 70%;
 }

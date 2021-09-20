@@ -18,6 +18,7 @@ body {
   --bg-light: #e6e6e6;
   --bg-accent: #3c9dca;
   --bg-accent-dark: #3c9dca1a;
+  --bg-login: #368eb603;
   --warning: #a73723;
 
   --bg-gradient-border-vert: linear-gradient(0deg, var(--bg-dark) 0%, rgba(60, 157, 202, 0.582) 100%);
