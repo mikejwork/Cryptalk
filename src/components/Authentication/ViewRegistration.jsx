@@ -77,7 +77,7 @@ function ViewRegistration(props) {
 
     try {
       // Register and save profile pic
-      Auth.signUp({username, password, attributes: { email }}).then(async (result) => {
+      await Auth.signUp({username, password, attributes: { email }}).then(async (result) => {
         await Storage.put(result.userSub + ".jpg", avatar);
         props.set_SentTo(result.codeDeliveryDetails.Destination)
       });
