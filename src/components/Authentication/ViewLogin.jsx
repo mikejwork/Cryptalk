@@ -17,6 +17,9 @@ function ViewLogin(props) {
     try {
       await Auth.signIn(username, password);
     } catch(error) {
+      if (error.message === "User is not confirmed.") {
+        props.set_Username(username)
+      }
       setformState(() => ({...formState, error: error.message}));
     }
   }
