@@ -6,6 +6,8 @@
   grid-template-areas:
     "photo"
     "form";
+    margin-top: 5%;
+
 }
 
 .photo {
@@ -48,6 +50,12 @@
 .form input,
 .form button {
   margin-bottom: 0.5em;
+  box-sizing: border-box;
+}
+
+.form label {
+  display: flex;
+  align-items: center;
 }
 
 .digitCode {

@@ -5,6 +5,8 @@
   grid-template-columns: 0.5fr 0.5fr;
   grid-template-areas:
     "form   photo";
+  margin-top: 10%;
+
 }
 
 .photo {
@@ -32,6 +34,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  padding: 0 6ex 0 6ex;
 }
 
 .form u {
@@ -48,8 +51,18 @@
   margin-bottom: 1.5em;
 }
 
+.form label {
+  margin-bottom: 1ex;
+}
+
 .form input,
-.form label,
+.form label {
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+}
+
 .form button {
-  width: 70%;
+  width: 100%;
 }

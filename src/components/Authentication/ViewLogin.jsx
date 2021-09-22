@@ -50,11 +50,11 @@ function ViewLogin(props) {
         { formState.error.includes("not confirmed") && <u onClick={() => props.set_View("CONFIRM")} className="error">Click here to confirm your email.</u>}
 
         {/* Username */}
-        <label htmlFor="username"><MdIcons.MdPermIdentity/> Username</label>
+        <label htmlFor="username"><MdIcons.MdPermIdentity/> &nbsp; Username</label>
         <input name="username" onChange={onChange} placeholder="Username.." id="cypress-usernameField"/>
 
         {/* Password */}
-        <label htmlFor="password"><MdIcons.MdLockOutline/> Password</label>
+        <label htmlFor="password"><MdIcons.MdLockOutline/> &nbsp; Password</label>
         <input name="password" onChange={onChange} placeholder="Password.." type="password" id="cypress-passwordField"/>
 
         {/* Actions */}

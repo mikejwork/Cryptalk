@@ -70,7 +70,7 @@ function ViewConfirm(props) {
         {formState.error === "" ? <></> : <p className="error">{formState.error}</p>}
 
         {/* Authcode */}
-        <label htmlFor="authCode"><MdIcons.MdLockOutline /> Confirmation code has been sent to {props._SentTo ? props._SentTo : <>your email</>}.</label>
+        <label htmlFor="authCode"><MdIcons.MdLockOutline />&nbsp; Confirmation code has been sent to {props._SentTo ? props._SentTo : <>your email</>}.</label>
         <div className={style.codeInput}>
           <input name="code_1" className={style.digitCode} onChange={onChange} placeholder="_" maxLength="1" />
           <input name="code_2" className={style.digitCode} onChange={onChange} placeholder="_" maxLength="1" />

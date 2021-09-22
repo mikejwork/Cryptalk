@@ -5,6 +5,8 @@
   grid-template-columns: 0.5fr 0.5fr;
   grid-template-areas:
     "form   photo";
+    margin-top: 5%;
+
 }
 
 .photo {
@@ -24,7 +26,6 @@
   width: 80%;
   height: 100%;
 }
-
 
 .form{
   padding:10% 15% 10% 15%;
@@ -50,15 +51,32 @@
   margin-bottom: 1.5em;
 }
 
+.form button{ 
+  margin-top: 0.5em;
+
+}
+
+.form label {
+  margin-bottom: 1ex;
+  display: flex;
+  align-items: center;
+}
+
 .form input,
 .form label,
 .form button {
   width: 100%;
+  box-sizing: border-box;
 }
 
 .confirmLabel {
   margin-bottom: 1.5em;
- }
+}
+
+.confirmLabel > u {
+  color: var(--bg-accent);
+
+}
 
  .avatarForm {
   width: 100%;
@@ -69,6 +87,7 @@
   margin-bottom: 1.5em;
 
 }
+
 .fileDiv {
   grid-area: file;
   display: flex;
@@ -77,7 +96,7 @@
 }
 
 .fileDiv input {
-  width: 87%;
+  width: 120%;
 }
 
  .avatarDiv {
@@ -90,23 +109,27 @@
   justify-content: center;
   align-items: center;
   background-color: var(--bg-light);
+  padding-right: 3%;
 }
 
 .avatarDiv button{
   color: var(--bg-light);
-  width:30%;
   background-color: var(--bg-darker);
-  margin-top: 1.5em;
-  margin-right:1.5em;
+  text-align: center;
+  margin: 3%;
+  padding:auto;
+  width: 30%;
 }
 
 .avatarDiv img {
-  border-radius: 5%;
+  border-radius: 50%;
 }
 
 @media only screen and (max-width: 1300px) {
   .avatarForm {
     display: block;
   }
-  
+  .fileDiv input {
+    width: 100%;
+  }
 }

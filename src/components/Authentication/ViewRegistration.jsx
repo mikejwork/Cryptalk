@@ -118,21 +118,21 @@ function ViewRegistration(props) {
         {formState.error === "" ? <></> : <p className="error">{formState.error}</p>}
 
         {/* Username */}
-        <label htmlFor="username"><MdIcons.MdPermIdentity /> Username</label>
+        <label htmlFor="username"><MdIcons.MdPermIdentity />&nbsp; Username</label>
         <input name="username" onChange={onChange} placeholder="Username.." />
 
         {/* Password */}
-        <label htmlFor="password"><MdIcons.MdLockOutline /> Password</label>
+        <label htmlFor="password"><MdIcons.MdLockOutline /> &nbsp; Password</label>
         <input name="password" onChange={onChange} placeholder="Password.." type="password" />
 
         {/* Email */}
-        <label htmlFor="email"><MdIcons.MdMailOutline /> Email address</label>
+        <label htmlFor="email"><MdIcons.MdMailOutline /> &nbsp; Email address</label>
         <input name="email" onChange={onChange} placeholder="Email address.." type="email" />
 
         {/* Avatar */}
         <div className={style.avatarForm}>
-          <div className={style.fileDiv}> 
-            <label htmlFor="avatar"><MdIcons.MdPermIdentity /> Avatar</label>
+          <div className={style.fileDiv}>
+            <label htmlFor="avatar"><MdIcons.MdPermIdentity /> &nbsp; Avatar</label>
             <input name="avatar" id="avatar" onChange={onFileChange} type="file" />
           </div>
           <div className={style.avatarDiv}>
@@ -148,8 +148,8 @@ function ViewRegistration(props) {
             <MdIcons.MdCheckBox onClick={() => set_Legal(!_Legal)} />
             :
             <MdIcons.MdCheckBoxOutlineBlank onClick={() => set_Legal(!_Legal)} />}
-
-          I confirm that i have read, consent and agree to Cryptalk's <u onClick={() => set_Page("TERMS")}>Terms & Conditions</u> and <u onClick={() => set_Page("PRIVACY")}>Privacy Policy</u>.
+          
+          &nbsp;I have read, and agree to the &nbsp;  <u onClick={() => set_Page("TERMS")}>Terms & Conditions</u> &nbsp;and&nbsp; <u onClick={() => set_Page("PRIVACY")}>Privacy Policy</u>
         </label>
 
         {/* Actions */}

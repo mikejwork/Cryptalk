@@ -5,6 +5,18 @@
   grid-template-columns: 0.5fr 0.5fr;
   grid-template-areas:
     "photo   form";
+  margin-top: 10%;
+
+}
+.backArrow {
+  padding-left: 3em;
+  width: 100%;
+}
+
+.backArrow > svg{
+  font-size: 20pt;
+  display: flex;
+  justify-content: left;
 }
 
 .photo {
@@ -44,9 +56,16 @@
   margin-bottom: 1em;
 }
 
+.form label {
+  display: flex;
+  align-items: center;
+}
+
 .form input,
 .form button{ 
   margin-bottom: 1.5em;
+  box-sizing: border-box;
+ 
 }
 
 .userInput {
@@ -54,6 +73,7 @@
 }
 
 .form u {
+  margin-top: 2ex;
   cursor: pointer;
   color: grey;
 }

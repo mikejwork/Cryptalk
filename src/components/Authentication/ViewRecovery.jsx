@@ -86,17 +86,20 @@ function ViewRecovery(props) {
         {formState.stage === "FIRST" &&
           <>
             {/* Username */}
-            <label htmlFor="username"><MdIcons.MdPermIdentity /> Username</label>
+            <label htmlFor="username"><MdIcons.MdPermIdentity /> &nbsp; Username</label>
+
             <input className={style.userInput} name="username" onChange={onChange} placeholder="Username.." />
 
             {/* Actions */}
             <button onClick={submit}>Recover</button>
+            <u onClick={() => props.set_View("LOGIN")}>Back to login</u>
+
           </>
         }
         {formState.stage === "SECOND" &&
           <>
             {/* Authcode */}
-            <label className={style.emailLabel} htmlFor="authCode"><MdIcons.MdLockOutline /> Confirmation code has been sent to {formState.Destination ? formState.Destination : <>your email</>}.</label>
+            <label className={style.emailLabel} htmlFor="authCode"><MdIcons.MdLockOutline />&nbsp; Confirmation code has been sent to {formState.Destination ? formState.Destination : <>your email</>}.</label>
             <div className={style.codeInput}>
               <input name="code_1" className={style.digitCode} onChange={onChange} placeholder="_" maxLength="1" />
               <input name="code_2" className={style.digitCode} onChange={onChange} placeholder="_" maxLength="1" />
@@ -105,7 +108,6 @@ function ViewRecovery(props) {
               <input name="code_5" className={style.digitCode} onChange={onChange} placeholder="_" maxLength="1" />
               <input name="code_6" className={style.digitCode} onChange={onChange} placeholder="_" maxLength="1" />
             </div>
-
             {/* New password */}
             <label htmlFor="desired_password"><MdIcons.MdLockOutline /> New password</label>
             <input className={style.userInput} name="desired_password" onChange={onChange} placeholder="Desired password.." type="password" />
