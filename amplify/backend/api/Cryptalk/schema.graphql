@@ -1,7 +1,7 @@
 type DirectMessage @model @auth(rules: [{allow: owner}, {allow: private}]) {
   id: ID!
   participants: [String]
-  messages: [Messages] @connection(keyName: "byDirectMessage", fields: ["id"])
+  messages: [Messages!] @connection(keyName: "byDirectMessage", fields: ["id"])
 }
 
 type User {

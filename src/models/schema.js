@@ -24,7 +24,7 @@ export const schema = {
                     "type": {
                         "model": "Messages"
                     },
-                    "isRequired": false,
+                    "isRequired": true,
                     "attributes": [],
                     "isArrayNullable": true,
                     "association": {
@@ -660,5 +660,5 @@ export const schema = {
             }
         }
     },
-    "version": "f86de5af92a5a1c7eabecb0a94b4de81"
+    "version": "c201398d69e1e5cc528a3a9f09428981"
 };

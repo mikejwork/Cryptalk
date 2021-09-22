@@ -141,7 +141,7 @@ function AuthContextProvider(props) {
             for (var i = 0; i < res[0].list.length; i++) {
               if (res[0].list[i].sub === reciever_sub) {
                 abort = true
-                console.log('handle_outgoing::ACCEPTED::FriendAlreadyExists')
+                console.log('handle_outgoing::ERROR::FriendAlreadyExists')
                 break;
               }
             }
@@ -187,7 +187,7 @@ function AuthContextProvider(props) {
             for (var i = 0; i < res[0].list.length; i++) {
               if (res[0].list[i].sub === sender_sub) {
                 abort = true
-                console.log('handle_incoming::ACCEPTED::FriendAlreadyExists')
+                console.log('handle_incoming::ERROR::FriendAlreadyExists')
                 break;
               }
             }
@@ -224,7 +224,7 @@ function AuthContextProvider(props) {
         }
       }
     })
-    console.log("channels", filtered)
+    // console.log("channels", filtered)
     setChannels(filtered)
   }
 
