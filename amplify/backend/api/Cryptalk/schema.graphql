@@ -1,4 +1,4 @@
-type DirectMessage @model @auth(rules: [{allow: owner}, {allow: private}]) {
+type DirectMessage @model @auth(rules: [{allow: private}]) {
   id: ID!
   participants: [String]
   messages: [Messages!] @connection(keyName: "byDirectMessage", fields: ["id"])

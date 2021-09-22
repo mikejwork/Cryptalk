@@ -49,8 +49,7 @@ function UserMessages(props) {
       }
       // If a DM does not exist
       DataStore.save(new DirectMessage({
-        "participants": [context.user.attributes.sub, userID],
-        "messages": []
+        "participants": [context.user.attributes.sub, userID]
       })).then(async (result) => {
         set_DirectMessage(result);
       })
