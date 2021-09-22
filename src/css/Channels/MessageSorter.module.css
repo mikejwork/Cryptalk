@@ -1,6 +1,8 @@
 .container {
   display: flex;
   flex-direction: column;
+  max-height: 100%;
+  overflow-y: scroll;
 }
 
 .spacer {
@@ -23,160 +25,109 @@
   font-weight: 600;
 }
 
-.chatBubble {
-  max-width: 50%;
-  margin-bottom: 0.5ex;
-  padding: 0ex 1ex 0ex 1ex;
-  display: grid;
-  gap: 0px 0px;
-  grid-template-columns: 3ex 0.15fr 1fr;
-  grid-template-rows: 3ex 0.5fr;
-  grid-template-areas:
-    "avatar name time"
-    "empty message message";
+.outgoing {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1ex;
 }
 
-.chatBubbleAppend {
-  max-width: 50%;
-  margin-bottom: 0.5ex;
-  padding: 0ex 1ex 0ex 1ex;
-  display: grid;
-  gap: 0px 0px;
-  grid-template-columns: 3ex 0.5fr 1fr;
-  grid-template-rows: 0.5fr;
-  grid-template-areas:
-    "empty message message";
-}
-
-.chatBubbleAvatar {
-  grid-area: avatar;
+.outgoingInfo {
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: center;
 }
 
-.chatBubbleAvatar > img {
+.outgoingInfo_a {
+  display: none;
+}
+
+.outgoingInfo img {
   width: 3ex;
   border-radius: 50%;
 }
 
-.chatBubbleName {
-  grid-area: name;
-  color: rgb(163, 163, 163);
-  font-size: 10pt;
-  font-weight: 800;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  padding-left: 1ex;
-}
-
-.chatBubbleTime {
-  grid-area: time;
-  color: rgba(163, 163, 163, 0.507);
-  font-size: 10pt;
-  font-weight: 600;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: flex-start;
-}
-
-.chatBubbleMessage {
-  width: fit-content;
-  grid-area: message;
-  overflow-y: visible;
-  word-wrap: break-word;
+.outgoingInfo p {
+  font-weight: 500;
   margin-left: 1ex;
-  padding: 0.5ex 1.5ex 0.5ex 1.5ex;
-  font-size: 11pt;
-  font-weight: 600;
-  border-radius: 0 var(--border-radius) var(--border-radius) var(--border-radius);
-  background-color: var(--bg-accent);
 }
 
-.chatBubbleMessageAppend {
+.outgoingMessage {
+  margin-left: 4ex;
+  max-width: 50%;
   width: fit-content;
-  grid-area: message;
-  overflow-y: visible;
+  overflow-wrap: break-word;
   word-wrap: break-word;
-  margin-left: 1ex;
   padding: 0.5ex 1.5ex 0.5ex 1.5ex;
-  font-size: 11pt;
-  font-weight: 600;
-  border-radius: var(--border-radius) var(--border-radius) var(--border-radius) var(--border-radius);
   background-color: var(--bg-accent);
+  border-radius: 0ex 1ex 1ex 1ex;
 }
 
-.i_container {
+.outgoingMessage_a {
+  margin-top: -0.5ex;
+  margin-left: 4ex;
+  max-width: 50%;
+  width: fit-content;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  padding: 0.5ex 1.5ex 0.5ex 1.5ex;
+  background-color: var(--bg-accent);
+  border-radius: 1ex 1ex 1ex 1ex;
+}
+
+
+.incoming {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: flex-end;
-  justify-content: flex-end;
+  margin-bottom: 1ex;
 }
 
-.i_chatBubble {
-  max-width: 50%;
-  margin-bottom: 0.5ex;
-  padding: 0ex 1ex 0ex 1ex;
-  display: grid;
-  gap: 0px 0px;
-  grid-template-columns: 1fr 0.15fr 3ex;
-  grid-template-rows: 0.5fr 0.5fr;
-  grid-template-areas:
-    "time name avatar"
-    "message message empty";
-}
-
-.i_chatBubbleAppend {
-  max-width: 50%;
-  margin-bottom: 0.5ex;
-  padding: 0ex 1ex 0ex 1ex;
-  display: grid;
-  gap: 0px 0px;
-  grid-template-columns: 3ex 0.5fr 1fr;
-  grid-template-rows: 0.5fr;
-  grid-template-areas:
-    "empty message message";
-}
-
-.i_chatBubbleName {
-  grid-area: name;
-  color: rgb(163, 163, 163);
-  font-size: 10pt;
-  font-weight: 800;
+.incomingInfo {
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: flex-end;
-  padding-right: 1ex;
+  margin-bottom: 0.2ex;
 }
 
-.i_chatBubbleMessage {
-  justify-self: flex-end;
-  width: fit-content;
-  grid-area: message;
-  overflow-y: visible;
-  word-wrap: break-word;
-  margin-right: 1ex;
-  padding: 0.5ex 1.5ex 0.5ex 1.5ex;
-  font-size: 11pt;
-  font-weight: 600;
-  border-radius: var(--border-radius) 0 var(--border-radius) var(--border-radius);
-  background-color: rgb(105, 105, 105);
+.incomingInfo_a {
+  display: none;
 }
 
-.i_chatBubbleMessageAppend {
-  justify-self: flex-end;
-  width: fit-content;
-  grid-area: message;
-  overflow-y: visible;
-  word-wrap: break-word;
+.incomingInfo img {
+  width: 3ex;
+  border-radius: 50%;
+}
+
+.incomingInfo p {
+  font-weight: 500;
   margin-right: 1ex;
+}
+
+.incomingMessage {
+  margin-right: 4ex;
+  max-width: 50%;
+  width: fit-content;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
   padding: 0.5ex 1.5ex 0.5ex 1.5ex;
-  font-size: 11pt;
-  font-weight: 600;
-  border-radius: var(--border-radius);
-  background-color: rgb(105, 105, 105);
+  background-color: grey;
+  border-radius: 1ex 0ex 1ex 1ex;
+}
+
+.incomingMessage_a {
+  margin-top: -0.5ex;
+  margin-right: 4ex;
+  max-width: 50%;
+  width: fit-content;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  padding: 0.5ex 1.5ex 0.5ex 1.5ex;
+  background-color: grey;
+  border-radius: 1ex 1ex 1ex 1ex;
+}
+
+.messageEnd {
+  position: relative;
+  height: 1px;
+  display: flex;
 }

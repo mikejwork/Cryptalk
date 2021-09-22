@@ -84,7 +84,6 @@ function ChannelContent(props) {
         { _Messages &&
           <MessageSorter _Messages={_Messages}/>
         }
-        <div id="message-end" className={styles.messageEnd}/>
       </div>
       <div className={styles.inputForm}>
         <MdIcons.MdAttachFile className={styles.attatchFileIcon}/>

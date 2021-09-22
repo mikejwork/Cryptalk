@@ -54,49 +54,31 @@ function ChatBubble(props) {
 
   if (props.isIncoming) {
     return (
-      <div className={styles.i_container}>
-        <div className={`${props.appendPrevious ? styles.i_chatBubbleAppend : styles.i_chatBubble}`}>
-          <div className={styles.chatBubbleAvatar} style={{marginTop: `${props.appendPrevious ? "-5ex" : "0ex"}`}}>
-            <UserAvatar style={{visibility: `${props.appendPrevious ? "hidden" : "visible"}`}} alt={`${props._Message.author_username} + "'s avatar."`} id={props._Message.author_id}/>
+      <>
+        <div className={styles.incoming}>
+          <div className={`${props.appendPrevious ? styles.incomingInfo_a : styles.incomingInfo}`}>
+            <p>{props._Message.author_username}</p>
+            <UserAvatar id={props._Message.author_id}/>
           </div>
-          {!props.appendPrevious &&
-            <>
-              <div className={styles.i_chatBubbleName}>
-                <p>{props._Message.author_username}</p>
-                {/* <div className={styles.spacer}/>*/}
-              </div>
-              <div className={styles.chatBubbleTime}>
-                <p></p>
-              </div>
-            </>
-          }
-          <div className={`${props.appendPrevious ? styles.i_chatBubbleMessageAppend : styles.i_chatBubbleMessage}`}>
+          <div className={`${props.appendPrevious ? styles.incomingMessage_a : styles.incomingMessage}`}>
             <p>{props._Message.content}</p>
           </div>
         </div>
-      </div>
+      </>
     )
   } else {
     return (
-      <div className={`${props.appendPrevious ? styles.chatBubbleAppend : styles.chatBubble}`}>
-        <div className={styles.chatBubbleAvatar} style={{marginTop: `${props.appendPrevious ? "-5ex" : "0ex"}`}}>
-          <UserAvatar style={{visibility: `${props.appendPrevious ? "hidden" : "visible"}`}} alt={`${props._Message.author_username} + "'s avatar."`} id={props._Message.author_id}/>
+      <>
+        <div className={styles.outgoing}>
+          <div className={`${props.appendPrevious ? styles.outgoingInfo_a : styles.outgoingInfo}`}>
+            <UserAvatar id={props._Message.author_id}/>
+            <p>{props._Message.author_username}</p>
+          </div>
+          <div className={`${props.appendPrevious ? styles.outgoingMessage_a : styles.outgoingMessage}`}>
+            <p>{props._Message.content}</p>
+          </div>
         </div>
-        {!props.appendPrevious &&
-          <>
-            <div className={styles.chatBubbleName}>
-              <p>{props._Message.author_username}</p>
-              {/* <div className={styles.spacer}/>*/}
-            </div>
-            <div className={styles.chatBubbleTime}>
-              <p></p>
-            </div>
-          </>
-        }
-        <div className={`${props.appendPrevious ? styles.chatBubbleMessageAppend : styles.chatBubbleMessage}`}>
-          <p>{props._Message.content}</p>
-        </div>
-      </div>
+      </>
     )
   }
 }
@@ -157,6 +139,7 @@ function MessageSorter(props) {
           <ChatBubble _Message={message} isIncoming={isIncoming} isImage={isImage} isFile={isFile} appendPrevious={appendPrevious} key={message.id}/>
         )
       })}
+      <div id="message-end" className={styles.messageEnd}/>
     </div>
   )
 }
