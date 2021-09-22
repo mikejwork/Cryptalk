@@ -17,6 +17,9 @@ function ViewLogin(props) {
     try {
       await Auth.signIn(username, password);
     } catch(error) {
+      if (error.message === "User is not confirmed.") {
+        props.set_Username(username)
+      }
       setformState(() => ({...formState, error: error.message}));
     }
   }
@@ -37,20 +40,21 @@ function ViewLogin(props) {
 
   return (
     <div className={style.container}>
-      <div className={style.title}>
-        <h1>Login</h1>
-      </div>
+  
       <div className={style.form} onKeyPress={onKeyPress}>
+        <div className={style.title}>
+          <h1>Login</h1>
+        </div>
         {/* Error messages */}
         { formState.error === "" ? <></> : <p className="error">{formState.error}</p>}
         { formState.error.includes("not confirmed") && <u onClick={() => props.set_View("CONFIRM")} className="error">Click here to confirm your email.</u>}
 
         {/* Username */}
-        <label htmlFor="username"><MdIcons.MdPermIdentity/> Username</label>
+        <label htmlFor="username"><MdIcons.MdPermIdentity/> &nbsp; Username</label>
         <input name="username" onChange={onChange} placeholder="Username.." id="cypress-usernameField"/>
 
         {/* Password */}
-        <label htmlFor="password"><MdIcons.MdLockOutline/> Password</label>
+        <label htmlFor="password"><MdIcons.MdLockOutline/> &nbsp; Password</label>
         <input name="password" onChange={onChange} placeholder="Password.." type="password" id="cypress-passwordField"/>
 
         {/* Actions */}
@@ -58,7 +62,13 @@ function ViewLogin(props) {
         <u onClick={() => props.set_View("REGISTRATION")}>Don't have an account?</u>
         <u onClick={() => props.set_View("RECOVERY")}>Forgot your password?</u>
       </div>
+      <div className={style.photo}>
+        <img src={process.env.PUBLIC_URL + '/vector_assets/login-1.svg'} alt="Two figures interacting with a web-application."/>
+      </div>
+      
+    
     </div>
+    
   )
 }
 
