@@ -1,0 +1,11 @@
+{
+  "AppSyncApiName": "Cryptalk",
+  "DynamoDBBillingMode": "PAY_PER_REQUEST",
+  "DynamoDBEnableServerSideEncryption": false,
+  "AuthCognitoUserPoolId": {
+    "Fn::GetAtt": [
+      "authcryptalk66970bc2",
+      "Outputs.UserPoolId"
+    ]
+  }
+}
