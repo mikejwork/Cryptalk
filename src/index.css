@@ -2,7 +2,6 @@
 
 body {
   margin: 0;
-  overflow: hidden;
   background-color: var(--bg-dark);
   color: var(--text-color);
   font-weight: 300;

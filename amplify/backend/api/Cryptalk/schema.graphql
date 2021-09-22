@@ -1,0 +1,82 @@
+type DirectMessage @model @auth(rules: [{allow: owner}, {allow: private}]) {
+  id: ID!
+  participants: [String]
+  messages: [Messages!] @connection(keyName: "byDirectMessage", fields: ["id"])
+}
+
+type User {
+  username: String!
+  sub: String!
+}
+
+type Messages @model @auth(rules: [{allow: private}]) @key(name: "bySubChannel", fields: ["subchannelID"]) @key(name: "byDirectMessage", fields: ["directmessageID"]) {
+  id: ID!
+  author_username: String!
+  author_id: String!
+  type: MessageType!
+  content_link: String
+  subchannelID: ID
+  content: String!
+  directmessageID: ID
+}
+
+enum MessageType {
+  TEXT
+  FILE
+}
+
+enum SubChannelType {
+  TEXT
+  VOICE
+}
+
+type SubChannel @model @auth(rules: [{allow: private}]) @key(name: "byChannel", fields: ["channelID"]) {
+  id: ID!
+  name: String!
+  type: SubChannelType!
+  users: [User!]
+  channelID: ID
+  messages: [Messages] @connection(keyName: "bySubChannel", fields: ["id"])
+}
+
+type Channel @model @auth(rules: [{allow: private}]) {
+  id: ID!
+  name: String!
+  description: String!
+  users: [User!]
+  sub_channels: [SubChannel] @connection(keyName: "byChannel", fields: ["id"])
+  icon: String!
+  owner_id: String!
+}
+
+enum RequestStatus {
+  PENDING
+  ACCEPTED
+  REJECTED
+}
+
+enum RequestType {
+  FRIEND_REQUEST
+}
+
+type RequestStorage @model @auth(rules: [{allow: private}]) {
+  id: ID!
+  sender_sub: String!
+  reciever_sub: String!
+  type: RequestType!
+  status: RequestStatus!
+  sender_username: String!
+  reciever_username: String!
+}
+
+type Friend {
+  sub: String!
+  username: String!
+}
+
+type Friends @model @auth(rules: [{allow: owner}]) {
+  id: ID!
+  owner: String
+  list: [Friend!]
+}
+ 

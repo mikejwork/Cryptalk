@@ -59,7 +59,7 @@ type FriendsMetaData = {
 export declare class DirectMessage {
   readonly id: string;
   readonly participants?: (string | null)[];
-  readonly messages?: (Messages | null)[];
+  readonly messages?: Messages[];
   readonly createdAt?: string;
   readonly updatedAt?: string;
   constructor(init: ModelInit<DirectMessage, DirectMessageMetaData>);

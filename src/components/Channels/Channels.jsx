@@ -9,6 +9,8 @@ import ChannelContent from './ChannelContent'
 import ChannelListItem from './ChannelListItem'
 import SubchannelListItem from './SubchannelListItem'
 import CreateChannel from './CreateChannel'
+import UserProfile from './DirectMessaging/UserProfile/UserProfile'
+import UserMessages from './DirectMessaging/UserMessages/UserMessages'
 
 import * as HiIcons from "react-icons/hi";
 import * as MdIcons from "react-icons/md";
@@ -21,6 +23,7 @@ function Channels() {
   const [_Channel, set_Channel] = useState()
   const [_SubChannel, set_SubChannel] = useState()
   const [SubChannels, setSubChannels] = useState()
+  const [_Direct, set_Direct] = useState()
   const [_ChatType, set_ChatType] = useState("CHANNELS")
   const [redirectEdit, setredirectEdit] = useState(false)
 
@@ -82,7 +85,7 @@ function Channels() {
           </div>
           { context.friends.map((friend) => {
             return (
-              <DMListItem data={friend} key={friend.sub} set_ChatType={set_ChatType}/>
+              <DMListItem data={friend} key={friend.sub} set_ChatType={set_ChatType} set_Direct={set_Direct}/>
             )
           })}
         </div>
@@ -171,8 +174,13 @@ function Channels() {
         {/* CHATTYPE === DIRECT */}
         { _ChatType === "DIRECT" &&
           <>
-            <div className={styles.subTitle}>
-
+            <div className={styles.subTitle}/>
+            <div className={styles.sublist}>
+              <UserProfile data={_Direct}/>
+            </div>
+            <div className={styles.contentHead}/>
+            <div className={styles.content}>
+              <UserMessages data={_Direct}/>
             </div>
           </>
         }
