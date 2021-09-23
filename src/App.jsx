@@ -15,9 +15,6 @@ import Profile from './components/Profile/Profile'
 import Channels from './components/Channels/Channels'
 import EditChannel from './components/Channels/EditChannel/EditChannel'
 
-// # Dashboard `/dashboard`
-import Dashboard from './components/Dashboard'
-
 // # Global `/`
 import Navigation from './components/Navigation'
 import Footer from './components/Footer/Footer'
@@ -33,7 +30,6 @@ function App() {
           <Switch>
             <Route exact path="/"><Home/></Route>
             <Route exact path="/authentication"><Authentication/></Route>
-            <Route exact path="/dashboard"><Dashboard/></Route>
             <Route exact path="/profile"><Profile/></Route>
             <Route exact path="/channels"><Channels/></Route>
             <Route exact path="/channels/edit/:channelID"><EditChannel/></Route>

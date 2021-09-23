@@ -1,0 +1,44 @@
+.container {
+    display: flex;
+    align-items: center;
+    border-radius: var(--border-radius);
+    font-size: 11pt;
+    padding: 1ex 0ex 1ex 0ex;
+    width: 100%;
+  }
+  
+  .container:hover {
+    background-color: var(--bg);
+  }
+
+  .avatar {
+    width: 3ex;
+    height: 3ex;
+    border-radius: 50%;
+  }
+  
+  .name {
+    font-weight: bold;
+    color: rgb(168, 168, 168);
+    padding-left: 10%;
+    margin-right: 30%;  
+
+  }
+  .responseContainer {
+    display: flex;
+    flex-direction: row;
+    font-size: 15pt;
+}
+
+  .acceptIcon {
+
+    color: var(--bg-accent);
+    margin-right:60%;
+}
+
+  .rejectIcon {
+    color: rgb(201, 113, 62);
+  }
+
+
+  
