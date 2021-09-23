@@ -27,9 +27,27 @@ function Channels() {
   const [_ChatType, set_ChatType] = useState("CHANNELS")
   const [redirectEdit, setredirectEdit] = useState(false)
 
-  // useEffect(() => {
-  //   set_SubChannel(undefined)
-  // }, [_Channel])
+  useEffect(() => {
+    set_SubChannel(undefined)
+  }, [_Channel])
+
+  useEffect(() => {
+    switch(_ChatType) {
+      case "CHANNELS":
+        set_Direct(undefined)
+        break;
+      case "CREATECHANNEL":
+        set_Channel(undefined)
+        set_SubChannel(undefined)
+        break;
+      case "DIRECT":
+        set_Channel(undefined)
+        set_SubChannel(undefined)
+        break;
+      default:
+        break;
+    }
+  }, [_ChatType])
 
   useEffect(() => {
     if (context.datastore_ready && _Channel) {
@@ -81,7 +99,7 @@ function Channels() {
           <div className={styles.header}>
             <h5 className="subcomment">DIRECT MESSAGES</h5>
             <div className={styles.spacer}/>
-            <MdIcons.MdAdd className={styles.icon}/>
+            <MdIcons.MdAdd className={styles.icon} style={{opacity:"0", cursor:"auto"}}/>
           </div>
           { context.friends.map((friend) => {
             return (
