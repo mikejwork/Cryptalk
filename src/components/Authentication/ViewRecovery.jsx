@@ -79,6 +79,7 @@ function ViewRecovery(props) {
       <div className={style.form} onKeyPress={onKeyPress}>
         <div className={style.title}>
           <h1>Recover your password</h1>
+          <h5>Enter your username and a code will be sent to your email.</h5>
         </div>
         {/* Error messages */}
         {formState.error === "" ? <></> : <p className="error">{formState.error}</p>}
@@ -92,7 +93,7 @@ function ViewRecovery(props) {
 
             {/* Actions */}
             <button onClick={submit}>Recover</button>
-            <u onClick={() => props.set_View("LOGIN")}>Back to login</u>
+            <u onClick={() => props.set_View("LOGIN")}>Return to login</u>
 
           </>
         }
@@ -109,11 +110,12 @@ function ViewRecovery(props) {
               <input name="code_6" className={style.digitCode} onChange={onChange} placeholder="_" maxLength="1" />
             </div>
             {/* New password */}
-            <label htmlFor="desired_password"><MdIcons.MdLockOutline /> New password</label>
+            <label htmlFor="desired_password"><MdIcons.MdLockOutline />&nbsp; New password</label>
             <input className={style.userInput} name="desired_password" onChange={onChange} placeholder="Desired password.." type="password" />
 
             {/* Confirm */}
             <button onClick={submit}>Confirm</button>
+            <u onClick={() => props.set_View("LOGIN")}>Return to login</u>
           </>
         }
       </div>

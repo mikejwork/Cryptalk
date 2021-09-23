@@ -1,4 +1,143 @@
 .container {
+  display: flex;
+  flex-direction: row;
+  margin-top: 5%;
+}
+
+.form {
+  padding: 8ex 4ex 8ex 4ex;
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--bg-darker);
+  border-radius: 3ex 0ex 0ex 3ex;
+}
+
+.photo {
+  padding: 2ex;
+  width: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--bg);
+  border-radius: 0ex 3ex 3ex 0ex;
+}
+
+.photo > img {
+  width: 75%;
+}
+
+.title {
+  margin-bottom: 4ex;
+}
+
+.title > h5 {
+  color: rgb(204, 204, 204);
+}
+
+.title > h1 {
+  font-weight: 700;
+}
+
+.form > label {
+  margin-bottom: 0.5ex;
+  display: flex;
+  align-items: center;
+}
+
+.form > input {
+  height: 4ex;
+  margin-bottom: 3ex;
+  background-color: var(--bg);
+}
+
+.form > button {
+  margin-bottom: 2ex;
+}
+
+.form > u {
+  align-self: center;
+  color: grey;
+  cursor: pointer;
+}
+
+.form > u:hover {
+  color: rgb(105, 105, 105);
+}
+
+.avatarForm {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 2ex;
+}
+
+.fileDiv {
+  padding: 0ex 2ex 0ex 0ex;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.fileDiv > label {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5ex;
+}
+
+.fileDiv > input {
+  background-color: var(--bg);
+  display: flex;
+  align-items: center;
+}
+
+.avatarDiv {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.avatarDiv > img {
+  border-radius: 50%;
+  border: 4px solid var(--bg);
+}
+
+.avatarButton {
+  margin-left: -0.45ex;
+  padding: 0;
+  height: 5ex;
+  width: 5ex;
+  border-radius: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12pt;
+  border: 4px solid var(--bg);
+  border-radius: 0ex 2ex 2ex 0ex;
+}
+
+.confirmLabel {
+  margin: 0ex -2ex 0ex -2ex;
+  padding-bottom: 1ex;
+}
+
+.confirmLabel > u {
+  cursor: pointer;
+  color: var(--bg-accent);
+}
+
+.legalContainer {
+  max-height: 60ex;
+  overflow-y: scroll;
+}
+
+.returnButton {
+  font-size: 36pt;
+  color: var(--bg-accent);
+  align-self: center;
+  cursor: pointer;
+}
+/* .container {
   width: 100%;
   display: grid;
   gap: 0px 0px;
@@ -47,11 +186,11 @@
 }
 
 .form input,
-.form button{ 
+.form button{
   margin-bottom: 1.5em;
 }
 
-.form button{ 
+.form button{
   margin-top: 0.5em;
 
 }
@@ -132,4 +271,4 @@
   .fileDiv input {
     width: 100%;
   }
-}
+} */

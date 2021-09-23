@@ -17,7 +17,6 @@ body {
   --bg-light: #e6e6e6;
   --bg-accent: #3c9dca;
   --bg-accent-dark: #3c9dca1a;
-  --bg-login: #368eb603;
   --warning: #a73723;
 
   --bg-gradient-border-vert: linear-gradient(0deg, var(--bg-dark) 0%, rgba(60, 157, 202, 0.582) 100%);
@@ -90,6 +89,7 @@ input {
 
 input::-webkit-file-upload-button {
   border: none;
+  cursor: pointer;
   font-weight: 600;
   margin-left: -2ex;
   margin-right: 2ex;
@@ -97,6 +97,10 @@ input::-webkit-file-upload-button {
   background-color: white;
   border-radius: var(--border-radius);
   font-family: 'Titillium Web', sans-serif;
+}
+
+input::-webkit-file-upload-button:hover {
+  background-color: rgb(235, 235, 235);
 }
 
 input:-webkit-autofill,

@@ -40,10 +40,10 @@ function ViewLogin(props) {
 
   return (
     <div className={style.container}>
-  
       <div className={style.form} onKeyPress={onKeyPress}>
         <div className={style.title}>
-          <h1>Login</h1>
+          <h1>Welcome to Cryptalk.</h1>
+          <h5>Enter your details to login.</h5>
         </div>
         {/* Error messages */}
         { formState.error === "" ? <></> : <p className="error">{formState.error}</p>}
@@ -65,10 +65,7 @@ function ViewLogin(props) {
       <div className={style.photo}>
         <img src={process.env.PUBLIC_URL + '/vector_assets/login-1.svg'} alt="Two figures interacting with a web-application."/>
       </div>
-      
-    
     </div>
-    
   )
 }
 
