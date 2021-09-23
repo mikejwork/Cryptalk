@@ -1,107 +1,85 @@
+
 .container {
-  width: 100%;
-  display: grid;
-  gap: 0px 0px;
-  grid-template-columns: 0.5fr 0.5fr;
-  grid-template-areas:
-    "photo   form";
-  margin-top: 10%;
-
-}
-.backArrow {
-  padding-left: 3em;
-  width: 100%;
-}
-
-.backArrow > svg{
-  font-size: 20pt;
   display: flex;
-  justify-content: left;
+  flex-direction: row;
+  margin-top: 10%;
+}
+
+.form {
+  padding: 8ex 4ex 8ex 4ex;
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--bg-darker);
+  border-radius: 0ex 3ex 3ex 0ex;
 }
 
 .photo {
-  width: 100%;
-  padding-top: 2ex;
-  padding-bottom: 0px;
-  grid-area: photo;
-  align-items: center;
+  padding: 2ex;
+  width: 50%;
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
   background-color: var(--bg);
-  border-bottom-left-radius: 15px;
-  border-top-left-radius: 15px;
+  border-radius: 3ex 0ex 0ex 3ex;
 }
 
 .photo > img {
-  width: 95%;
-  height: 100%;
+  width: 75%;
 }
 
 .title {
-  margin-bottom: 1.5em;
+  margin-bottom: 4ex;
 }
 
-.form{
-  background-color:var(--bg-login);
-  grid-area: form;
+.title > h5 {
+  color: rgb(204, 204, 204);
+}
+
+.title > h1 {
+  font-weight: 700;
+}
+
+.form > label {
+  margin-bottom: 0.5ex;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
   align-items: center;
+}
+
+.form > input {
+  height: 4ex;
+  margin-bottom: 3ex;
+  background-color: var(--bg);
+}
+
+.form > button {
+  margin-bottom: 2ex;
+}
+
+.form > u {
+  align-self: center;
+  color: grey;
+  cursor: pointer;
+}
+
+.form > u:hover {
+  color: rgb(105, 105, 105);
 }
 
 .emailLabel {
-  text-align: center;  
-  margin-bottom: 1em;
+  margin-bottom: 1ex;
 }
-
-.form label {
-  display: flex;
-  align-items: center;
-}
-
-.form input,
-.form button{ 
-  margin-bottom: 1.5em;
-  box-sizing: border-box;
- 
-}
-
-.userInput {
-  width: 70%;
-}
-
-.form u {
-  margin-top: 2ex;
-  cursor: pointer;
-  color: grey;
-}
-
-.form u:hover {
-  color: #696969;
-}
-
-.form label,
-.form button {
-  width: 70%;
-  margin-bottom: 0.5em;
-}
-
 
 .digitCode {
   padding-left: 0px;
   padding-right: 0px;
   font-size: 20pt;
   width: 1.5em;
-  text-align: center;
-  /* background-color: lightyellow; */
-  background-color: #191a1a;
 }
 
 .codeInput {
+  margin: 3ex 0ex 3ex 0ex;
   display: flex;
   flex-direction: row;
   justify-content: center;
 }
-

@@ -1,9 +1,9 @@
 import React from 'react'
 import styles from '../../css/Legal/Legal.module.css';
 
-function TermsAndConditions() {
+function TermsAndConditions(props) {
   return (
-    <div className={styles.agreementPage}>
+    <div className={`${props.padding ? styles.agreementPage : ""}`}>
       <h2 className="heading">Terms & Conditions</h2>
       <p>These terms and conditions (the "Terms and Conditions") govern the use of www.captstone-cryptalk.com (the "site"). This site is owned and operated by RMIT University.</p>
       <p>By using this site, you indicate that you have read and understand these Terms and Conditions and agree to abide by them at all times.</p>
