@@ -11,6 +11,7 @@
 
 .sidebar {
   grid-area: sidebar;
+  min-width: 30ex;
   padding: 2ex;
   background-color: var(--bg-darker);
 

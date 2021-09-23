@@ -1,0 +1,158 @@
+.home {
+  padding: 0rem 0rem 10rem 0rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.homeContainer {
+  margin: 0rem 15rem 0rem 15rem;
+  background-color: var(--bg-dark);
+  display: grid;
+  grid-template-columns: 0.5fr 0.5fr 0.5fr;
+  grid-template-rows: 0.5fr 0.5fr 0.5fr;
+  gap: 0px 0px;
+  grid-template-areas:
+    "blank blank blank"
+    "title title image";
+}
+
+.homeTitle {
+  width: 100%;
+  padding-left: 3ex;
+  padding-right: 3ex;
+  grid-area: title;
+  display: flex;
+  flex-direction: column;
+}
+
+.homeTitle > h1 {
+  font-weight: 600;
+  font-size: 8ex;
+}
+
+.homeTitle > p {
+  font-size: 3ex;
+  font-weight: 100;
+  color: rgb(143, 143, 143);
+}
+
+.homeTitle > button {
+  margin-top: 3ex;
+  margin-bottom: 3ex;
+  width: 50%;
+}
+
+.homeTitle > img {
+  width: 15ex;
+  margin-left: -4ex;
+  margin-bottom: -5ex;
+}
+
+.homeImage {
+  grid-area: image;
+}
+
+.homeImage > img {
+  width: 37rem;
+}
+
+.downArrow {
+  position: relative;
+  font-size: 24pt;
+  color: grey;
+  animation-name: bounce;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+}
+
+@keyframes bounce {
+  0% {top: 0px; color: rgb(129, 129, 129);}
+  50% {top: 15px; color: var(--bg-accent);}
+  100% {top: 0px; color: rgb(129, 129, 129);}
+}
+
+.chatting {
+  padding: 10ex 25ex 10ex 25ex;
+  align-items: center;
+}
+
+.chattingTitle > h1 {
+  font-weight: 700;
+}
+
+.chattingTitle > h4 {
+  color: rgb(172, 172, 172);
+}
+
+.chattingTitle {
+  width: fit-content;
+  padding: 2ex 4ex 2ex 4ex;
+  border-radius: 2ex;
+  background-color: var(--bg-darker);
+  position: relative;
+  z-index: 100;
+}
+
+.chattingTitleIcon {
+  display: flex;
+  z-index: 150;
+  position: relative;
+  align-self: center;
+  font-size: 23pt;
+  top: 1ex;
+  left: 2ex;
+  color: var(--bg-accent);
+  width: fit-content;
+  padding: 0.5ex;
+  border-radius: 50%;
+  background-color: var(--bg-darker);
+}
+
+.chattingImg > img{
+  border-radius: 2ex;
+  z-index: 50;
+  top: -1ex;
+  left: 25%;
+  position: relative;
+  box-shadow: 0px 0px 10ex black;
+}
+
+.features {
+  padding: 10ex 25ex 10ex 25ex;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.card {
+  width: 20rem;
+  height: 8rem;
+  background-color: var(--bg-darker);
+  padding: 3ex 6ex 3ex 6ex;
+  border-radius: 3ex;
+  display: flex;
+  flex-direction: column;
+}
+
+.cardIcon {
+  position: relative;
+  top: -3ex;
+  padding: 0.5ex;
+  font-size: 22pt;
+  color: var(--bg-accent);
+  height: fit-content;
+  width: fit-content;
+  align-items: center;
+  border-radius: 50%;
+  background-color: var(--bg-darker);
+  margin-bottom: -3ex;
+}
+
+.card > h1 {
+  font-weight: 700;
+}
+
+.card > h4 {
+  color: rgb(172, 172, 172);
+}
