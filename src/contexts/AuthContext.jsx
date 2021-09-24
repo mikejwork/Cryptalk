@@ -1,8 +1,9 @@
 /* eslint-disable no-loop-func */
 import React, { useState, useEffect, createContext } from "react";
 import { Auth, Hub, DataStore, Storage } from "aws-amplify";
-
 import { Friends, RequestStorage, RequestStatus, Channel } from '../models';
+
+import Loading from '../components/Wrappers/Loading/Loading'
 
 export const AuthContext = createContext();
 
@@ -237,8 +238,7 @@ function AuthContextProvider(props) {
   }
 
   if (loading) {
-    // TODO, make something nicer, maybe a loading gif?
-    return <></>;
+    return <Loading/>;
   }
 
   return (

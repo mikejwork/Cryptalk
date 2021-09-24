@@ -6,7 +6,7 @@ import UserAvatar from '../../Wrappers/Avatar/UserAvatar'
 
 function NavigationItem(props) {
   return (
-    <div className={styles.container} onClick={props.onClick}>
+    <div className={styles.containerMenu} onClick={props.onClick}>
       <div className={styles.icon}>
         { props.icon }
       </div>
@@ -18,7 +18,7 @@ function NavigationItem(props) {
 export function NavigationLink(props) {
   return (
     <a href={props.destination}>
-      <div className={styles.container} onClick={props.onClick}>
+      <div className={`${props.menu ? styles.containerMenu : styles.container}`} onClick={props.onClick}>
         <div className={styles.icon}>
           { props.icon }
         </div>
@@ -30,6 +30,19 @@ export function NavigationLink(props) {
 
 export function NavigationUser(props) {
   const context = useContext(AuthContext)
+  if (!context.datastore_ready) {
+    return (
+      <div className={styles.userContainer}>
+        <div className={styles.avatarContainer}>
+
+        </div>
+        <div className={styles.info}>
+          <p className={styles.name}>Not logged in!</p>
+          <a href="/authentication" className={styles.link}>click here to login</a>
+        </div>
+      </div>
+    )
+  }
   return (
     <div className={styles.userContainer}>
       <div className={styles.avatarContainer}>
