@@ -16,7 +16,7 @@ import Channels from './components/Channels/Channels'
 import EditChannel from './components/Channels/EditChannel/EditChannel'
 
 // # Global `/`
-import Navigation from './components/Navigation'
+import Navigation from './components/Navigation/Navigation/Navigation'
 import Footer from './components/Footer/Footer'
 import PrivacyPolicy from './components/Legal/PrivacyPolicy';
 import TermsAndConditions from './components/Legal/TermsAndConditions';
@@ -33,8 +33,8 @@ function App() {
             <Route exact path="/profile"><Profile/></Route>
             <Route exact path="/channels"><Channels/></Route>
             <Route exact path="/channels/edit/:channelID"><EditChannel/></Route>
-            <Route exact path="/privacy"><PrivacyPolicy/></Route>
-            <Route exact path="/terms"><TermsAndConditions/></Route>
+            <Route exact path="/privacy"><PrivacyPolicy padding={true}/></Route>
+            <Route exact path="/terms"><TermsAndConditions padding={true}/></Route>
           </Switch>
         </AuthContextProvider>
       </Router>

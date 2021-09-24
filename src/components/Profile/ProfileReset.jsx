@@ -49,7 +49,7 @@ function ProfileReset(props) {
   }
 
   return (
-    <div className={style.container} onKeyPress={onKeyPress}  id="cypress-changePasswordPage">>
+    <div className={style.container} onKeyPress={onKeyPress}  id="cypress-changePasswordPage">
       <div className={style.title}>
         <h2>Change password</h2>
         <h5 className="subcomment">Enter your old password and desired password below.</h5>
@@ -68,7 +68,7 @@ function ProfileReset(props) {
       <div className={style.actions}>
         <button onClick={submit}>Change</button>
         <br/>
-        <u onClick={() => props.set_View("MAIN")}  id="cypress-returnToProfile">>Return to profile</u>
+        <u onClick={() => props.set_View("MAIN")}  id="cypress-returnToProfile">Return to profile</u>
       </div>
     </div>
   )
