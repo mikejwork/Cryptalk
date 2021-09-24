@@ -31,7 +31,7 @@ function Authentication(props) {
   }
 
   // If datastore is ready, this means we are already logged in
-  if (context.datastore_ready) { return <Redirect to="/dashboard"/>;}
+  if (context.datastore_ready) { return <Redirect to="/channels"/>;}
 
   // Just a switch case inside our overall page formatting
   return (
