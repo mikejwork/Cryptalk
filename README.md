@@ -23,6 +23,9 @@
   <a href="https://github.com/mikejwork/COSC2408-2150-Capstone-TEAM07/releases/tag/v0.4">
       <img src="https://img.shields.io/badge/Release-v0.4-9cf"/>
   </a>
+  <a href="https://github.com/mikejwork/COSC2408-2150-Capstone-TEAM07/releases/tag/v0.5">
+      <img src="https://img.shields.io/badge/Release-v0.5-9cf"/>
+  </a>
 </div>
 
 
