@@ -10,8 +10,13 @@
 }
 
 .subContainerDiv {
+  padding: 2ex;
+}
+
+.subContainerDivHalf {
   width: 50%;
   padding: 2ex;
+  overflow-y: visible;
 }
 
 .subtitle {
@@ -74,6 +79,8 @@
 }
 
 .subChannels {
+  max-height: 80ex;
+  overflow-y: scroll;
   padding: 0ex 0ex 2ex 0ex;
 }
 
@@ -90,6 +97,9 @@
 
 .subChannel > p {
   margin-left: 1ex;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
 .subChannelType {

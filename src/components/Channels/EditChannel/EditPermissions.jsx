@@ -2,7 +2,8 @@ import React from 'react'
 import { DataStore } from "aws-amplify";
 import { SubChannel } from '../../../models';
 import * as HiIcons from "react-icons/hi";
-import AvatarImg from '../../../components/Wrappers/AvatarImg'
+import * as FaIcons from "react-icons/fa";
+import UserAvatar from '../../../components/Wrappers/Avatar/UserAvatar'
 import styles from '../../../css/Channels/EditChannel/Edit.module.css';
 
 function EditPermissions(props) {
@@ -53,9 +54,11 @@ function EditPermissions(props) {
                   { subchannel.users.map((user) => {
                     return (
                       <div style={{padding: "0.5ex", backgroundColor:"var(--bg-darker)", margin:"0ex 0ex 1ex 10ex"}} key={user.sub} className={styles.subChannel}>
-                        <AvatarImg className={styles.avatar} alt="user avatar" id={user.sub}/>
-                        <p>{user.username}</p>
-                        <HiIcons.HiMinusCircle onClick={() => revoke_user(subchannel.id, user.sub)} style={{marginLeft:"auto", color:"darkred"}}/>
+                        <UserAvatar className={styles.avatar} alt="user avatar" id={user.sub}/>
+                        <p>{ user.sub === props._Channel.owner_id && <FaIcons.FaCrown style={{color:"gold", marginRight:"0.5ex"}}/> }{user.username}</p>
+                        { user.sub !== props._Channel.owner_id &&
+                          <HiIcons.HiMinusCircle onClick={() => revoke_user(subchannel.id, user.sub)} style={{marginLeft:"auto", color:"darkred"}}/>
+                        }
                       </div>
                     )
                   })}
@@ -67,7 +70,7 @@ function EditPermissions(props) {
                     }
                     return (
                       <div style={{padding: "0.5ex", backgroundColor:"var(--bg-darker)", margin:"0ex 0ex 1ex 10ex"}} key={user.sub} className={styles.subChannel}>
-                        <AvatarImg className={styles.avatar} alt="user avatar" id={user.sub}/>
+                        <UserAvatar className={styles.avatar} alt="user avatar" id={user.sub}/>
                         <p>{user.username}</p>
                         <HiIcons.HiPlusCircle onClick={() => grant_user(subchannel.id, user.username, user.sub)} style={{marginLeft:"auto", color:"green"}}/>
                       </div>

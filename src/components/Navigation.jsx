@@ -1,7 +1,7 @@
-import React, { useContext, useEffect, useState } from 'react'
-import { Storage } from "aws-amplify";
+import React, { useContext } from 'react'
 import { Link } from "react-router-dom";
 import { AuthContext } from "../contexts/AuthContext";
+import UserAvatar from './Wrappers/Avatar/UserAvatar'
 
 import '../css/Navigation.css';
 import * as FaIcons from "react-icons/fa";
@@ -43,28 +43,15 @@ function NavBtn(props) {
 
 function LoggedInNav() {
   const context = useContext(AuthContext)
-  const [profilePic, setprofilePic] = useState(null)
 
   async function signOut() {
     await Auth.signOut()
     context.updateUser(null)
   }
 
-  async function getProfilePic() {
-    const result = await Storage.get(context.user.attributes.sub + '.jpg', { level: 'public' });
-    await setprofilePic(result)
-  }
-
-  useEffect(() => {
-    getProfilePic()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
   return (
     <>
       <NavItem name="Channels" destination="/channels" icon={<MdIcons.MdContacts/>}/>
-
-      <NavItem name="Dashboard" destination="/dashboard" icon={<MdIcons.MdDashboard/>}/>
 
       <NavItem name="Profile" destination="/profile" icon={<FaIcons.FaUser/>}/>
 
@@ -73,7 +60,7 @@ function LoggedInNav() {
       <li className="nav-item">
         <div className="nav-user-container">
           <Link name="username" className="nav-username" to="/profile">{context.user.username}</Link>
-          { profilePic !== null && <img className="user-avatar" src={profilePic} alt=" " width="30" height="30"/>}
+          <UserAvatar className="nav-avatar" key={context.user.attributes.sub} alt="User profile picture" id={context.user.attributes.sub}/>
         </div>
       </li>
     </>

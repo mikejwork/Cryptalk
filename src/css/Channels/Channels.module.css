@@ -63,6 +63,7 @@
 .gridList {
   padding: 2ex;
   grid-area: list;
+  min-width: 15rem;
   display: flex;
   flex-direction: column;
   background-color: var(--bg-darker);
@@ -98,12 +99,13 @@
 
 .subTitle {
   grid-area: subTitle;
+  min-width: 30ex;
   display: flex;
   align-items: center;
   flex-direction: row;
   font-weight: 700;
   background-color: #1d1c1c;
-  padding: 0ex 0ex 0ex 3ex;
+  padding: 1.5ex 0ex 0ex 3ex;
   border-left: 1px solid #353535;
 }
 

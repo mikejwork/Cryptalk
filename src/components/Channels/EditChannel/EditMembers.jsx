@@ -3,7 +3,8 @@ import { DataStore } from "aws-amplify";
 import { AuthContext } from "../../../contexts/AuthContext";
 import { Channel } from '../../../models';
 import * as HiIcons from "react-icons/hi";
-import AvatarImg from '../../../components/Wrappers/AvatarImg'
+import * as FaIcons from "react-icons/fa";
+import UserAvatar from '../../../components/Wrappers/Avatar/UserAvatar'
 import styles from '../../../css/Channels/EditChannel/Edit.module.css';
 
 function EditMembers(props) {
@@ -58,9 +59,11 @@ function EditMembers(props) {
             { props._Channel.users.map((user) => {
               return (
                 <div key={user.sub} className={styles.subChannel}>
-                  <AvatarImg className={styles.avatar} alt="user avatar" id={user.sub}/>
-                  <p>{user.username}</p>
-                  <HiIcons.HiMinusCircle onClick={() => kick_user(user.sub)} style={{marginLeft:"auto", color:"darkred"}}/>
+                  <UserAvatar className={styles.avatar} alt="user avatar" id={user.sub}/>
+                  <p>{ user.sub === props._Channel.owner_id && <FaIcons.FaCrown style={{color:"gold", marginRight:"0.5ex"}}/> }{user.username}</p>
+                  { user.sub !== props._Channel.owner_id &&
+                    <HiIcons.HiMinusCircle onClick={() => kick_user(user.sub)} style={{marginLeft:"auto", color:"darkred"}}/>
+                  }
                 </div>
               )
             })}
@@ -73,7 +76,7 @@ function EditMembers(props) {
             if (does_user_exist(friend.sub)) { return null }
             return (
               <div key={friend.sub} className={styles.subChannel}>
-                <AvatarImg className={styles.avatar} alt="user avatar" id={friend.sub}/>
+                <UserAvatar className={styles.avatar} alt="user avatar" id={friend.sub}/>
                 <p>{friend.username}</p>
                 <HiIcons.HiPlusCircle onClick={() => add_user(friend.username, friend.sub)} style={{marginLeft:"auto", color:"green"}}/>
               </div>

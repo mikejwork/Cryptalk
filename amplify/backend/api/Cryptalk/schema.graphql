@@ -1,9 +1,15 @@
+type DirectMessage @model @auth(rules: [{allow: private}]) {
+  id: ID!
+  participants: [String]
+  messages: [Messages!] @connection(keyName: "byDirectMessage", fields: ["id"])
+}
+
 type User {
   username: String!
   sub: String!
 }
 
-type Messages @model @auth(rules: [{allow: private}]) @key(name: "bySubChannel", fields: ["subchannelID"]) {
+type Messages @model @auth(rules: [{allow: private}]) @key(name: "bySubChannel", fields: ["subchannelID"]) @key(name: "byDirectMessage", fields: ["directmessageID"]) {
   id: ID!
   author_username: String!
   author_id: String!
@@ -11,6 +17,7 @@ type Messages @model @auth(rules: [{allow: private}]) @key(name: "bySubChannel",
   content_link: String
   subchannelID: ID
   content: String!
+  directmessageID: ID
 }
 
 enum MessageType {

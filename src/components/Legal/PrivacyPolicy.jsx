@@ -1,9 +1,9 @@
 import React from 'react'
 import styles from '../../css/Legal/Legal.module.css';
 
-function PrivacyPolicy() {
+function PrivacyPolicy(props) {
   return (
-    <div className={styles.agreementPage}>
+    <div className={`${props.padding ? styles.agreementPage : ""}`}>
       <h2 className="heading">Privacy Policy</h2>
       <p>
         Cryptalk is committed to providing quality services to you and this policy outlines our ongoing obligations to you in respect of how we manage your Personal Information.

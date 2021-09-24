@@ -1,21 +1,66 @@
 .container {
-  width: 100%;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+  flex-direction: row;
+  margin-top: 10%;
 }
 
 .form {
+  padding: 8ex 4ex 8ex 4ex;
+  width: 50%;
   display: flex;
   flex-direction: column;
+  background-color: var(--bg-darker);
+  border-radius: 3ex 0ex 0ex 3ex;
+}
+
+.photo {
+  padding: 2ex;
+  width: 50%;
+  display: flex;
+  align-items: center;
   justify-content: center;
+  background-color: var(--bg);
+  border-radius: 0ex 3ex 3ex 0ex;
 }
 
-.form u {
-  cursor: pointer;
+.photo > img {
+  width: 75%;
+}
+
+.title {
+  margin-bottom: 4ex;
+}
+
+.title > h5 {
+  color: rgb(204, 204, 204);
+}
+
+.title > h1 {
+  font-weight: 700;
+}
+
+.form > label {
+  margin-bottom: 0.5ex;
+  display: flex;
+  align-items: center;
+}
+
+.form > input {
+  height: 4ex;
+  margin-bottom: 3ex;
+  background-color: var(--bg);
+}
+
+.form > button {
+  margin-bottom: 2ex;
+}
+
+.form > u {
+  align-self: center;
   color: grey;
+  cursor: pointer;
 }
 
-.form u:hover {
-  color: #696969;
+.form > u:hover {
+  color: rgb(105, 105, 105);
 }

@@ -21,7 +21,7 @@ function Authentication(props) {
   // Switch component that will change depending on the above ^ state
   const CurrentView = () => {
     switch(_View) {
-      case "LOGIN": return <ViewLogin set_View={set_View}/>;
+      case "LOGIN": return <ViewLogin set_View={set_View} set_Username={set_Username}/>;
       case "CONFIRM": return <ViewConfirm set_View={set_View} _Username={_Username} _SentTo={_SentTo}/>;
       case "RECOVERY": return <ViewRecovery set_View={set_View}/>;
       case "REGISTRATION": return <ViewRegistration set_View={set_View}  set_Username={set_Username} set_SentTo={set_SentTo}/>;
@@ -31,7 +31,7 @@ function Authentication(props) {
   }
 
   // If datastore is ready, this means we are already logged in
-  if (context.datastore_ready) { return <Redirect to="/dashboard"/>;}
+  if (context.datastore_ready) { return <Redirect to="/channels"/>;}
 
   // Just a switch case inside our overall page formatting
   return (

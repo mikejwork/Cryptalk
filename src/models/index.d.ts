@@ -32,6 +32,10 @@ export declare class Friend {
   constructor(init: ModelInit<Friend>);
 }
 
+type DirectMessageMetaData = {
+  readOnlyFields: 'createdAt' | 'updatedAt';
+}
+
 type MessagesMetaData = {
   readOnlyFields: 'createdAt' | 'updatedAt';
 }
@@ -52,6 +56,16 @@ type FriendsMetaData = {
   readOnlyFields: 'createdAt' | 'updatedAt';
 }
 
+export declare class DirectMessage {
+  readonly id: string;
+  readonly participants?: (string | null)[];
+  readonly messages?: Messages[];
+  readonly createdAt?: string;
+  readonly updatedAt?: string;
+  constructor(init: ModelInit<DirectMessage, DirectMessageMetaData>);
+  static copyOf(source: DirectMessage, mutator: (draft: MutableModel<DirectMessage, DirectMessageMetaData>) => MutableModel<DirectMessage, DirectMessageMetaData> | void): DirectMessage;
+}
+
 export declare class Messages {
   readonly id: string;
   readonly author_username: string;
@@ -60,6 +74,7 @@ export declare class Messages {
   readonly content_link?: string;
   readonly subchannelID?: string;
   readonly content: string;
+  readonly directmessageID?: string;
   readonly createdAt?: string;
   readonly updatedAt?: string;
   constructor(init: ModelInit<Messages, MessagesMetaData>);

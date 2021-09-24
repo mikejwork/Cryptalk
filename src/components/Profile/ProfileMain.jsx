@@ -1,7 +1,8 @@
 import React, { useContext, useState, useEffect } from "react";
 import { AuthContext } from "../../contexts/AuthContext";
-import { Storage, DataStore } from "aws-amplify";
+import { DataStore } from "aws-amplify";
 import { Friends } from "../../models";
+import UserAvatar from '../Wrappers/Avatar/UserAvatar'
 
 import * as MdIcons from "react-icons/md";
 import style from "../../css/Profile/ProfileMain.module.css";
@@ -10,13 +11,8 @@ function ProfileMain(props) {
   const context = useContext(AuthContext);
 
   // State - Storage
-  const [_Avatar, set_Avatar] = useState(undefined)
   const [_NumFriends, set_NumFriends] = useState(0)
   const [_NumChannels, set_NumChannels] = useState(0)
-
-  async function get_avatar() {
-    set_Avatar(await Storage.get(context.user.attributes.sub + ".jpg"))
-  }
 
   async function get_friends() {
     DataStore.query(Friends).then((result) => {
@@ -25,7 +21,6 @@ function ProfileMain(props) {
   }
 
   useEffect(() => {
-    get_avatar()
     if (context.datastore_ready) {
       get_friends()
       set_NumChannels(0) // TODO
@@ -34,18 +29,18 @@ function ProfileMain(props) {
   }, [context.datastore_ready])
 
   return (
-    <div className={style.container}>
+    <div className={style.container} id="cypress-profileMain">
       <div className={style.title}>
         <h2>Profile</h2>
         <h5 className="subcomment">View your profile details below.</h5>
       </div>
       <hr/>
       <div className={style.avatar}>
-        <img src={_Avatar} alt=" "/>
-        <div onClick={() => props.set_View("EDIT")} className={style.avatarOverlay}><MdIcons.MdOpenInNew className="MdIcon"/></div>
+        <UserAvatar key={context.user.attributes.sub} alt="User profile picture" id={context.user.attributes.sub}/>
+        <div onClick={() => props.set_View("EDIT")} className={style.avatarOverlay} id="cypress-profileAvatarEdit"><MdIcons.MdOpenInNew className="MdIcon"/></div>
       </div>
       <div className={style.info}>
-        <h2>{context.user.username}</h2>
+        <h2 id="cypress-profileUsername">{context.user.username}</h2>
         <h4><MdIcons.MdOpenInNew onClick={() => props.set_View("EDIT")} className={style.MdIcon}/>{context.user.attributes.email}</h4>
         { !context.user.attributes.email_verified &&
           <>
@@ -66,8 +61,8 @@ function ProfileMain(props) {
         </div>
       </div>
       <div className={style.actions}>
-        <button onClick={() => props.set_View("RESET")}>Change password</button>
-        <button onClick={() => props.set_View("MAIN")}>Two-factor Authentication</button>
+        <button onClick={() => props.set_View("RESET")} id="cypress-changePassword">Change password</button>
+        <button onClick={() => props.set_View("MAIN")} id="cypress-twoFactor">Two-factor Authentication</button>
       </div>
     </div>
   )

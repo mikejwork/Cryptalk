@@ -77,7 +77,7 @@ function ProfileEdit(props) {
   }
 
   return (
-    <div className={style.container} onKeyPress={onKeyPress}>
+    <div className={style.container} onKeyPress={onKeyPress} id="cypress-profileEdit">
       <div className={style.title}>
         <h2>Edit Profile</h2>
         <h5 className="subcomment">Edit your profile details below.</h5>
@@ -101,7 +101,7 @@ function ProfileEdit(props) {
       <div className={style.actions}>
         <button onClick={submit}>Save changes</button>
         <br/>
-        <u onClick={() => props.set_View("MAIN")}>Return to profile</u>
+        <u onClick={() => props.set_View("MAIN")} id="cypress-returnToProfile">Return to profile</u>
       </div>
     </div>
   )
