@@ -1,4 +1,77 @@
 .container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 1ex 0ex 1ex 1ex;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+}
+
+.container:hover {
+  background-color: var(--bg);
+}
+
+.avatar {
+  width: 3ex;
+  height: 3ex;
+  border-radius: 50%;
+}
+
+.infoContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  max-width: 20ex;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.name {
+  color: rgb(168, 168, 168);
+  font-weight: lighter;
+  padding: 0.1ex 0ex 0.1ex 1ex;
+}
+
+.spacer {
+  flex-grow: 1;
+}
+
+.responseContainer {
+  justify-self: flex-end;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0ex 0.7ex 0ex 0.7ex;
+}
+
+.responseContainer > p {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.accept {
+  margin-right: 1ex;
+  color: var(--bg-accent);
+}
+
+.accept:hover {
+  border-radius: 50%;
+  color: white;
+  background-color: var(--bg-accent);
+}
+
+.reject {
+  color: var(--warning);
+}
+
+.reject:hover {
+  border-radius: 50%;
+  color: white;
+  background-color: var(--warning);
+}
+/* .container {
     display: flex;
     align-items: center;
     border-radius: var(--border-radius);
@@ -6,7 +79,7 @@
     padding: 1ex 0ex 1ex 0ex;
     width: 100%;
   }
-  
+
   .container:hover {
     background-color: var(--bg);
   }
@@ -16,12 +89,12 @@
     height: 3ex;
     border-radius: 50%;
   }
-  
+
   .name {
     font-weight: bold;
     color: rgb(168, 168, 168);
     padding-left: 10%;
-    margin-right: 30%;  
+    margin-right: 30%;
 
   }
   .responseContainer {
@@ -38,7 +111,4 @@
 
   .rejectIcon {
     color: rgb(201, 113, 62);
-  }
-
-
-  
+  } */

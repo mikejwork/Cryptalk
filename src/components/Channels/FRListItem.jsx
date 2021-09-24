@@ -14,7 +14,7 @@ function FRListItem(props) {
           }));
         })
       }
-    
+
       async function accept() {
         DataStore.query(RequestStorage, props.data.id).then((result) => {
           DataStore.save(RequestStorage.copyOf(result, item => {
@@ -23,24 +23,24 @@ function FRListItem(props) {
           }));
         })
       }
-    
+
       if (props.data.status !== "PENDING") {
         return (<></>)
       }
-    
+
       return (
         <div className={styles.container}>
-          <div className={styles.name}>
+          <div className={styles.infoContainer}>
             <UserAvatar className={styles.avatar} alt="" id={props.data.sender_sub}/>
-            <h4> {props.data.sender_username}</h4>
+            <p className={styles.name}> {props.data.sender_username}</p>
           </div>
+          <div className={styles.spacer}/>
           <div className={styles.responseContainer}>
-            <span onClick={accept} className={styles.acceptIcon}><MdIcons.MdDone/></span>
-            <span onClick={reject} className={styles.rejectIcon}><MdIcons.MdClose/></span>
+            <p onClick={accept} className={styles.accept}><MdIcons.MdDone/></p>
+            <p onClick={reject} className={styles.reject}><MdIcons.MdClose/></p>
           </div>
         </div>
       )
   }
-  
+
   export default FRListItem
-  

@@ -1,23 +1,28 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { SubChannel } from '../../models';
-import { AuthContext } from "../../contexts/AuthContext";
-import { DataStore, SortDirection } from "aws-amplify";
 import { Redirect } from "react-router-dom";
+import { DataStore, SortDirection } from "aws-amplify";
+import { AuthContext } from "../../contexts/AuthContext";
 
+// List items
 import DMListItem from './DMListItem'
 import FRListItem from './FRListItem'
-
-import ChannelContent from './ChannelContent'
 import ChannelListItem from './ChannelListItem'
 import SubchannelListItem from './SubchannelListItem'
+
+// Channel
+import ChannelContent from './ChannelContent'
 import CreateChannel from './CreateChannel'
+
+// Direct Messaging
 import UserProfile from './DirectMessaging/UserProfile/UserProfile'
 import UserMessages from './DirectMessaging/UserMessages/UserMessages'
+import AddFriend from './AddFriend/AddFriend'
 
+// Styling
 import * as HiIcons from "react-icons/hi";
 import * as MdIcons from "react-icons/md";
 import styles from '../../css/Channels/Channels.module.css';
-import { RequestStorage, RequestType, RequestStatus } from '../../models';
 
 function Channels() {
   const context = useContext(AuthContext)
@@ -29,32 +34,11 @@ function Channels() {
   const [_Direct, set_Direct] = useState()
   const [_ChatType, set_ChatType] = useState("CHANNELS")
   const [redirectEdit, setredirectEdit] = useState(false)
+  const [_friendMenu, setfriendMenu] = useState(false)
 
   // useEffect(() => {
   //   set_SubChannel(undefined)
   // }, [_Channel])
-
-  const [friend_field, setfriend_field] = useState("")
-
-  async function send_friend_request() {
-    const username = friend_field;
-
-    if (username === context.user.username)
-      return
-
-    await DataStore.save(
-      new RequestStorage({
-        "sender_sub": context.user.attributes.sub,
-        "sender_username": context.user.username,
-        "reciever_username": username,
-        "reciever_sub": "",
-        "type": RequestType.FRIEND_REQUEST,
-        "status": RequestStatus.PENDING
-      })
-    ).then((result) => {
-      setfriend_field("")
-    });
-  }
 
   useEffect(() => {
     if (context.datastore_ready && _Channel) {
@@ -105,6 +89,11 @@ function Channels() {
           <div className={styles.header}>
             <h5 className="subcomment">FRIENDS</h5>
             <div className={styles.spacer} />
+            { _friendMenu ?
+              <MdIcons.MdRemove className={styles.icon} onClick={() => setfriendMenu(!_friendMenu)} />
+            :
+              <MdIcons.MdAdd className={styles.icon} onClick={() => setfriendMenu(!_friendMenu)} />
+            }
           </div>
           {context.friends.map((friend) => {
             return (
@@ -112,11 +101,10 @@ function Channels() {
             )
           })}
 
-          {/* ADD FRIEND ----------------------------------------------*/}
-          <div className={styles.addFriend}>
-            <input name="user-to-add" placeholder="Add a friend.." type="text" value={friend_field} onChange={(e) => { setfriend_field(e.target.value); }} />
-            <button onClick={send_friend_request} className={styles.addFriendIcon} ><MdIcons.MdAdd /></button>
-          </div>
+          {/* ADD FRIEND ------------------------------------------- */}
+          { _friendMenu &&
+            <AddFriend setfriendMenu={setfriendMenu}/>
+          }
 
           {/* FRIEND REQUESTS -------------------------------------- */}
           <div className={styles.header}>
@@ -128,7 +116,7 @@ function Channels() {
               <FRListItem data={request} />
             )
           })}
-          
+
 
 
 
