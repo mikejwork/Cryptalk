@@ -63,6 +63,7 @@
 .gridList {
   padding: 2ex;
   grid-area: list;
+  min-width: 15rem;
   display: flex;
   flex-direction: column;
   background-color: var(--bg-darker);

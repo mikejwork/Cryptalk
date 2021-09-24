@@ -53,8 +53,6 @@ function LoggedInNav() {
     <>
       <NavItem name="Channels" destination="/channels" icon={<MdIcons.MdContacts/>}/>
 
-      <NavItem name="Dashboard" destination="/dashboard" icon={<MdIcons.MdDashboard/>}/>
-
       <NavItem name="Profile" destination="/profile" icon={<FaIcons.FaUser/>}/>
 
       <NavBtn name="Logout" func={signOut} destination="/authentication" icon={<FaIcons.FaSignOutAlt/>}/>
