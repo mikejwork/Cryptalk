@@ -5,7 +5,7 @@ describe("Profile", () => {
     cy.get('#cypress-usernameField').type('CypressTestAccount');
     cy.get('#cypress-passwordField').type('cypress123')
     cy.get('#cypress-signIn').click()
-    cy.location('pathname').should('eq', '/dashboard')
+    cy.location('pathname').should('eq', '/channels')
   })
 
   it("renders correctly", () => {
@@ -44,6 +44,5 @@ describe("Profile", () => {
 
   it("two factor auth btn renders", () => {
     cy.get("#cypress-twoFactor").should("exist");
-
   })
 })

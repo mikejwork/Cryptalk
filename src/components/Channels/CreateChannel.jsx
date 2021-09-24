@@ -61,7 +61,7 @@ function CreateChannel(props) {
     <>
       <img src={process.env.PUBLIC_URL + '/vector_assets/contours.png'} alt="dd"/>
       <p onClick={() => props.set_ChatType("CHANNELS")}><MdIcons.MdKeyboardArrowLeft className={styles.backIcon}/>
-        <u>Back to channels</u>
+        <strong>Back to channels</strong>
       </p>
       <div className={styles.popup}>
         <h1>Create Channel</h1>
