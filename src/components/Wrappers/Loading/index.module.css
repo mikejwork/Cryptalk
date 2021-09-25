@@ -1,13 +1,9 @@
-.container {
+.containerPage {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   height: 100vh;
-}
-
-.container > h1 {
-  font-weight: 700;
 }
 
 .ldsRoller {

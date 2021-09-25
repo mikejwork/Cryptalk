@@ -1,12 +1,20 @@
 import React from 'react'
 import styles from './index.module.css'
 
-function Loading() {
+function LoadingPage() {
   return (
-    <div className={styles.container}>
+    <div className={styles.containerPage}>
       <div class={styles.ldsRoller}><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
     </div>
   )
 }
 
-export default Loading
+// function LoadingDiv() {
+//   return (
+//     <div className={styles.container}>
+//       <div class={styles.ldsRoller}><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+//     </div>
+//   )
+// }
+
+export default LoadingPage

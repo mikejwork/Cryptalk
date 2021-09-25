@@ -60,7 +60,7 @@ function ViewLogin(props) {
         {/* Actions */}
         <button onClick={submit} id="cypress-signIn">Sign in</button>
         <u onClick={() => props.set_View("REGISTRATION")}>Don't have an account?</u>
-        <u onClick={() => props.set_View("RECOVERY")}>Forgot your password?</u>
+        <u style={{fontSize:"9pt", opacity:"0.7", marginTop:"0.5ex"}} onClick={() => props.set_View("RECOVERY")}>Forgot your password?</u>
       </div>
       <div className={style.photo}>
         <img src={process.env.PUBLIC_URL + '/vector_assets/login-1.svg'} alt="Two figures interacting with a web-application."/>
