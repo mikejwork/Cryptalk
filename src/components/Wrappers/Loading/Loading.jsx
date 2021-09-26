@@ -4,7 +4,7 @@ import styles from './index.module.css'
 function LoadingPage() {
   return (
     <div className={styles.containerPage}>
-      <div class={styles.ldsRoller}><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+      <div className={styles.ldsRoller}><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
     </div>
   )
 }

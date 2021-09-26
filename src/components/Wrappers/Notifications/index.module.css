@@ -1,0 +1,60 @@
+.container {
+  position: fixed;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+.container > div {
+  padding: 7rem 1rem 0 0;
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+.notification {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 40ex;
+  padding: 1.5ex;
+  border-radius: 1ex;
+  background-color: white;
+  color: black;
+  pointer-events: all;
+}
+
+.icon {
+  font-size: 15pt;
+  width: 5ex;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon > p {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.actions {
+  display: flex;
+}
+
+.title {
+  font-size: 12pt;
+  font-weight: 700;
+}
+
+.message {
+  font-size: 10pt;
+  font-weight: 500;
+}

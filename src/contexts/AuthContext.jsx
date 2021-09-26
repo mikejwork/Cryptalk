@@ -1,8 +1,9 @@
 /* eslint-disable no-loop-func */
-import React, { useState, useEffect, createContext } from "react";
+import React, { useState, useEffect, createContext, useRef } from "react";
 import { Auth, Hub, DataStore, Storage } from "aws-amplify";
 import { Friends, RequestStorage, RequestStatus, Channel } from '../models';
 
+import Notification from '../components/Wrappers/Notifications/Notifications'
 import LoadingPage from '../components/Wrappers/Loading/Loading'
 
 export const AuthContext = createContext();
@@ -17,6 +18,9 @@ function AuthContextProvider(props) {
 
   // cache test
   const [_cachedAvatar, set_cachedAvatar] = useState()
+
+  // notifications
+  const notificationRef = useRef(null)
 
   async function checkUser() {
     try {
@@ -242,18 +246,23 @@ function AuthContextProvider(props) {
   }
 
   return (
-    <AuthContext.Provider value={
-      {
-        user: user,
-        updateUser: setUser,
-        datastore_ready: datastore_ready,
-        friends: friend_list,
-        requests: request_list,
-        channels: channels_list,
-        _cachedAvatar: _cachedAvatar
-      }}>
-      {props.children}
-    </AuthContext.Provider>
+    <>
+      <Notification ref={notificationRef}/>
+        <AuthContext.Provider value={
+        {
+          user: user,
+          updateUser: setUser,
+          datastore_ready: datastore_ready,
+          friends: friend_list,
+          requests: request_list,
+          channels: channels_list,
+          _cachedAvatar: _cachedAvatar,
+          spawnNotification: notificationRef.current?.spawn
+        }}>
+
+        {props.children}
+      </AuthContext.Provider>
+    </>
   );
 }
 
