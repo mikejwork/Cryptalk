@@ -15,10 +15,7 @@ function ProfileConfirm(props) {
         Auth.signOut();
       })
     } catch(error) {
-      setformState(() => ({
-        ...formState,
-        error: error.message,
-      }));
+      context.spawnNotification("ERROR", "Error", error.message);
     }
   }
 
@@ -27,10 +24,7 @@ function ProfileConfirm(props) {
       await Auth.verifyCurrentUserAttribute("email");
     } catch(error) {
       if (error.code === "LimitExceededException") {
-        setformState(() => ({
-          ...formState,
-          error: error.message,
-        }));
+        context.spawnNotification("ERROR", "Error", error.message);
       }
     }
   }
@@ -50,8 +44,6 @@ function ProfileConfirm(props) {
         <h5 className="subcomment">You will be logged-out after confirming, and will have to login again.</h5>
       </div>
       <div className={style.info}>
-        {/* Error */}
-        { formState.error === "" ? <></> : <p style={{alignSelf: "center"}} className="error">{formState.error}</p>}
 
         {/* Email */}
         <label htmlFor="code">Confirmation code</label>

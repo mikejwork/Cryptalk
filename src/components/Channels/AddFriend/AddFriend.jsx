@@ -10,10 +10,10 @@ function AddFriend(props) {
   const [formState, setformState] = useState({username:""})
 
   async function send() {
-    if (formState.username === undefined) { return; }
-    if (formState.username === context.user.username) { return; }
-    if (formState.username === "") { return; }
-    if (!/[^\s]/.test(formState.username)) { return; }
+    if (formState.username === undefined) { context.spawnNotification("ERROR", "Error", "Invalid username."); return; }
+    if (formState.username === context.user.username) { context.spawnNotification("ERROR", "Error", "You cannot add yourself."); return; }
+    if (formState.username === "") { context.spawnNotification("ERROR", "Error", "Invalid username."); return; }
+    if (!/[^\s]/.test(formState.username)) { context.spawnNotification("ERROR", "Error", "Invalid username."); return; }
 
     await DataStore.save(
       new RequestStorage({
@@ -27,6 +27,7 @@ function AddFriend(props) {
     ).then((result) => {
       setformState({username:""})
       props.setfriendMenu(false)
+      context.spawnNotification("SUCCESS", "Request sent", `Friend request sent to ${formState.username}`);
     });
   }
 

@@ -23,7 +23,9 @@ function EditChannels(props) {
         "users": [{username: context.user.username, sub: context.user.attributes.sub}],
         "channelID": props._Channel.id
       })
-    )
+    ).then(() => {
+      context.spawnNotification("SUCCESS", `New ${isVoice ? "voice" : "text"} channel`, `Channel "${formState.name}" created.`);
+    })
     setformState({})
     setisVoice(false)
     document.getElementById("name").value = ""

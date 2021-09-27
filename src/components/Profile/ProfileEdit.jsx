@@ -16,6 +16,7 @@ function ProfileEdit(props) {
 
     if (avatar !== undefined) {
       await Storage.put(context.user.attributes.sub + ".jpg", avatar);
+      context.spawnNotification("SUCCESS", "Success", "Avatar successfully updated.");
     }
 
     if (email !== context.user.attributes.email) {
@@ -29,11 +30,13 @@ function ProfileEdit(props) {
             await Auth.currentAuthenticatedUser().then(async (result) => {
               await context.updateUser(result)
             });
+            context.spawnNotification("SUCCESS", "Success", "Email updated, please confirm.");
             props.set_View("CONFIRM")
           }
         });
       } else {
-        setformState(() => ({...formState, error: "Not a valid email, please try again."}));
+        context.spawnNotification("ERROR", "Error", "Email not valid.");
+        // setformState(() => ({...formState, error: "Not a valid email, please try again."}));
       }
     }
   }
@@ -63,8 +66,14 @@ function ProfileEdit(props) {
 
   async function onFileChange(e) {
     const file = e.target.files[0];
-    if (!file) { return; }
-    if (!file.type.startsWith("image/")) { return; }
+    if (!file) {
+      context.spawnNotification("ERROR", "Error", "File not valid.");
+      return;
+    }
+    if (!file.type.startsWith("image/")) {
+      context.spawnNotification("ERROR", "Error", "File not an image.");
+      return;
+    }
 
     await setformState(() => ({...formState, avatar: file, error: ""}))
 
@@ -72,7 +81,7 @@ function ProfileEdit(props) {
       let src = URL.createObjectURL(file);
       set_Avatar(src)
     } catch(error) {
-      setformState(() => ({...formState, error: error.message}))
+      context.spawnNotification("ERROR", "Error", error.message);
     }
   }
 
@@ -87,9 +96,6 @@ function ProfileEdit(props) {
         <img src={_Avatar} alt=" "/>
       </div>
       <div className={style.info}>
-        {/* Error */}
-        { formState.error === "" ? <></> : <p style={{alignSelf: "center"}} className="error">{formState.error}</p>}
-
         {/* Email */}
         <label htmlFor="email"><MdIcons.MdMailOutline/> Email address</label>
         <input name="email" onChange={onChange} placeholder="Email address.." type="email" value={formState.email}/>

@@ -131,13 +131,9 @@ function Channels() {
           </div>
           {context.requests.map((request) => {
             return (
-              <FRListItem data={request} />
+              <FRListItem data={request} key={request.id}/>
             )
           })}
-
-
-
-
         </div>
         {/* CHATTYPE === CHANNEL */}
         {_ChatType === "CHANNELS" &&

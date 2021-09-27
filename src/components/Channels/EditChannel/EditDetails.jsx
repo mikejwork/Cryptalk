@@ -1,10 +1,12 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { DataStore } from "aws-amplify"
 import { Channel } from '../../../models';
 import EmojiMenu from '../../Wrappers/Emoji/EmojiMenu'
+import { AuthContext } from "../../../contexts/AuthContext";
 import styles from '../../../css/Channels/EditChannel/Edit.module.css';
 
 function EditDetails(props) {
+  const context = useContext(AuthContext)
 
   let initialState = {
     name: props._Channel.name,
@@ -30,6 +32,7 @@ function EditDetails(props) {
       item.description = formState.description
       item.icon = formState.message
     }));
+    context.spawnNotification("SUCCESS", "Saved", "Changes successfully changed.");
   }
 
   function onChange(e) {

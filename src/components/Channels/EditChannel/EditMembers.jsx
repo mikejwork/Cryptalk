@@ -28,6 +28,7 @@ function EditMembers(props) {
         })
       }));
     });
+    context.spawnNotification("SUCCESS", "User added", `User "${username}" added to channel.`);
   }
 
   async function kick_user(sub) {
@@ -41,6 +42,7 @@ function EditMembers(props) {
         }
       }));
     });
+    context.spawnNotification("SUCCESS", "User kicked", `User kicked from channel.`);
   }
 
   return (
