@@ -1,9 +1,11 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { Auth } from "aws-amplify";
 import * as MdIcons from "react-icons/md";
+import { AuthContext } from "../../contexts/AuthContext";
 import style from '../../css/Authentication/ViewRecovery.module.css';
 
 function ViewRecovery(props) {
+  const context = useContext(AuthContext);
   var initialForm = { stage: "FIRST", username: "", error: "", AttributeName: "", Destination: "", authCode: "", desired_password: "", code_1: "", code_2: "", code_3: "", code_4: "", code_5: "", code_6: "" };
 
   // State - storage
@@ -20,10 +22,11 @@ function ViewRecovery(props) {
             Destination: result.CodeDeliveryDetails.Destination,
             stage: "SECOND"
           }));
+          context.spawnNotification("SUCCESS", "Success", `Confirmation email sent.`);
           return;
         })
       } catch (error) {
-        setformState(() => ({ ...formState, error: error.message }));
+        context.spawnNotification("ERROR", "Error", error.message);
       }
     }
     // Second stage -- change password with code
@@ -33,11 +36,12 @@ function ViewRecovery(props) {
       try {
         await Auth.forgotPasswordSubmit(formState.username, authCode, formState.desired_password).then((result) => {
           if (result === "SUCCESS") {
+            context.spawnNotification("SUCCESS", "Success", "Password changed, please login.");
             props.set_View("LOGIN")
           }
         })
       } catch (error) {
-        setformState(() => ({ ...formState, error: error.message }));
+        context.spawnNotification("ERROR", "Error", error.message);
       }
     }
   }

@@ -1,12 +1,14 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { Auth, Storage } from "aws-amplify";
 import * as MdIcons from "react-icons/md";
+import { AuthContext } from "../../contexts/AuthContext";
 import style from '../../css/Authentication/ViewRegistration.module.css';
 
 import PrivacyPolicy from '../../components/Legal/PrivacyPolicy';
 import TermsAndConditions from '../../components/Legal/TermsAndConditions';
 
 function ViewRegistration(props) {
+  const context = useContext(AuthContext);
   var initialForm = { username: "", password: "", email: "", avatar: null, error: "" };
 
   // State - storage
@@ -56,7 +58,8 @@ function ViewRegistration(props) {
       let src = URL.createObjectURL(file);
       document.getElementById("avatar_preview").src = src;
     } catch (error) {
-      setformState(() => ({ ...formState, error: error.message }))
+      context.spawnNotification("ERROR", "Error", error.message);
+      // setformState(() => ({ ...formState, error: error.message }))
     }
   }
 
@@ -66,12 +69,14 @@ function ViewRegistration(props) {
 
     // Validation checks
     if (username === "" || password === "" || email === "") {
-      setformState(() => ({ ...formState, error: "Please fill in the required fields." }));
+      // setformState(() => ({ ...formState, error: "Please fill in the required fields." }));
+      context.spawnNotification("ERROR", "Error", "Please fill in the required fields.");
       return;
     }
 
     if (!_Legal) {
-      setformState(() => ({ ...formState, error: "You can't create an account without accepting our Terms & Conditions and Privacy Policy." }));
+      // setformState(() => ({ ...formState, error: "You can't create an account without accepting our Terms & Conditions and Privacy Policy." }));
+      context.spawnNotification("ERROR", "Error", "You can't create an account without accepting our Terms & Conditions and Privacy Policy.");
       return;
     }
 
@@ -80,32 +85,18 @@ function ViewRegistration(props) {
       await Auth.signUp({ username, password, attributes: { email } }).then(async (result) => {
         await Storage.put(result.userSub + ".jpg", avatar);
         props.set_SentTo(result.codeDeliveryDetails.Destination)
+        context.spawnNotification("SUCCESS", "Success", "Account created, please confirm your email.");
       });
       // Move onto confirm
       props.set_Username(username)
       props.set_View("CONFIRM")
     } catch (error) {
-      if (error.message) { setformState(() => ({ ...formState, error: error.message })); }
+      if (error.message) {
+        // setformState(() => ({ ...formState, error: error.message }));
+        context.spawnNotification("ERROR", "Error", error.message);
+      }
     }
   }
-
-  // if (_Page === "TERMS") {
-  //   return (
-  //     <div className={style.container}>
-  //       <TermsAndConditions style={{ padding: "0" }} />
-  //       <MdIcons.MdKeyboardArrowLeft onClick={() => set_Page("DEFAULT")} />
-  //     </div>
-  //   )
-  // }
-
-  // if (_Page === "PRIVACY") {
-  //   return (
-  //     <div className={style.container}>
-  //       <PrivacyPolicy style={{ padding: "0" }} />
-  //       <MdIcons.MdKeyboardArrowLeft onClick={() => set_Page("DEFAULT")} />
-  //     </div>
-  //   )
-  // }
 
   return (
     <div className={style.container}>
