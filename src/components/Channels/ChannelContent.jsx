@@ -1,5 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react'
 
+import CryptoJS from 'crypto-js'
+
 import * as MdIcons from "react-icons/md";
 import { DataStore, SortDirection } from "aws-amplify";
 import { AuthContext } from "../../contexts/AuthContext";
@@ -43,7 +45,7 @@ function ChannelContent(props) {
   }
 
   async function getMessages() {
-    const result = await DataStore.query(Messages, (message) => message.subchannelID("eq", props.data.id), {
+    var result = await DataStore.query(Messages, (message) => message.subchannelID("eq", props.data.id), {
       sort: msg => msg.createdAt(SortDirection.ASCENDING) //SortDirection.DESCENDING
     })
     set_Messages(result)
@@ -53,8 +55,13 @@ function ChannelContent(props) {
     }
   }
 
+  async function encrypt(message, key) {
+    var ciphertext = CryptoJS.AES.encrypt(message, key + "cryptalkKey");
+    return ciphertext.toString();
+  }
+
   async function sendMessage() {
-    const { message } = formState
+    var { message } = formState
     const username = context.user.username
     const id = context.user.attributes.sub
     const type = MessageType.TEXT
@@ -64,6 +71,8 @@ function ChannelContent(props) {
     // regex ensures the message isnt empty, or just spaces
     if (message === undefined) { return }
     if (!/[^\s]/.test(message)) { return }
+
+    message = await encrypt(message, subchannelID)
 
     await DataStore.save(
       new Messages({

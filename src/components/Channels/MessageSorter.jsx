@@ -1,10 +1,8 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
+import CryptoJS from 'crypto-js'
 import UserAvatar from '../Wrappers/Avatar/UserAvatar'
 import { AuthContext } from "../../contexts/AuthContext";
 import styles from '../../css/Channels/MessageSorter.module.css';
-
-// Purpose:
-// to sort a given array of messages into a readable format, sorted by timestamp etc.
 
 function getRelativeDate(createdAt) {
   var date = new Date(createdAt);
@@ -46,11 +44,30 @@ function getRelativeIndex(createdAt) {
 }
 
 function ChatBubble(props) {
-  // isIncoming
-  // isImage
-  // isFile
-  // appendPrevious
-  // _Message
+  var content = props._Message.content;
+  var directID = props._Message.directmessageID;
+  var channelID = props._Message.subchannelID;
+
+  const [_Decrypted, set_Decrypted] = useState("")
+
+  function decrypt(cipherText, key) {
+    var bytes = CryptoJS.AES.decrypt(cipherText, key + "cryptalkKey");
+    return bytes.toString(CryptoJS.enc.Utf8);
+  }
+
+  useEffect(() => {
+    if (directID !== null && directID !== undefined) {
+      var decryptedDM = decrypt(content, directID)
+      set_Decrypted(decryptedDM)
+      return;
+    }
+
+    if (channelID !== null && channelID !== undefined) {
+      var decryptedMSG = decrypt(content, channelID)
+      set_Decrypted(decryptedMSG)
+      return;
+    }
+  }, [channelID, directID, content])
 
   if (props.isIncoming) {
     return (
@@ -61,7 +78,7 @@ function ChatBubble(props) {
             <UserAvatar id={props._Message.author_id}/>
           </div>
           <div className={`${props.appendPrevious ? styles.incomingMessage_a : styles.incomingMessage}`}>
-            <p>{props._Message.content}</p>
+            <p>{_Decrypted}</p>
           </div>
         </div>
       </>
@@ -75,7 +92,7 @@ function ChatBubble(props) {
             <p>{props._Message.author_username}</p>
           </div>
           <div className={`${props.appendPrevious ? styles.outgoingMessage_a : styles.outgoingMessage}`}>
-            <p>{props._Message.content}</p>
+            <p>{_Decrypted}</p>
           </div>
         </div>
       </>

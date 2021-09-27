@@ -39,7 +39,7 @@ function AuthContextProvider(props) {
     Hub.listen("datastore", (data) => {
       // console.log(data.payload.event)
       if (data.payload.event === "ready") {
-        console.log("datastore::listener => ready")
+        // console.log("datastore::listener => ready")
         setdatastore_ready(true)
         setLoading(false);
       }

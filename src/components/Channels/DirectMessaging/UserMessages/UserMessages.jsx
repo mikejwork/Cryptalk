@@ -1,4 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react'
+import CryptoJS from 'crypto-js'
 import styles from './index.module.css';
 import * as MdIcons from "react-icons/md";
 import { DataStore, SortDirection } from "aws-amplify";
@@ -64,8 +65,13 @@ function UserMessages(props) {
     });
   }
 
+  async function encrypt(message, key) {
+    var ciphertext = CryptoJS.AES.encrypt(message, key + "cryptalkKey");
+    return ciphertext.toString();
+  }
+
   async function sendMessage() {
-    const { message } = formState
+    var { message } = formState
     const author_username = context.user.username
     const author_id = context.user.attributes.sub
     const type = MessageType.TEXT
@@ -75,6 +81,8 @@ function UserMessages(props) {
     // regex ensures the message isnt empty, or just spaces
     if (message === undefined) { return }
     if (!/[^\s]/.test(message)) { return }
+
+    message = await encrypt(message, directmessageID)
 
     await DataStore.save(
       new Messages({
