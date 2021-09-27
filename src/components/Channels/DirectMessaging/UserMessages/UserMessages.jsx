@@ -113,19 +113,21 @@ function UserMessages(props) {
   if (!_DirectMessage) { return null }
 
   return (
-    <div className={styles.container} onKeyPress={onKeyPress}>
-      <div className={styles.messages}>
-        { _Messages &&
-          <MessageSorter _Messages={_Messages}/>
-        }
+    <>
+      <div className={styles.container} onKeyPress={onKeyPress}>
+        <div className={styles.messages}>
+          { _Messages &&
+            <MessageSorter _Messages={_Messages}/>
+          }
+        </div>
+        <div className={styles.inputForm}>
+          <MdIcons.MdAttachFile className={styles.attatchFileIcon}/>
+          <EmojiMenu setting="APPEND" formState={formState} setformState={setformState} className={styles.emojiMenuIcon}/>
+          <input value={formState.message} onChange={onChange} autoComplete="off" spellCheck="false" id="message" name="message" type="text" placeholder="Write a message.."/>
+          <MdIcons.MdSend onClick={sendMessage} className={styles.sendIcon}/>
+        </div>
       </div>
-      <div className={styles.inputForm}>
-        <MdIcons.MdAttachFile className={styles.attatchFileIcon}/>
-        <EmojiMenu setting="APPEND" formState={formState} setformState={setformState} className={styles.emojiMenuIcon}/>
-        <input value={formState.message} onChange={onChange} autoComplete="off" spellCheck="false" id="message" name="message" type="text" placeholder="Write a message.."/>
-        <MdIcons.MdSend onClick={sendMessage} className={styles.sendIcon}/>
-      </div>
-    </div>
+    </>
   )
 }
 

@@ -11,7 +11,7 @@
 
 .sideContainer {
   width: 50ex;
-  padding: 5ex;
+  padding: 12ex 5ex 5ex 5ex;
   display: flex;
   flex-direction: column;
 }

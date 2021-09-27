@@ -7,11 +7,12 @@ import styles from './index.module.css'
 // context.spawnNotification("ERROR", "Login error", "Username field is required!");
 
 function Wrap(props) {
-  const [styling, api] = useSpring(() => ({opacity: "0"}))
+  const [styling, api] = useSpring(() => ({opacity: "0", transform: "translateX(100%)"}))
 
   useEffect(() => {
     api.start({
       opacity: "1",
+      transform: "translateX(0%)",
       onRest: () => startTimer()
     })
   })
@@ -19,12 +20,13 @@ function Wrap(props) {
   function startTimer() {
     setTimeout(() => {
       close()
-    }, 1000);
+    }, 1200); // Change this for duration
   }
 
   function close() {
     api.start({
       opacity: "0",
+      transform: "translateX(100%)",
       onRest: () => props.unset(props.itemKey)
     })
   }
