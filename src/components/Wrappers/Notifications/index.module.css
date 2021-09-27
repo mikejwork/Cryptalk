@@ -5,24 +5,28 @@
   width: 100%;
   pointer-events: none;
   z-index: 9999;
-}
-
-.container > div {
-  padding: 7rem 1rem 0 0;
   display: flex;
   flex-direction: row-reverse;
 }
 
-.notification {
+.sideContainer {
+  width: 50ex;
+  padding: 5ex;
+  display: flex;
+  flex-direction: column;
+}
+
+.wrapContainer {
+  pointer-events: all;
+  padding: 1ex;
   display: flex;
   flex-direction: row;
   align-items: center;
-  width: 40ex;
-  padding: 1.5ex;
-  border-radius: 1ex;
-  background-color: white;
   color: black;
-  pointer-events: all;
+  background-color: white;
+  cursor: pointer;
+  border-radius: 1ex;
+  margin-bottom: 1ex;
 }
 
 .icon {
@@ -47,6 +51,15 @@
 
 .actions {
   display: flex;
+  font-size: 13pt;
+}
+
+.close {
+  cursor: pointer;
+}
+
+.close:hover {
+  transform: scale(0.8);
 }
 
 .title {

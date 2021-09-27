@@ -13,6 +13,7 @@ function NavigationMenu() {
   async function signOut() {
     await Auth.signOut()
     context.updateUser(null)
+    set_Open(false)
   }
 
   return (

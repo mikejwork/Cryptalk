@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import AuthContextProvider from "./contexts/AuthContext";
 import { BrowserRouter as Router, Switch, Route} from "react-router-dom";
 
@@ -21,11 +21,16 @@ import Footer from './components/Footer/Footer'
 import PrivacyPolicy from './components/Legal/PrivacyPolicy';
 import TermsAndConditions from './components/Legal/TermsAndConditions';
 
+import Notification from './components/Wrappers/Notifications/Notifications'
+
 function App() {
+  // notifications
+  const notificationRef = useRef(null)
   return (
     <>
       <Router>
-        <AuthContextProvider>
+        <Notification ref={notificationRef}/>
+        <AuthContextProvider notificationRef={notificationRef}>
           <Navigation/>
           <Switch>
             <Route exact path="/"><Home/></Route>

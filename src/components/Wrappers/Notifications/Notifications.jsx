@@ -1,51 +1,36 @@
-import React, { useState, forwardRef, useImperativeHandle } from 'react'
+import React, { useEffect, useState, forwardRef, useImperativeHandle } from 'react'
 import { useSpring, animated } from 'react-spring'
 import * as MdIcons from "react-icons/md";
+import { v4 as uuidv4 } from 'uuid';
 import styles from './index.module.css'
 
-// SUCCESS <MdIcons.MdDoneAll/>
-// DELETE <MdIcons.MdDeleteForever/>
-// NETWORK <MdIcons.MdDns/>
-// INFO <MdIcons.MdHelp/>
-// WAIT <MdIcons.MdHourglassFull/>
-// DOWNLOAD <MdIcons.MdGetApp/>
-// ERROR <MdIcons.MdReport/>
+// context.spawnNotification("ERROR", "Login error", "Username field is required!");
 
-const Notification = forwardRef((props, ref) => {
-  const [_Type, set_Type] = useState("SUCCESS")
-  const [_Title, set_Title] = useState("Nil")
-  const [_Message, set_Message] = useState("Nil")
-  var timeout;
-  const [styling, api] = useSpring(() => ({
-    opacity: "0"
-  }))
+function Wrap(props) {
+  const [styling, api] = useSpring(() => ({opacity: "0"}))
 
-  useImperativeHandle(ref, () => ({
-      spawn(type, title, message) {
-        console.log('spawn')
-        set_Type(type);
-        set_Title(title);
-        set_Message(message);
-        open();
+  useEffect(() => {
+    api.start({
+      opacity: "1",
+      onRest: () => startTimer()
+    })
+  })
 
-        timeout = setTimeout(() => {
-          close();
-        }, 5000)
-      }
-  }))
-
-  function open() {
-    console.log('open')
-    api.start({opacity: "1"})
+  function startTimer() {
+    setTimeout(() => {
+      close()
+    }, 1000);
   }
 
   function close() {
-    console.log('close')
-    api.start({opacity: "0"})
+    api.start({
+      opacity: "0",
+      onRest: () => props.unset(props.itemKey)
+    })
   }
 
   function getIcon() {
-    switch(_Type) {
+    switch(props.type) {
       case "SUCCESS":
         return <MdIcons.MdDoneAll style={{color:"green"}}/>;
       case "DELETE":
@@ -66,24 +51,51 @@ const Notification = forwardRef((props, ref) => {
   }
 
   return (
-    <>
-      <div className={styles.container}>
-        <div>
-          <animated.div style={styling} className={styles.notification}>
-            <div className={styles.icon}>
-              {getIcon()}
-            </div>
-            <div className={styles.info}>
-              <p className={styles.title}>{_Title}</p>
-              <p className={styles.message}>{_Message}</p>
-            </div>
-            <div className={styles.actions}>
-              <MdIcons.MdClose onClick={close} style={{cursor:"pointer"}}/>
-            </div>
-          </animated.div>
-        </div>
+    <animated.div style={styling} className={styles.wrapContainer}>
+      <div className={styles.icon}>
+        {getIcon()}
       </div>
-    </>
+      <div className={styles.info}>
+        <p className={styles.title}>{props.title}</p>
+        <p className={styles.message}>{props.message}</p>
+      </div>
+      <div className={styles.actions}>
+        <MdIcons.MdClose className={styles.close} onClick={close}/>
+      </div>
+    </animated.div>
+  )
+}
+
+const Notification = forwardRef((props, ref) => {
+  const [_Notifications, set_Notifications] = useState([])
+
+  // Remove an element by key
+  function unset(key) {
+    set_Notifications(old => old.filter(item => item.key !== key));
+  }
+
+  useImperativeHandle(ref, () => ({
+    spawn(type, title, message) {
+      let itemKey = uuidv4();
+      set_Notifications(old => [...old, {
+        key: itemKey,
+        element: <Wrap type={type} title={title} message={message} itemKey={itemKey} unset={unset}/>
+      }])
+    }
+  }))
+
+  return (
+    <div className={styles.container}>
+      <div className={styles.sideContainer}>
+        { _Notifications.map((item) => {
+          return (
+            <div key={item.key}>
+              {item.element}
+            </div>
+          )
+        })}
+      </div>
+    </div>
   )
 })
 

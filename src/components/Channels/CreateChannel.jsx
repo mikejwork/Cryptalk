@@ -16,10 +16,10 @@ function CreateChannel(props) {
   async function createChannel() {
     const { name, desc } = formState;
 
-    if (name === undefined) { setformState(() => ({...formState, error: "Channel name required."})); return; }
-    if (desc === undefined) { setformState(() => ({...formState, error: "Channel description required."})); return; }
-    if (!/[^\s]/.test(name)) { setformState(() => ({...formState, error: "Invalid channel name."})); return; }
-    if (!/[^\s]/.test(desc)) { setformState(() => ({...formState, error: "Invalid channel description."})); return; }
+    if (name === undefined) { context.spawnNotification("ERROR", "Error", "Channel name is required."); return; }
+    if (desc === undefined) { context.spawnNotification("ERROR", "Error", "Channel description is required."); return; }
+    if (!/[^\s]/.test(name)) { context.spawnNotification("ERROR", "Error", "Invalid channel name."); return; }
+    if (!/[^\s]/.test(desc)) { context.spawnNotification("ERROR", "Error", "Invalid channel description"); return; }
 
     const models = await DataStore.query(Channel);
     for (var i in models) {
@@ -47,6 +47,7 @@ function CreateChannel(props) {
       })
     )
     props.set_ChatType("CHANNELS")
+    context.spawnNotification("SUCCESS", `${_Icon.message} ${name}`, "Successfully created.");
   }
 
   function onChange(e) {

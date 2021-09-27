@@ -1,12 +1,15 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { DataStore } from "aws-amplify";
 import { SubChannel } from '../../../models';
 import * as HiIcons from "react-icons/hi";
 import * as FaIcons from "react-icons/fa";
+import { AuthContext } from "../../../contexts/AuthContext";
 import UserAvatar from '../../../components/Wrappers/Avatar/UserAvatar'
 import styles from '../../../css/Channels/EditChannel/Edit.module.css';
 
 function EditPermissions(props) {
+  const context = useContext(AuthContext)
+
   async function grant_user(subChannelID, username, sub) {
     await DataStore.query(SubChannel, subChannelID).then(async (result) => {
       await DataStore.save(SubChannel.copyOf(result, item => {
@@ -16,6 +19,7 @@ function EditPermissions(props) {
         })
       }));
     });
+    context.spawnNotification("SUCCESS", "Access granted", `Updated user "${username}" permissions".`);
   }
 
   async function revoke_user(subChannelID, sub) {
@@ -29,6 +33,7 @@ function EditPermissions(props) {
         }
       }));
     });
+    context.spawnNotification("SUCCESS", "Access revoked", `Updated users permissions".`);
   }
 
   return (
