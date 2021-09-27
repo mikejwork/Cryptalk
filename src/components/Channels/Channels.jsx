@@ -178,6 +178,7 @@ function Channels() {
                 :
                 <div className={styles.noneMsg}>
                   <p>No channel selected</p>
+                  <img src={process.env.PUBLIC_URL + '/vector_assets/message.svg'} alt="A girl holding a paper plane."/>
                 </div>
               }
             </div>

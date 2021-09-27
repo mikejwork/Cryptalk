@@ -50,7 +50,18 @@ function ViewRegistration(props) {
   async function onFileChange(e) {
     const file = e.target.files[0];
     if (!file) { return; }
-    if (!file.type.startsWith("image/")) { return; }
+
+    // If size is over 2MB (size is in bytes)
+    if (file.size > 2000000) {
+      context.spawnNotification("ERROR", "Error", "Avatar too big! Max 2MB.");
+      return;
+    }
+
+    // If not an image
+    if (!file.type.startsWith("image/")) {
+      context.spawnNotification("ERROR", "Error", "Avatar is not an image.");
+      return;
+    }
 
     await setformState(() => ({ ...formState, avatar: file, error: "" }))
 
@@ -59,7 +70,6 @@ function ViewRegistration(props) {
       document.getElementById("avatar_preview").src = src;
     } catch (error) {
       context.spawnNotification("ERROR", "Error", error.message);
-      // setformState(() => ({ ...formState, error: error.message }))
     }
   }
 
@@ -69,13 +79,11 @@ function ViewRegistration(props) {
 
     // Validation checks
     if (username === "" || password === "" || email === "") {
-      // setformState(() => ({ ...formState, error: "Please fill in the required fields." }));
       context.spawnNotification("ERROR", "Error", "Please fill in the required fields.");
       return;
     }
 
     if (!_Legal) {
-      // setformState(() => ({ ...formState, error: "You can't create an account without accepting our Terms & Conditions and Privacy Policy." }));
       context.spawnNotification("ERROR", "Error", "You can't create an account without accepting our Terms & Conditions and Privacy Policy.");
       return;
     }

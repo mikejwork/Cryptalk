@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useSpring, animated } from 'react-spring'
 import * as MdIcons from "react-icons/md";
 
-import styles from '../../css/Footer/Footer.module.css';
+import styles from './index.module.css';
 
 function Footer() {
   const [open, setOpen] = useState(false)

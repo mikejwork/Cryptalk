@@ -2,8 +2,6 @@ import React, { useState, useEffect, useContext } from 'react'
 import { Storage } from "aws-amplify";
 import { useSpring, animated } from 'react-spring';
 import { AuthContext } from "../../../contexts/AuthContext";
-// Unused but leave empty
-// import styles from "../../../css/Wrappers/Avatar/UserAvatar.module.css";
 
 function UserAvatar(props) {
   const context = useContext(AuthContext);

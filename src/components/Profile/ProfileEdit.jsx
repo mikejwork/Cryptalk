@@ -14,15 +14,30 @@ function ProfileEdit(props) {
   async function submit() {
     const {email, avatar} = formState;
 
+
     if (avatar !== undefined) {
+      // If size is over 2MB (size is in bytes)
+      if (avatar.size > 2000000) {
+        context.spawnNotification("ERROR", "Error", "Avatar too big! Max 2MB.");
+        return;
+      }
+
+      // If not an image
+      if (!avatar.type.startsWith("image/")) {
+        context.spawnNotification("ERROR", "Error", "Avatar is not an image.");
+        return;
+      }
+
+      // Success & Upload
       await Storage.put(context.user.attributes.sub + ".jpg", avatar);
       context.spawnNotification("SUCCESS", "Success", "Avatar successfully updated.");
     }
 
     if (email !== context.user.attributes.email) {
       // eslint-disable-next-line no-useless-escape
-      const email_expr = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-      if (email_expr.test(email)) {
+      const email_expression = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+      if (email_expression.test(email)) {
         await Auth.updateUserAttributes(context.user, {
           email: email
         }).then(async (result) => {
@@ -36,16 +51,14 @@ function ProfileEdit(props) {
         });
       } else {
         context.spawnNotification("ERROR", "Error", "Email not valid.");
-        // setformState(() => ({...formState, error: "Not a valid email, please try again."}));
       }
     }
   }
 
-  async function get_avatar() {
-    set_Avatar(await Storage.get(context.user.attributes.sub + ".jpg"))
-  }
-
   useEffect(() => {
+    async function get_avatar() {
+      set_Avatar(await Storage.get(context.user.attributes.sub + ".jpg"))
+    }
     get_avatar()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
@@ -93,7 +106,7 @@ function ProfileEdit(props) {
       </div>
       <hr/>
       <div className={style.avatar}>
-        <img src={_Avatar} alt=" "/>
+        <img src={_Avatar} alt="Your avatar."/>
       </div>
       <div className={style.info}>
         {/* Email */}
