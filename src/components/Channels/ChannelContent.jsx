@@ -2,13 +2,13 @@ import React, { useContext, useState, useEffect } from 'react'
 
 import CryptoJS from 'crypto-js'
 
-import * as MdIcons from "react-icons/md";
 import { DataStore, SortDirection } from "aws-amplify";
 import { AuthContext } from "../../contexts/AuthContext";
 import { Messages, MessageType } from '../../models';
 import styles from '../../css/Channels/ChannelContent.module.css';
 
-import EmojiMenu from '../Wrappers/Emoji/EmojiMenu'
+import MessageInput from '../Wrappers/MessageInput/MessageInput'
+
 
 import MessageSorter from './MessageSorter'
 
@@ -30,19 +30,6 @@ function ChannelContent(props) {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.data])
-
-  function onChange(e) {
-    setformState(() => ({
-      ...formState,
-      [e.target.name]: e.target.value
-    }));
-  }
-
-  function onKeyPress(e) {
-    if (e.key === "Enter") {
-      sendMessage()
-    }
-  }
 
   async function getMessages() {
     var result = await DataStore.query(Messages, (message) => message.subchannelID("eq", props.data.id), {
@@ -88,17 +75,14 @@ function ChannelContent(props) {
   }
 
   return (
-    <div className={styles.container} onKeyPress={onKeyPress}>
+    <div className={styles.container}>
       <div className={styles.messages}>
         { _Messages &&
           <MessageSorter _Messages={_Messages}/>
         }
       </div>
       <div className={styles.inputForm}>
-        <MdIcons.MdAttachFile className={styles.attatchFileIcon}/>
-        <EmojiMenu setting="APPEND" formState={formState} setformState={setformState} className={styles.emojiMenuIcon}/>
-        <input value={formState.message} onChange={onChange} autoComplete="off" spellCheck="false" id="message" name="message" type="text" placeholder="Write a message.."/>
-        <MdIcons.MdSend onClick={sendMessage} className={styles.sendIcon}/>
+        <MessageInput />
       </div>
     </div>
   )

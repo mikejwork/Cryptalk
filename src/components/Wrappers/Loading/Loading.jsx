@@ -1,7 +1,7 @@
 import React from 'react'
 import styles from './index.module.css'
 
-function LoadingPage() {
+function Loading() {
   return (
     <div className={styles.containerPage}>
       <div className={styles.ldsRoller}><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
@@ -9,12 +9,12 @@ function LoadingPage() {
   )
 }
 
-// function LoadingDiv() {
-//   return (
-//     <div className={styles.container}>
-//       <div class={styles.ldsRoller}><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
-//     </div>
-//   )
-// }
+export function LoadingDiv() {
+  return (
+    <div className={styles.container}>
+      <div class={styles.ldsRoller}><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+    </div>
+  )
+}
 
-export default LoadingPage
+export default Loading
