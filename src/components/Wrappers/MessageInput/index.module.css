@@ -3,16 +3,26 @@
   font-size: 10pt;
 }
 
+.imageContainer {
+  margin:0 auto;
+  padding-top: 0;
+  width: fit-content;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .preview {
-  padding-top: 0.5ex;
-  width: 10ex;
+  width: 14vw;
+  min-width: 20ex;
 }
 
 .main {
   display: flex;
   flex-direction: row;
   align-items: center;
-  padding: 1ex 2ex 0ex 2ex;
+  padding: 1ex 0ex 0ex 0ex;
   width: 100%;
 }
 

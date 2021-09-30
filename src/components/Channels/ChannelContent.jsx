@@ -15,10 +15,12 @@ import MessageSorter from './MessageSorter'
 function ChannelContent(props) {
   const context = useContext(AuthContext)
 
-  const [formState, setformState] = useState({message: ""})
+  const [formState, setformState] = useState({ message: "" })
   const [_Messages, set_Messages] = useState([])
 
+
   useEffect(() => {
+
     if (context.datastore_ready && props.data) {
       getMessages()
       const messages_subscription = DataStore.observe(Messages, (message) => message.subchannelID("eq", props.data.id)).subscribe(() => getMessages())
@@ -34,6 +36,7 @@ function ChannelContent(props) {
   async function getMessages() {
     var result = await DataStore.query(Messages, (message) => message.subchannelID("eq", props.data.id), {
       sort: msg => msg.createdAt(SortDirection.ASCENDING) //SortDirection.DESCENDING
+
     })
     set_Messages(result)
 
@@ -70,21 +73,21 @@ function ChannelContent(props) {
         "subchannelID": subchannelID
       })
     )
-    setformState({message: ""})
+    setformState({ message: "" })
     document.getElementById("message").value = ""
   }
 
   return (
-    <div className={styles.container}>
-      <div className={styles.messages}>
-        { _Messages &&
-          <MessageSorter _Messages={_Messages}/>
-        }
+      <div className={styles.container}>
+        <div className={styles.messages}>
+          {_Messages &&
+            <MessageSorter _Messages={_Messages} />
+          }
+        </div>
+        <div className={styles.inputForm}>
+          <MessageInput />
+        </div>
       </div>
-      <div className={styles.inputForm}>
-        <MessageInput />
-      </div>
-    </div>
   )
 }
 

@@ -5,6 +5,7 @@ import EmojiMenu from '../Emoji/EmojiMenu'
 import { MessageType } from '../../../models';
 import * as MdIcons from "react-icons/md";
 import styles from './index.module.css'
+import DragDrop from '../DragDrop/DragDrop';
 
 function MessageInput(props) {
   const context = useContext(AuthContext)
@@ -42,13 +43,18 @@ function MessageInput(props) {
   }
 
   function onFileChange(e) {
-    const file = e.target.files[0];
-    if (!file) { return; }
+    let file = e
+    if (e.type === "change") {
+      file = e.target.files[0];
+    }
 
+    if (!file) { return; }
     console.log(file)
+
     set_FileName(file.name)
     set_FileSize(bytesToSize(file.size))
-    setformState(() => ({...formState,
+    setformState(() => ({
+      ...formState,
       type: MessageType.FILE,
       file: file
     }));
@@ -72,23 +78,32 @@ function MessageInput(props) {
     }
   }
 
+  const dropFile = (files) => {
+    onFileChange(files[0])
+  }
+
   return (
     <>
-      <div style={{display:"none"}}>
-        <input type="file" ref={uploaderRef} onChange={onFileChange}/>
-      </div>
-      <div className={styles.attatchment} style={{display:`${formState.type === MessageType.FILE ? "block" : "none"}`}}>
-        {_FileName} . <strong>{_FileSize}</strong>
-      </div>
-      { _FilePreview &&
-        <img className={styles.preview} alt="attatchment preview" src={_FilePreview}/>
-      }
-      <div className={styles.main} onKeyPress={onKeyPress}>
-        <MdIcons.MdAttachFile className={styles.attatchFileIcon} onClick={openUpload}/>
-        <EmojiMenu setting="APPEND" formState={formState} setformState={setformState} className={styles.emojiMenuIcon}/>
-        <input value={formState.message} onChange={onChange} autoComplete="off" spellCheck="false" id="message" name="message" type="text" placeholder="Write a message.."/>
-        <MdIcons.MdSend onClick={processMessage} className={styles.sendIcon}/>
-      </div>
+      <DragDrop dropFile={dropFile}>
+        <div style={{ display: "none" }}>
+          <input type="file" ref={uploaderRef} onChange={onFileChange} />
+        </div>
+          <div className={styles.attatchment} style={{ display: `${formState.type === MessageType.FILE ? "block" : "none"}` }}>
+            {_FileName} . <strong>{_FileSize}</strong>
+          </div>
+          <div className={styles.imageContainer}>
+            {_FilePreview &&
+              <img className={styles.preview} alt="attatchment preview" src={_FilePreview} />
+            }
+          </div>
+
+        <div className={styles.main} onKeyPress={onKeyPress}>
+          <MdIcons.MdAttachFile className={styles.attatchFileIcon} onClick={openUpload} />
+          <EmojiMenu setting="APPEND" formState={formState} setformState={setformState} className={styles.emojiMenuIcon} />
+          <input value={formState.message} onChange={onChange} autoComplete="off" spellCheck="false" id="message" name="message" type="text" placeholder="Write a message.." />
+          <MdIcons.MdSend onClick={processMessage} className={styles.sendIcon} />
+        </div>
+      </DragDrop>
     </>
   )
 }
