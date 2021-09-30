@@ -82,6 +82,16 @@ function MessageInput(props) {
     onFileChange(files[0])
   }
 
+  function deleteFile(e) {
+    setformState(() => ({
+      ...formState,
+      type: 0,
+      file: null
+    }));
+      set_FilePreview(null)
+      set_FileName("");
+  }
+
   return (
     <>
       <DragDrop dropFile={dropFile}>
@@ -93,7 +103,10 @@ function MessageInput(props) {
           </div>
           <div className={styles.imageContainer}>
             {_FilePreview &&
+            <>
               <img className={styles.preview} alt="attatchment preview" src={_FilePreview} />
+              <p onClick={deleteFile} className={styles.reject}><MdIcons.MdClose/></p>
+            </>
             }
           </div>
 

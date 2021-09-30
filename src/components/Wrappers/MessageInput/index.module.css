@@ -4,17 +4,17 @@
 }
 
 .imageContainer {
-  margin:0 auto;
   padding-top: 0;
   width: fit-content;
   position: relative;
+  background-color: wheat;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  align-items: left;
+  justify-content: left;
 }
 
 .preview {
-  width: 14vw;
+  width: 7vw;
   min-width: 20ex;
 }
 
@@ -50,4 +50,23 @@
 
 .main > .sendIcon:hover {
   color: var(--bg-accent);
+}
+
+.reject {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.5em;
+  height: 1.5em;
+  position: absolute;
+  top:0px;
+  right:0px;
+  color: var(--warning);
+
+}
+
+.reject:hover {
+  border-radius: 50%;
+  color: white;
+  background-color: var(--warning);
 }
