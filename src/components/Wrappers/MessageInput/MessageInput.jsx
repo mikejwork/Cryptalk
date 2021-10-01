@@ -14,6 +14,9 @@ function MessageInput(props) {
   const [_FileName, set_FileName] = useState("")
   const [_FileSize, set_FileSize] = useState("")
   const [_FilePreview, set_FilePreview] = useState(undefined)
+  const [_FileDelete, set_FileDelete] = useState(false)
+  const [_FilePreviewExt, set_FilePreviewExt] = useState(false)
+
   const [formState, setformState] = useState({
     message: "",
     type: MessageType.TEXT,
@@ -63,6 +66,11 @@ function MessageInput(props) {
       let src = URL.createObjectURL(file);
       set_FilePreview(src)
     }
+    if (file.type === "application/pdf") {
+      console.log("HELLO");
+      set_FilePreviewExt(true)
+    }
+    set_FileDelete(true)
   }
 
   function onChange(e) {
@@ -89,7 +97,9 @@ function MessageInput(props) {
       file: null
     }));
       set_FilePreview(null)
+      set_FilePreviewExt(false)
       set_FileName("");
+      set_FileDelete(false)
   }
 
   return (
@@ -103,10 +113,13 @@ function MessageInput(props) {
           </div>
           <div className={styles.imageContainer}>
             {_FilePreview &&
-            <>
               <img className={styles.preview} alt="attatchment preview" src={_FilePreview} />
+            }
+            {_FilePreviewExt &&
+              <p className={styles.fileIcon}><MdIcons.MdInsertDriveFile/></p>
+            }
+            {_FileDelete &&
               <p onClick={deleteFile} className={styles.reject}><MdIcons.MdClose/></p>
-            </>
             }
           </div>
 

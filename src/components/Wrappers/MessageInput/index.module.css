@@ -7,7 +7,6 @@
   padding-top: 0;
   width: fit-content;
   position: relative;
-  background-color: wheat;
   display: flex;
   align-items: left;
   justify-content: left;
@@ -69,4 +68,8 @@
   border-radius: 50%;
   color: white;
   background-color: var(--warning);
+}
+
+.fileIcon {
+  font-size: 60pt;
 }
