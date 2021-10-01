@@ -18,7 +18,7 @@ function NavigationMenu() {
 
   return (
     <>
-      <div className={`${_Open ? styles.dropdownOpen : styles.dropdown}`} onClick={() => set_Open(!_Open)}>
+      <div className={`${_Open ? styles.dropdownOpen : styles.dropdown}`} onClick={() => set_Open(!_Open)} id="cypress-navMenu">
         <HiIcons.HiMenuAlt3/>
       </div>
       { _Open &&

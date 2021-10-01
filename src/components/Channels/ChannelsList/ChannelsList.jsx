@@ -4,6 +4,7 @@ import { ChannelsContext } from "../Channels/Channels";
 import { AuthContext } from "../../../contexts/AuthContext";
 
 import styles from './index.module.css'
+import * as HiIcons from "react-icons/hi";
 
 import FriendsListAdd from "../FriendsListAdd/FriendsListAdd";
 import FriendsListItem from "../FriendsListItem/FriendsListItem";
@@ -18,7 +19,9 @@ function ChannelsList() {
 
   return (
     <div className={styles.container}>
-      <Header text="GROUPS" callback={() => channelsContext.set_ViewOverlay("ViewOverlay_NewChannel")}/>
+        <Header text="GROUPS">
+          <HiIcons.HiDocumentAdd onClick={() => channelsContext.set_ViewOverlay("ViewOverlay_NewChannel")} id="cypress-addChannel"/>
+        </Header>
       { context?.channels?.map((channel) => {
         return (
           <ChannelsListItem key={channel.id} _Channel={channel}/>

@@ -74,7 +74,7 @@ function ViewRecovery(props) {
   }
 
   return (
-    <div className={style.container}>
+    <div className={style.container} id="cypress-recoveryPage">
 
       <div className={style.photo}>
         <img src={process.env.PUBLIC_URL + '/vector_assets/forgot-1.svg'} alt="Two figures interacting with a web-application." />
@@ -97,7 +97,7 @@ function ViewRecovery(props) {
 
             {/* Actions */}
             <button onClick={submit}>Recover</button>
-            <u onClick={() => props.set_View("LOGIN")}>Return to login</u>
+            <u onClick={() => props.set_View("LOGIN")} id="cypress-returnToLogin">Return to login</u>
 
           </>
         }

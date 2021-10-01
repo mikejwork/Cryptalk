@@ -62,7 +62,7 @@ function NewChannel() {
   }
 
   return (
-    <div className={styles.container}>
+    <div className={styles.container} id="cypress-addChannelContainer">
       <div className={styles.title}>
         <h1>Create new channel</h1>
         <p>Enter your new channel details below.</p>
@@ -82,7 +82,7 @@ function NewChannel() {
         </div>
       </div>
       <button onClick={createChannel}>Create</button>
-      <u className={styles.return} onClick={() => channelsContext.set_ViewOverlay("ViewOverlay_None")}>Return</u>
+      <u className={styles.return} onClick={() => channelsContext.set_ViewOverlay("ViewOverlay_None")} id="cypress-return">Return</u>
     </div>
   )
 }

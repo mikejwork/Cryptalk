@@ -110,7 +110,7 @@ function ViewRegistration(props) {
     <div className={style.container}>
       { _Page === "TERMS" &&
         <>
-          <div className={style.form} onKeyPress={onKeyPress}>
+          <div className={style.form} onKeyPress={onKeyPress} id="cypress-termsPage">
             <div className={style.title}>
               <h1>Terms & Conditions</h1>
               <h5>Scroll & Read through our terms and conditions before you begin using our site.</h5>
@@ -118,13 +118,13 @@ function ViewRegistration(props) {
             <div className={style.legalContainer}>
               <TermsAndConditions padding={false} />
             </div>
-            <MdIcons.MdKeyboardArrowLeft className={style.returnButton} onClick={() => set_Page("DEFAULT")} />
+            <MdIcons.MdKeyboardArrowLeft className={style.returnButton} onClick={() => set_Page("DEFAULT")} id="cypress-backToMain"/>
           </div>
         </>
       }
       { _Page === "PRIVACY" &&
         <>
-          <div className={style.form} onKeyPress={onKeyPress}>
+          <div className={style.form} onKeyPress={onKeyPress} id="cypress-privacyPage">
             <div className={style.title}>
               <h1>Privacy Policy</h1>
               <h5>Scroll & Read through our privacy policy before you begin using our site.</h5>
@@ -132,14 +132,14 @@ function ViewRegistration(props) {
             <div className={style.legalContainer}>
               <PrivacyPolicy padding={false} />
             </div>
-            <MdIcons.MdKeyboardArrowLeft className={style.returnButton} onClick={() => set_Page("DEFAULT")} />
+            <MdIcons.MdKeyboardArrowLeft className={style.returnButton} onClick={() => set_Page("DEFAULT")} id="cypress-backToMain"/>
           </div>
         </>
       }
 
       {_Page === "DEFAULT" &&
         <>
-          <div className={style.form} onKeyPress={onKeyPress}>
+          <div className={style.form} onKeyPress={onKeyPress} id="cypress-registrationMain">
             <div className={style.title}>
               <h1>Registration</h1>
               <h5>Enter your details below to sign up, and accept our terms to start chatting.</h5>
@@ -179,7 +179,7 @@ function ViewRegistration(props) {
                 :
                 <MdIcons.MdCheckBoxOutlineBlank style={{cursor:"pointer"}} onClick={() => set_Legal(!_Legal)}/>
               }
-              &nbsp;I have read, and agree to the &nbsp; <u onClick={() => set_Page("TERMS")}>Terms & Conditions</u> &nbsp;and&nbsp; <u onClick={() => set_Page("PRIVACY")}>Privacy Policy</u>
+              &nbsp;I have read, and agree to the &nbsp; <u id="cypress-termsLink" onClick={() => set_Page("TERMS")}>Terms & Conditions</u> &nbsp;and&nbsp; <u id="cypress-privacyLink" onClick={() => set_Page("PRIVACY")}>Privacy Policy</u>
             </label>
             {/* Actions */}
             <button onClick={submit}>Sign up</button>

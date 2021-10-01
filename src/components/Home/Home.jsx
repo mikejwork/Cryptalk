@@ -7,7 +7,7 @@ function Home() {
   const [redirect, setredirect] = useState(false)
 
   if (redirect) {
-    return <Redirect to="/channels"/>
+    return <Redirect to="/authentication"/>
   }
 
   return (

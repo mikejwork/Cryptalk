@@ -42,7 +42,7 @@ function Channels() {
           { _ViewOverlay === "ViewOverlay_NewChannel" && <NewChannel/> }
         </div>
       }
-      <div className={styles.container}>
+      <div className={styles.container} id="cypress-channelsPage">
         <div className={styles.grid}>
           <ChannelsList/>
           <SubchannelsList/>

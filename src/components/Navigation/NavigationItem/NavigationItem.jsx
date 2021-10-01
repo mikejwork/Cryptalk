@@ -7,7 +7,7 @@ import UserAvatar from '../../Wrappers/Avatar/UserAvatar'
 
 function NavigationItem(props) {
   return (
-    <div className={styles.containerMenu} onClick={props.onClick}>
+    <div className={styles.containerMenu} onClick={props.onClick} id={props.name === "Logout" ? "cypress-navLogout" : ""}>
       <div className={styles.icon}>
         { props.icon }
       </div>
@@ -19,7 +19,7 @@ function NavigationItem(props) {
 export function NavigationLink(props) {
   return (
     <Link to={props.destination}>
-      <div className={`${props.menu ? styles.containerMenu : styles.container}`} onClick={props.onClick}>
+      <div className={`${props.menu ? styles.containerMenu : styles.container}`} onClick={props.onClick} id={props.name === "Login" ? "cypress-navLogin" : ""}>
         <div className={styles.icon}>
           { props.icon }
         </div>

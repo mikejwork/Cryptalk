@@ -16,7 +16,9 @@ function ProfileMain(props) {
 
   async function get_friends() {
     DataStore.query(Friends).then((result) => {
-      set_NumFriends(result[0].list.length);
+      if (result.length > 0) {
+        set_NumFriends(result[0]?.list?.length);
+      }
     });
   }
 
