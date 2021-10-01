@@ -1,3 +1,24 @@
+type ReturnSignal @model @auth(rules: [{allow: private}]) @key(name: "bySubChannel", fields: ["subchannelID"]) {
+  id: ID!
+  callerId: String!
+  recipientId: String!
+  subchannelID: ID
+  signal: Signal!
+}
+
+type Signal {
+  type: String!
+  sdp: String
+}
+
+type SendSignal @model @auth(rules: [{allow: private}]) @key(name: "bySubChannel", fields: ["subchannelID"]) {
+  id: ID!
+  callerId: String!
+  signal: Signal
+  subchannelID: ID
+  recipientId: String!
+}
+
 type DirectMessage @model @auth(rules: [{allow: private}]) {
   id: ID!
   participants: [String]
@@ -37,6 +58,9 @@ type SubChannel @model @auth(rules: [{allow: private}]) @key(name: "byChannel", 
   users: [User!]
   channelID: ID
   messages: [Messages] @connection(keyName: "bySubChannel", fields: ["id"])
+  sendSignals: [SendSignal] @connection(keyName: "bySubChannel", fields: ["id"])
+  returnSignals: [ReturnSignal] @connection(keyName: "bySubChannel", fields: ["id"])
+  users_connected: [User]
 }
 
 type Channel @model @auth(rules: [{allow: private}]) {

@@ -1,0 +1,27 @@
+.container {
+  height: calc(99.9vh - var(--nav-size));
+}
+
+.grid {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  gap: 0px 0px;
+  grid-template-columns: 0.2fr 0.2fr 0.5fr 0.5fr;
+  grid-template-rows: 0.1fr 0.5fr 0.5fr;
+  grid-template-areas:
+    "list     subTitle    contentHead   contentHead"
+    "list     sublist     content       content"
+    "list     sublist     content       content";
+}
+
+.viewOverlay {
+  position: absolute;
+  z-index: 100;
+  width: 100%;
+  height: calc(99.9vh - var(--nav-size));
+  backdrop-filter: blur(2px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

@@ -4,6 +4,7 @@
   "private": true,
   "proxy": "http://localhost:3000",
   "dependencies": {
+    "@andyet/simplewebrtc": "^1.30.3",
     "@aws-amplify/auth": "^4.3.0",
     "@aws-amplify/core": "^4.2.4",
     "@aws-amplify/storage": "^4.3.5",
@@ -12,9 +13,14 @@
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-icons": "^4.2.0",
+    "react-redux": "^7.2.5",
     "react-router-dom": "^5.2.0",
     "react-scripts": "^4.0.3",
     "react-spring": "^9.2.4",
+    "redux": "^4.1.1",
+    "redux-thunk": "^2.3.0",
+    "simple-peer": "^9.11.0",
+    "socket.io-client": "^4.2.0",
     "uuid": "^8.3.2",
     "web-vitals": "^1.0.1"
   },

@@ -1,0 +1,24 @@
+.contentHead {
+  grid-area: contentHead;
+  background-color: var(--bg);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 2ex;
+}
+
+.contentHead > p {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon {
+  width: 5ex;
+}
+
+.content {
+  grid-area: content;
+  background-color: var(--bg-dark);
+
+}

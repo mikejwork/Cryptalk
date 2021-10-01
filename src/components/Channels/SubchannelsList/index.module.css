@@ -1,0 +1,54 @@
+.header {
+  grid-area: subTitle;
+  background-color: var(--bg);
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  padding: 1ex;
+}
+
+.icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 5ex;
+  font-size: 20pt;
+}
+
+.header > div {
+  width: 100%;
+}
+
+.name {
+  font-weight: 700;
+}
+
+.desc {
+  font-weight: 700;
+  font-size: 9pt;
+  color: grey;
+}
+
+.container {
+  grid-area: sublist;
+  background-color: var(--bg-darker);
+  padding: 2ex;
+}
+
+.emptyContainer {
+  grid-area: sublist;
+  background-color: var(--bg-darker);
+  padding: 2ex;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: grey;
+}
+
+.emptyContainer > img {
+  margin-top: 2ex;
+  width: 75%;
+  opacity: 0.2;
+  filter: grayscale();
+}
