@@ -10,7 +10,7 @@ import { DataStore } from "aws-amplify";
 
 const ContentHandler = (props) => {
   const videoRef = useRef();
-  console.log(props.peer)
+
   useEffect(() => {
     props.peer.on("stream", stream => {
       console.log('peerstream')
@@ -20,7 +20,7 @@ const ContentHandler = (props) => {
   }, [])
 
   return (
-    <video className={styles.vid} playsInline autoPlay ref={videoRef}/>
+    <video playsInline autoPlay ref={videoRef}/>
   )
 }
 
@@ -34,21 +34,20 @@ function SubChannelVoice() {
   // stores user objects + peer data for audio and video
   const _PeersData = useRef([])
 
-  const [_PeersState, set_PeersState] = useState([])
-
-
   const myOutput = useRef()
   var _MyStream = null;
 
   useEffect(() => {
-    join()
-    return async () => { await leave() }
+    if (_Ready) {
+      join()
+      return async () => { await leave() }
+    }
     // eslint-disable-next-line
-  }, [])
+  }, [_Ready])
 
   useEffect(() => {
     navigator.mediaDevices.getUserMedia({
-      video: true,
+      video: false,
       audio: true
     }).then(streamMedia).catch(() => {})
     // eslint-disable-next-line
@@ -109,9 +108,7 @@ function SubChannelVoice() {
 
           // Add signal to newly created peer
           newPeer.signal(result[0].signal)
-
           _PeersData.current.push({ peer: newPeer, user: result[0].callerId})
-          set_PeersState(old => [...old, { peer: newPeer, user: result[0].callerId}])
 
           // Cleanup and delete signal
           const modelToDelete = await DataStore.query(SendSignal, result[0].id);
@@ -150,7 +147,7 @@ function SubChannelVoice() {
     });
 
     newPeer.on('signal', async (signal) => {
-      console.log('[userConnected::signal]', signal)
+      console.log('[userConnected::signal::obtained]')
       // Get sdp signal, create new
       await DataStore.save(
         new SendSignal({
@@ -163,8 +160,8 @@ function SubChannelVoice() {
         })
       ).then(() => console.log('[userConnected::signal::sent]'))
     })
+
     _PeersData.current.push({ peer: newPeer, user: user.sub})
-    set_PeersState(old => [...old, { peer: newPeer, user: user.sub}])
   }
 
   async function userLeft(user) {
@@ -227,8 +224,8 @@ function SubChannelVoice() {
         <video ref={myOutput} autoPlay playsInline muted/>
       </div>
 
-      <button onClick={() => console.log(_PeersData)}>Print</button>
-      { _PeersState.map((peer, index) => {
+      <button onClick={() => console.log(_PeersData.current)}>PrintRef</button>
+      { _PeersData.current.map((peer, index) => {
         return (
           <div key={index}>
             {index}
