@@ -1,7 +1,35 @@
 .container {
     margin: 0;
     width:100%;
-    height: 200%;
     justify-content: center;
     align-items: center;
+    
+}
+
+.hoverDiv {
+    box-sizing: border-box;
+    width: inherit;
+    position: relative;
+    z-index: -1;    
+    justify-content: center;
+
+}
+
+.innerHover {
+    border: 2px dotted black;
+    width: 100%;
+    position: absolute;
+    background-color:var(--bg);
+    padding-bottom: 9ex;
+    padding-top: 9ex;
+    top:-20ex;
+    text-align: center;
+    border-radius: 15px;
+    justify-content: center;
+    align-items: center;
+}
+
+.innerHover h1{
+    color: var(--text-color);
+    padding: 15px 0px 10px 0px; 
 }

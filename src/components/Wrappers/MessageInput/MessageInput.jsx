@@ -108,6 +108,8 @@ function MessageInput(props) {
         <div style={{ display: "none" }}>
           <input type="file" ref={uploaderRef} onChange={onFileChange} />
         </div>
+        {_FileName &&
+        <div className={styles.imageBlock}>
           <div className={styles.attatchment} style={{ display: `${formState.type === MessageType.FILE ? "block" : "none"}` }}>
             {_FileName} . <strong>{_FileSize}</strong>
           </div>
@@ -122,6 +124,8 @@ function MessageInput(props) {
               <p onClick={deleteFile} className={styles.reject}><MdIcons.MdClose/></p>
             }
           </div>
+          </div>
+          }
 
         <div className={styles.main} onKeyPress={onKeyPress}>
           <MdIcons.MdAttachFile className={styles.attatchFileIcon} onClick={openUpload} />

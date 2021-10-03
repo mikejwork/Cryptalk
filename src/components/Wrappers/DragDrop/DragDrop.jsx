@@ -1,20 +1,27 @@
-import React, {useRef, useEffect } from 'react'
+import React, {useState, useRef, useEffect } from 'react'
 
 import styles from './index.module.css'
 
 function DragDrop(props) {
     const ref = useRef()
+    
+    const [drag, setDrag] = useState(false);
     const dragOver = (event) => {
         event.preventDefault()
         event.stopPropagation()
+        setDrag(true)
     }
     const dragLeave = (event) => {
         event.preventDefault()
         event.stopPropagation()
+        setDrag(false)
     }
     const dragEnter = (event) => {
         event.preventDefault()
         event.stopPropagation()
+        if (event.dataTransfer.items && event.dataTransfer.items.length > 0) {
+           setDrag(true)
+          }
     }
     const dropFile = (event) => {
         event.preventDefault()
@@ -22,6 +29,8 @@ function DragDrop(props) {
         if (event.dataTransfer.files && event.dataTransfer.files.length > 0) {
           props.dropFile(event.dataTransfer.files)
           event.dataTransfer.clearData()
+          setDrag(false)
+
         }
     }
 
@@ -49,6 +58,13 @@ function DragDrop(props) {
 
     return (
         <div ref={ref} className={styles.container}>
+            { drag &&
+            <div className={styles.hoverDiv}>
+                <div className={styles.innerHover}>
+                    <h1>Drop your file in the input!</h1>
+                </div>
+            </div>
+            }
             {props.children}
         </div>
     )
