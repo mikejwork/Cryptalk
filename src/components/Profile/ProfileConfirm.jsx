@@ -7,11 +7,13 @@ import style from "../../css/Profile/ProfileConfirm.module.css";
 function ProfileConfirm(props) {
   const context = useContext(AuthContext);
 
-  const [formState, setformState] = useState({code: "", error: ""})
+  const [formState, setformState] = useState({code: "", error: "", code_1: "", code_2: "", code_3: "", code_4: "", code_5: "", code_6: "" })
 
   async function submit() {
     try {
-      Auth.verifyCurrentUserAttributeSubmit("email", formState.code).then(() => {
+      const { code_1, code_2, code_3, code_4, code_5, code_6 } = formState
+      const authCode = code_1 + code_2 + code_3 + code_4 + code_5 + code_6;
+      Auth.verifyCurrentUserAttributeSubmit("email", authCode).then(() => {
         Auth.signOut();
       })
     } catch(error) {
@@ -30,6 +32,19 @@ function ProfileConfirm(props) {
   }
 
   function onChange(e) {
+    const { maxLength, value, name } = e.target;
+    const codeNumber = name[5];
+
+    if (value.length >= maxLength) {
+      if (parseInt(codeNumber, 10) < 6) {
+        const nextCode = document.querySelector(
+          `input[name=code_${parseInt(codeNumber, 10) + 1}]`
+        );
+        if (nextCode !== null) {
+          nextCode.focus();
+        }
+      }
+    }
     setformState(() => ({
       ...formState,
       [e.target.name]: e.target.value,
@@ -43,12 +58,14 @@ function ProfileConfirm(props) {
         <h5 className="subcomment">Enter the confirmation code sent to <strong>{context.user.attributes.email}</strong></h5>
         <h5 className="subcomment">You will be logged-out after confirming, and will have to login again.</h5>
       </div>
-      <div className={style.info}>
-
-        {/* Email */}
-        <label htmlFor="code">Confirmation code</label>
-        <input name="code" onChange={onChange} placeholder="_ _ _ _ _ _" type="text"/>
-      </div>
+      <div className={style.codeInput}>
+              <input name="code_1" className={style.digitCode} onChange={onChange} placeholder="_" maxLength="1" />
+              <input name="code_2" className={style.digitCode} onChange={onChange} placeholder="_" maxLength="1" />
+              <input name="code_3" className={style.digitCode} onChange={onChange} placeholder="_" maxLength="1" />
+              <input name="code_4" className={style.digitCode} onChange={onChange} placeholder="_" maxLength="1" />
+              <input name="code_5" className={style.digitCode} onChange={onChange} placeholder="_" maxLength="1" />
+              <input name="code_6" className={style.digitCode} onChange={onChange} placeholder="_" maxLength="1" />
+            </div>
 
       <div className={style.actions}>
         <button onClick={submit}>Confirm</button>

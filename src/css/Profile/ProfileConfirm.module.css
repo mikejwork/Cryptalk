@@ -33,3 +33,19 @@
 .actions > button {
   width: 100%;
 }
+
+.codeInput {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+.digitCode {
+  background-color: var(--bg-dark);
+  text-align: center;
+  margin-left: 0.1ex;
+  margin-right: 0.1ex;
+  padding-left: 0px;
+  padding-right: 0px;
+  font-size: 20pt;
+  width: 1.5em;
+}
