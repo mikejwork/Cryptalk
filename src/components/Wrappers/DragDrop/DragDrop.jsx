@@ -30,7 +30,6 @@ function DragDrop(props) {
           props.dropFile(event.dataTransfer.files)
           event.dataTransfer.clearData()
           setDrag(false)
-
         }
     }
 

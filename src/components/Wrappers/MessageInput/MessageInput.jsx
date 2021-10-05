@@ -13,9 +13,12 @@ function MessageInput(props) {
   const uploaderRef = useRef(null)
   const [_FileName, set_FileName] = useState("")
   const [_FileSize, set_FileSize] = useState("")
+
   const [_FilePreview, set_FilePreview] = useState(undefined)
+
   const [_FileDelete, set_FileDelete] = useState(false)
-  const [_FilePreviewExt, set_FilePreviewExt] = useState(false)
+
+  const [_FileView, set_FileView] = useState("")
 
   const [formState, setformState] = useState({
     message: "",
@@ -65,12 +68,18 @@ function MessageInput(props) {
     if (file.type.startsWith("image/")) {
       let src = URL.createObjectURL(file);
       set_FilePreview(src)
+      set_FileView("IMAGE")
+      set_FileDelete(true)
+    } else if (file.type === "application/pdf") {
+      set_FileView("PDF")
+      set_FileDelete(true)
+    } else if (file.type === "application/x-zip-compressed") {
+      set_FileView("ZIP")
+      set_FileDelete(true)
+    } else {
+      set_FileView("unknown")
+      set_FileDelete(true)
     }
-    if (file.type === "application/pdf") {
-      console.log("HELLO");
-      set_FilePreviewExt(true)
-    }
-    set_FileDelete(true)
   }
 
   function onChange(e) {
@@ -86,8 +95,18 @@ function MessageInput(props) {
     }
   }
 
+  //Used for drag and drop
   const dropFile = (files) => {
     onFileChange(files[0])
+  }
+
+  const FilePreview = () => {
+    switch(_FileView) {
+      case "IMAGE": return <img className={styles.preview} alt="attatchment preview" src={_FilePreview} />;
+      case "PDF": return <p className={styles.fileIcon}><MdIcons.MdInsertDriveFile/></p>
+      case "ZIP": return <p className={styles.fileIcon}><MdIcons.MdViewDay/></p>
+      case "unknown": return <p className={styles.fileIcon}><MdIcons.MdFileDownload/></p> 
+    }
   }
 
   function deleteFile(e) {
@@ -97,7 +116,6 @@ function MessageInput(props) {
       file: null
     }));
       set_FilePreview(null)
-      set_FilePreviewExt(false)
       set_FileName("");
       set_FileDelete(false)
   }
@@ -114,12 +132,8 @@ function MessageInput(props) {
             {_FileName} . <strong>{_FileSize}</strong>
           </div>
           <div className={styles.imageContainer}>
-            {_FilePreview &&
-              <img className={styles.preview} alt="attatchment preview" src={_FilePreview} />
-            }
-            {_FilePreviewExt &&
-              <p className={styles.fileIcon}><MdIcons.MdInsertDriveFile/></p>
-            }
+            { FilePreview() }
+
             {_FileDelete &&
               <p onClick={deleteFile} className={styles.reject}><MdIcons.MdClose/></p>
             }
