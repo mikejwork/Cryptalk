@@ -4,21 +4,27 @@ import * as MdIcons from "react-icons/md";
 import { AuthContext } from "../../contexts/AuthContext";
 import style from '../../css/Authentication/ViewLogin.module.css';
 
+import { LoadingDiv } from '../Wrappers/Loading/Loading'
+
 function ViewLogin(props) {
   const context = useContext(AuthContext);
+  const [_Loading, set_Loading] = useState(false)
   var initialForm = {username: "", password: "", error: ""};
 
   // State - storage
   const [formState, setformState] = useState(initialForm)
 
   async function submit() {
+    set_Loading(true)
     const {username, password} = formState;
     if (username === "") {
       context.spawnNotification("ERROR", "Error", "Username field is required.");
+      set_Loading(false)
       return;
     }
     if (password === "") {
       context.spawnNotification("ERROR", "Error", "Password field is required.");
+      set_Loading(false)
       return;
     }
 
@@ -30,6 +36,7 @@ function ViewLogin(props) {
         props.set_Username(username)
       }
       context.spawnNotification("ERROR", "Error", error.message);
+      set_Loading(false)
     }
   }
 
@@ -70,7 +77,11 @@ function ViewLogin(props) {
         <u style={{fontSize:"9pt", opacity:"0.7", marginTop:"0.5ex"}} onClick={() => props.set_View("RECOVERY")}>Forgot your password?</u>
       </div>
       <div className={style.photo}>
-        <img src={process.env.PUBLIC_URL + '/vector_assets/login-1.svg'} alt="Two figures interacting with a web-application."/>
+        { _Loading ?
+          <LoadingDiv/>
+        :
+          <img src={process.env.PUBLIC_URL + '/vector_assets/login-1.svg'} alt="Two figures interacting with a web-application."/>
+        }
       </div>
     </div>
   )

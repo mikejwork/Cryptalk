@@ -7,12 +7,12 @@
 .form {
   padding: 8ex 4ex 8ex 4ex;
   width: 50%;
+  height: 46ex;
   display: flex;
   flex-direction: column;
   background-color: var(--bg-darker);
   border-radius: 3ex 0ex 0ex 3ex;
 }
-
 .photo {
   padding: 2ex;
   width: 40rem;

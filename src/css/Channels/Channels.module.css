@@ -8,12 +8,12 @@
   height: 100%;
   display: grid;
   gap: 0px 0px;
-  grid-template-columns: 0.2fr 0.2fr 0.5fr 0.5fr;
+  grid-template-columns: 0.2fr 0.2fr 0.8fr 0.2fr;
   grid-template-rows: 0.1fr 0.5fr 0.5fr;
   grid-template-areas:
     "title    subTitle    contentHead   contentHead"
-    "list     sublist     content       content"
-    "list     sublist     content       content";
+    "list     sublist     content       members"
+    "list     sublist     content       members";
 }
 
 .gridContainerPopup {
@@ -105,7 +105,7 @@
   flex-direction: row;
   font-weight: 700;
   background-color: #1d1c1c;
-  padding: 1.5ex 0ex 0ex 3ex;
+  padding: 2ex;
   border-left: 1px solid #353535;
 }
 
@@ -246,4 +246,13 @@
 
 .gridPopup > p:active {
   transform: scale(0.9);
+}
+
+.members {
+  grid-area: members;
+  background-color: var(--bg-darker);
+  border-left: 1px solid #353535;
+  display: flex;
+  flex-direction: column;
+  padding: 2ex;
 }

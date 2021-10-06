@@ -168,7 +168,7 @@ function Channels() {
                     <div className={styles.spacer} />
                   </div>
 
-                  {SubChannels.map((subChannel) => {
+                  { SubChannels.map((subChannel) => {
                     if (subChannel.type !== "VOICE") { return null }
                     return (
                       <SubchannelListItem data={subChannel} set_SubChannel={set_SubChannel} key={subChannel.id} />
@@ -214,6 +214,24 @@ function Channels() {
               {_SubChannel &&
                 <ChannelContent data={_SubChannel} />
               }
+            </div>
+            <div className={styles.members}>
+              { _SubChannel !== undefined ?
+                <>
+                  <div className={styles.header}>
+                    <h5 className="subcomment">MEMBERS</h5>
+                    <div className={styles.spacer} />
+                  </div>
+                  { _SubChannel?.users.map((user) => {
+                    return (
+                      <DMListItem data={user} key={user.sub} set_ChatType={set_ChatType} set_Direct={set_Direct}/>
+                    )
+                  })}
+                </>
+              :
+                <></>
+              }
+
             </div>
           </>
         }

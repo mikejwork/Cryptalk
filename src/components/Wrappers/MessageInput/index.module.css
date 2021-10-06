@@ -1,0 +1,88 @@
+.attatchment {
+  color: grey;
+  font-size: 10pt;
+}
+
+.imageContainer {
+  padding-top: 0;
+  width: fit-content;
+  position: relative;
+  display: flex;
+  align-items: left;
+  justify-content: left;
+}
+
+.imageBlock {
+    border: 2px dotted black;
+    background-color:var(--bg);
+    padding: 1ex 0 1ex 2ex;
+    border-radius: 10px;
+}
+
+
+.preview {
+  margin-top: 1ex;
+  width: 7vw;
+  min-width: 20ex;
+}
+
+.main {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 1ex 0ex 1ex 0ex;
+  width: 100%;
+}
+
+.main > input {
+  flex: 1;
+}
+
+.main > .attatchFileIcon {
+  color: grey;
+  margin-right: 1ex;
+  font-size: 16pt;
+  cursor: pointer;
+  margin-left: 1ex;
+
+}
+
+.main > .attatchFileIcon:hover {
+  color: var(--bg-accent);
+}
+
+.main > .sendIcon {
+  color: grey;
+  margin-left: 1ex;
+  margin-right: 1ex;
+  font-size: 16pt;
+  cursor: pointer;
+}
+
+.main > .sendIcon:hover {
+  color: var(--bg-accent);
+}
+
+.reject {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.5em;
+  height: 1.5em;
+  position: absolute;
+  top: 1ex; 
+  /* 1ex because of photo margin */
+  right:0px;
+  color: var(--warning);
+
+}
+
+.reject:hover {
+  border-radius: 50%;
+  color: white;
+  background-color: var(--warning);
+}
+
+.fileIcon {
+  font-size: 60pt;
+}

@@ -3,12 +3,13 @@ import { Auth, Storage } from "aws-amplify";
 import * as MdIcons from "react-icons/md";
 import { AuthContext } from "../../contexts/AuthContext";
 import style from '../../css/Authentication/ViewRegistration.module.css';
-
+import { LoadingDiv } from '../Wrappers/Loading/Loading'
 import PrivacyPolicy from '../../components/Legal/PrivacyPolicy';
 import TermsAndConditions from '../../components/Legal/TermsAndConditions';
 
 function ViewRegistration(props) {
   const context = useContext(AuthContext);
+  const [_Loading, set_Loading] = useState(false)
   var initialForm = { username: "", password: "", email: "", avatar: null, error: "" };
 
   // State - storage
@@ -75,16 +76,19 @@ function ViewRegistration(props) {
 
   // Registration logic
   async function submit() {
+    set_Loading(true)
     const { username, password, email, avatar } = formState;
 
     // Validation checks
     if (username === "" || password === "" || email === "") {
       context.spawnNotification("ERROR", "Error", "Please fill in the required fields.");
+      set_Loading(false)
       return;
     }
 
     if (!_Legal) {
       context.spawnNotification("ERROR", "Error", "You can't create an account without accepting our Terms & Conditions and Privacy Policy.");
+      set_Loading(false)
       return;
     }
 
@@ -100,8 +104,8 @@ function ViewRegistration(props) {
       props.set_View("CONFIRM")
     } catch (error) {
       if (error.message) {
-        // setformState(() => ({ ...formState, error: error.message }));
         context.spawnNotification("ERROR", "Error", error.message);
+        set_Loading(false)
       }
     }
   }
@@ -189,7 +193,11 @@ function ViewRegistration(props) {
       }
 
       <div className={style.photo} onKeyPress={onKeyPress}>
-        <img src={process.env.PUBLIC_URL + '/vector_assets/registration-1.svg'} alt="Two figures interacting with a web-application." />
+        { _Loading ?
+          <LoadingDiv/>
+        :
+          <img src={process.env.PUBLIC_URL + '/vector_assets/registration-1.svg'} alt="Two figures interacting with a web-application." />
+        }
       </div>
     </div>
   )
