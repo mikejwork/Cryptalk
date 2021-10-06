@@ -2,7 +2,6 @@
 import React, { useState, useEffect, createContext } from "react";
 import { Auth, Hub, DataStore, Storage } from "aws-amplify";
 import { Friends, RequestStorage, RequestStatus, Channel } from '../models';
-
 import LoadingPage from '../components/Wrappers/Loading/Loading'
 
 export const AuthContext = createContext();

@@ -1,0 +1,6 @@
+.container {
+  grid-area: list;
+  padding: 2ex;
+  display: flex;
+  flex-direction: column;
+}

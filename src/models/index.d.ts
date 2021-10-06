@@ -73,8 +73,9 @@ type FriendsMetaData = {
 export declare class ReturnSignal {
   readonly id: string;
   readonly callerId: string;
-  readonly signal: Signal;
+  readonly recipientId: string;
   readonly subchannelID?: string;
+  readonly signal: Signal;
   readonly createdAt?: string;
   readonly updatedAt?: string;
   constructor(init: ModelInit<ReturnSignal, ReturnSignalMetaData>);
@@ -86,6 +87,7 @@ export declare class SendSignal {
   readonly callerId: string;
   readonly signal?: Signal;
   readonly subchannelID?: string;
+  readonly recipientId: string;
   readonly createdAt?: string;
   readonly updatedAt?: string;
   constructor(init: ModelInit<SendSignal, SendSignalMetaData>);

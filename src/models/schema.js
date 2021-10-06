@@ -17,12 +17,10 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
-                "signal": {
-                    "name": "signal",
+                "recipientId": {
+                    "name": "recipientId",
                     "isArray": false,
-                    "type": {
-                        "nonModel": "Signal"
-                    },
+                    "type": "String",
                     "isRequired": true,
                     "attributes": []
                 },
@@ -31,6 +29,15 @@ export const schema = {
                     "isArray": false,
                     "type": "ID",
                     "isRequired": false,
+                    "attributes": []
+                },
+                "signal": {
+                    "name": "signal",
+                    "isArray": false,
+                    "type": {
+                        "nonModel": "Signal"
+                    },
+                    "isRequired": true,
                     "attributes": []
                 },
                 "createdAt": {
@@ -115,6 +122,13 @@ export const schema = {
                     "isArray": false,
                     "type": "ID",
                     "isRequired": false,
+                    "attributes": []
+                },
+                "recipientId": {
+                    "name": "recipientId",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": true,
                     "attributes": []
                 },
                 "createdAt": {
@@ -873,5 +887,5 @@ export const schema = {
             }
         }
     },
-    "version": "02f67ab5155acc3e5090a7d644e5e7f9"
+    "version": "5e64fa4c6ca5ecb217f67cf1a0386069"
 };
