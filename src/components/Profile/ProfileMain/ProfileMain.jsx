@@ -25,10 +25,10 @@ function ProfileMain(props) {
   useEffect(() => {
     if (context.datastore_ready) {
       get_friends()
-      set_NumChannels(0) // TODO
+      set_NumChannels(context?.channels.length)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [context.datastore_ready])
+  }, [context.datastore_ready, context?.channels])
 
   return (
     <div className={style.container} id="cypress-profileMain">

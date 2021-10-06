@@ -22,7 +22,7 @@ import PrivacyPolicy from './components/Legal/PrivacyPolicy';
 import TermsAndConditions from './components/Legal/TermsAndConditions';
 import Notification from './components/Wrappers/Notifications/Notifications'
 
-import SocketHandler from './socket/SocketHandler'
+// import SocketHandler from './socket/SocketHandler'
 
 function App() {
   const notificationRef = useRef(null)

@@ -6,7 +6,7 @@ function Header(props) {
     <div className={styles.header}>
       <h5 className="subcomment">{props.text}</h5>
       <div className={styles.spacer}/>
-      { props.children }
+      <span>{ props.children }</span>
     </div>
   )
 }

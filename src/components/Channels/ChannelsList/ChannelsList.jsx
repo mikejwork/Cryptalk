@@ -31,7 +31,7 @@ function ChannelsList() {
       <Header text="FRIENDS"/>
       { context?.friends?.map((friend) => {
         return (
-          <FriendsListItem key={friend.sub} friend={friend}/>
+          <FriendsListItem key={friend.sub} friend={friend} selectable={true}/>
         )
       })}
       <FriendsListAdd/>

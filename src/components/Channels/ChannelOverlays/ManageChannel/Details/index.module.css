@@ -1,19 +1,18 @@
 .container {
-  width: 70ex;
   display: flex;
   flex-direction: column;
-  padding: 5ex;
-  border-radius: var(--border-radius);
-  background-color: var(--bg-darker);
-  box-shadow: 0px 0px 20px var(--bg-accent);
+  padding: 0ex 0ex 0ex 3ex;
+  height: 100%;
 }
 
 .title > h1 {
-  font-weight: 700;
+  margin: 0;
+  padding: 0;
 }
 
-.title > p {
+.title > h5 {
   color: grey;
+  margin-top: -1ex;
 }
 
 .preview {
@@ -57,6 +56,14 @@
   background-color: var(--bg-dark);
 }
 
+.form > p {
+  font-size: 10pt;
+}
+
+.form > p > i {
+  color: grey;
+}
+
 .iconForm {
   display: flex;
   flex-direction: row;
@@ -66,9 +73,7 @@
   margin-left: 0.5ex;
 }
 
-.return {
-  color: grey;
-  align-self: center;
-  margin-top: 1ex;
-  cursor: pointer;
+.create {
+  margin-top: auto;
+  width: 100%;
 }

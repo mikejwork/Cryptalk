@@ -6,6 +6,7 @@ function ChannelsListItem(props) {
   const channelsContext = useContext(ChannelsContext)
 
   function changeState() {
+    channelsContext.set_ViewType("ViewType_Channels")
     channelsContext.set_Channel(props._Channel)
   }
 

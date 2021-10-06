@@ -7,8 +7,10 @@ function FriendsListItem(props) {
   const channelsContext = useContext(ChannelsContext)
 
   function changeState() {
-    channelsContext.set_ViewType("ViewType_Direct")
-    channelsContext.set_Direct(props.friend)
+    if (props.selectable) {
+      channelsContext.set_ViewType("ViewType_Direct")
+      channelsContext.set_Direct(props.friend)
+    }
   }
 
   return (

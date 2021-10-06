@@ -20,5 +20,23 @@
 .content {
   grid-area: content;
   background-color: var(--bg-dark);
+}
 
+.edit {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon {
+  font-size: 18pt;
+  color: grey;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.icon:hover {
+  color: rgb(255, 255, 255);
+  transform: rotate(100deg)
 }

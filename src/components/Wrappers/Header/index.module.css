@@ -25,3 +25,8 @@
 .header > .icon:hover {
   color: var(--bg-accent)
 }
+
+.header > span {
+  margin: 0;
+  cursor: pointer;
+}

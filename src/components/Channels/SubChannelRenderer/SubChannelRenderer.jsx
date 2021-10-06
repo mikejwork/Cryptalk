@@ -1,10 +1,8 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext } from 'react'
 import styles from './index.module.css'
 import * as HiIcons from "react-icons/hi";
 
 import { ChannelsContext } from "../Channels/Channels";
-import { DataStore } from "aws-amplify";
-import { SubChannel } from '../../../models';
 
 import SubChannelText from '../SubChannelText/SubChannelText'
 import SubChannelVoice from '../SubChannelVoice/SubChannelVoice'
@@ -19,6 +17,9 @@ function SubChannelRenderer() {
       <div className={styles.contentHead}>
         <p className={styles.icon}>{channelsContext._SubChannel.type === 'TEXT' ? <HiIcons.HiHashtag/> : <HiIcons.HiMicrophone/>}</p>
         <p className={styles.name}>{channelsContext._SubChannel.name}</p>
+        <div className={styles.edit}>
+          <HiIcons.HiCog className={styles.icon} onClick={() => channelsContext.set_ViewOverlay("ViewOverlay_ManageChannel")}/>
+        </div>
       </div>
       <div className={styles.content}>
         {channelsContext._SubChannel.type === 'TEXT' ? <SubChannelText/> : <SubChannelVoice/>}

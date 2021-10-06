@@ -1,0 +1,133 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  padding: 0ex 0ex 0ex 3ex;
+  height: 100%;
+}
+
+.title > h1 {
+  margin: 0;
+  padding: 0;
+}
+
+.title > h5 {
+  color: grey;
+  margin-top: -1ex;
+}
+
+.form {
+  padding: 2ex 0ex 2ex 0ex;
+  display: flex;
+  flex-direction: column;
+}
+
+.form > p {
+  font-size: 10pt;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.form > p > i {
+  color: grey;
+}
+
+.form > hr {
+  margin-top: 0;
+}
+
+.create {
+  margin-top: auto;
+  width: 100%;
+}
+
+.cardContainer {
+  display: flex;
+  flex-direction: row;
+  padding: 1ex;
+}
+
+.card {
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0ex 0.5ex 0ex 0.5ex;
+}
+
+.card img {
+  width: 5ex;
+  border-radius: 50%;
+}
+
+.card p {
+  font-size: 10pt;
+  font-weight: 600;
+}
+
+.avatar {
+  width: 5ex;
+  height: 5ex;
+}
+
+.addOverlay {
+  opacity: 0;
+  position: absolute;
+  background-color: rgba(31, 66, 31, 0.699);
+  border: 1px dashed green;
+  width: 5ex;
+  height: 5ex;
+  margin-top: -2.6ex;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.05s ease-in-out;
+}
+
+.addOverlay:hover {
+  opacity: 1;
+}
+
+.removeOverlay {
+  opacity: 0;
+  position: absolute;
+  background-color: rgba(66, 35, 31, 0.699);
+  border: 1px dashed red;
+  width: 5ex;
+  height: 5ex;
+  margin-top: -2.6ex;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.05s ease-in-out;
+}
+
+.removeOverlay:hover {
+  opacity: 1;
+}
+
+.form > input {
+  background-color: var(--bg);
+}
+
+.setting {
+  margin-top: 2ex;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.setting > h5 {
+  margin-left: 1ex;
+}
+
+.submit {
+  margin-top: 2ex;
+}
+
+.submit > button {
+  width: 100%;
+}

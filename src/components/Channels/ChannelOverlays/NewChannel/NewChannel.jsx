@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 
 import { ChannelsContext } from "../../Channels/Channels";
 import { AuthContext } from "../../../../contexts/AuthContext";
@@ -6,6 +6,7 @@ import { DataStore } from "aws-amplify";
 import { Channel, SubChannel, SubChannelType } from '../../../../models';
 
 import styles from './index.module.css'
+import { useSpring, animated } from 'react-spring'
 import EmojiMenu from '../../../Wrappers/Emoji/EmojiMenu'
 
 function NewChannel() {
@@ -13,6 +14,26 @@ function NewChannel() {
   const channelsContext = useContext(ChannelsContext)
   const [_Icon, set_Icon] = useState({message: "💬"})
   const [formState, setformState] = useState({name: "Channel name", desc: "Channel description"})
+
+  const [anim, api] = useSpring(() => ({
+    opacity: `0`
+  }))
+
+  useEffect(() => {
+    api.start({opacity:`1`})
+    return () => {api.start({opacity:`0`})}
+    // eslint-disable-next-line
+  }, [])
+
+  async function close() {
+    await api.start({
+      opacity:`0`,
+      config: {
+        duration: 100
+      },
+      onRest: () => channelsContext.set_ViewOverlay("ViewOverlay_None")
+    })
+  }
 
   async function createChannel() {
     const { name, desc } = formState;
@@ -62,7 +83,7 @@ function NewChannel() {
   }
 
   return (
-    <div className={styles.container} id="cypress-addChannelContainer">
+    <animated.div style={anim} className={styles.container} id="cypress-addChannelContainer">
       <div className={styles.title}>
         <h1>Create new channel</h1>
         <p>Enter your new channel details below.</p>
@@ -81,9 +102,9 @@ function NewChannel() {
           <p>{formState.desc}</p>
         </div>
       </div>
-      <button onClick={createChannel}>Create</button>
-      <u className={styles.return} onClick={() => channelsContext.set_ViewOverlay("ViewOverlay_None")} id="cypress-return">Return</u>
-    </div>
+      <button onClick={createChannel} className={styles.create}>Create</button>
+      <u className={styles.return} onClick={close} id="cypress-return">Return</u>
+    </animated.div>
   )
 }
 
