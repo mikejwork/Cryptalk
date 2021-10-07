@@ -70,9 +70,9 @@ function Subchannels() {
         <div className={styles.form}>
           {_Subchannels.map((subchannel) => {
             return (
-              <>
+              <React.Fragment key={subchannel.id}>
                 <p>{ subchannel.type === "TEXT" ? <HiIcons.HiHashtag/> : <HiIcons.HiMicrophone/>}&nbsp;{subchannel.name}</p>
-              </>
+              </React.Fragment>
             )
           })}
           <hr style={{marginTop:"2ex"}}/>

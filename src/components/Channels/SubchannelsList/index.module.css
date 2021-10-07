@@ -52,3 +52,9 @@
   opacity: 0.2;
   filter: grayscale();
 }
+
+@media only screen and (max-width: 1440px) {
+  .container {
+    width: 13rem;
+  }
+}

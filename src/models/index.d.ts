@@ -20,6 +20,14 @@ export enum RequestType {
   FRIEND_REQUEST = "FRIEND_REQUEST"
 }
 
+export declare class FileMetadata {
+  readonly S3Key: string;
+  readonly filename: string;
+  readonly filesize: number;
+  readonly filetype: string;
+  constructor(init: ModelInit<FileMetadata>);
+}
+
 export declare class Signal {
   readonly type: string;
   readonly sdp?: string;
@@ -109,7 +117,7 @@ export declare class Messages {
   readonly author_username: string;
   readonly author_id: string;
   readonly type: MessageType | keyof typeof MessageType;
-  readonly content_link?: string;
+  readonly metadata?: FileMetadata;
   readonly subchannelID?: string;
   readonly content: string;
   readonly directmessageID?: string;

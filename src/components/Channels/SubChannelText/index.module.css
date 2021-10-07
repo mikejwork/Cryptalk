@@ -4,7 +4,7 @@
   display: grid;
   gap: 0px 0px;
   grid-template-columns: 0.8fr 0.2fr;
-  grid-template-rows: 0.9fr 0.1fr;
+  grid-template-rows: 1fr;
   grid-template-areas:
     "list  members"
     "input members";
@@ -17,8 +17,8 @@
 }
 
 .inputContainer {
+  padding-bottom: 3ex;
   grid-area: input;
-  background-color: rgba(102, 51, 153, 0.075);
 }
 
 .members {

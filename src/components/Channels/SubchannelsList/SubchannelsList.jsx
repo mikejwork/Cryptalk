@@ -11,12 +11,15 @@ import { TextChannelItem, VoiceChannelItem } from '../SubchannelListItem/Subchan
 function SubchannelsList() {
   const channelsContext = useContext(ChannelsContext)
 
-  const [_SubChannelsText, set_SubChannelsText] = useState([])
-  const [_SubChannelsVoice, set_SubChannelsVoice] = useState([])
+  const [_Subchannels, set_Subchannels] = useState([])
 
   useEffect(() => {
     if (channelsContext._Channel) {
       getSubchannels()
+      const s_Channel = DataStore.observe(SubChannel, (s) => s.channelID("eq", channelsContext._Channel.id)).subscribe(() => getSubchannels())
+      return () => {
+        s_Channel.unsubscribe()
+      }
     }
     // eslint-disable-next-line
   }, [channelsContext._Channel])
@@ -25,8 +28,7 @@ function SubchannelsList() {
     DataStore.query(SubChannel, (s) => s.channelID("eq", channelsContext._Channel.id), {
       sort: s => s.createdAt(SortDirection.ASCENDING)
     }).then((result) => {
-      set_SubChannelsText(result.filter(s => s.type === 'TEXT'))
-      set_SubChannelsVoice(result.filter(s => s.type === 'VOICE'))
+      set_Subchannels(result)
     })
   }
 
@@ -42,13 +44,13 @@ function SubchannelsList() {
       { channelsContext._Channel ?
         <div className={styles.container}>
           <Header text="TEXT CHATS"/>
-          {_SubChannelsText.map((_SubChannel) => {
+          {_Subchannels.filter(s => s.type === 'TEXT').map((_SubChannel) => {
             return (
               <TextChannelItem key={_SubChannel.id} _SubChannel={_SubChannel}/>
             )
           })}
           <Header text="VOICE CHATS"/>
-          {_SubChannelsVoice.map((_SubChannel) => {
+          {_Subchannels.filter(s => s.type === 'VOICE').map((_SubChannel) => {
             return (
               <VoiceChannelItem key={_SubChannel.id} _SubChannel={_SubChannel}/>
             )

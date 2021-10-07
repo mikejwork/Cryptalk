@@ -3,6 +3,8 @@ import CryptoJS from 'crypto-js'
 import UserAvatar from '../Avatar/UserAvatar'
 import { AuthContext } from "../../../contexts/AuthContext";
 import styles from './index.module.css';
+import { Storage } from "aws-amplify";
+import * as FaIcons from "react-icons/fa";
 
 function getRelativeDate(createdAt) {
   var date = new Date(createdAt);
@@ -44,11 +46,14 @@ function getRelativeIndex(createdAt) {
 }
 
 function ChatBubble(props) {
+  const context = useContext(AuthContext)
   var content = props._Message.content;
-  var directID = props._Message.directmessageID;
-  var channelID = props._Message.subchannelID;
 
   const [_Decrypted, set_Decrypted] = useState("")
+  const [_Image, set_Image] = useState(undefined)
+  const [_Filetype, set_Filetype] = useState("DEFAULT")
+  const [_Filename, set_Filename] = useState("")
+  const [_Filesize, set_Filesize] = useState("")
 
   function decrypt(cipherText, key) {
     var bytes = CryptoJS.AES.decrypt(cipherText, key + "cryptalkKey");
@@ -56,18 +61,64 @@ function ChatBubble(props) {
   }
 
   useEffect(() => {
-    if (directID !== null && directID !== undefined) {
-      var decryptedDM = decrypt(content, directID)
-      set_Decrypted(decryptedDM)
-      return;
+    var key = "";
+
+    if (props._Message.directmessageID === null) {
+      key = props._Message.subchannelID;
     }
 
-    if (channelID !== null && channelID !== undefined) {
-      var decryptedMSG = decrypt(content, channelID)
-      set_Decrypted(decryptedMSG)
-      return;
+    if (props._Message.subchannelID === null) {
+      key = props._Message.directmessageID;
     }
-  }, [channelID, directID, content])
+    if (key === "") { return; } 
+    var decryptedDM = decrypt(content, key)
+    set_Decrypted(decryptedDM)
+    // eslint-disable-next-line
+  }, [props._Message.directmessageID, props._Message.subchannelID])
+
+  useEffect(() => {
+    if (props._Message.type === "FILE") {
+      if (props._Message.metadata.filename.match(/\.(jpg|jpeg|png|gif)$/i)) {
+        set_Filetype("DEFAULT")
+        set_Filename(props._Message.metadata.filename)
+        set_Filesize(props._Message.metadata.filesize)
+        Storage.get(props._Message.metadata.S3Key).then((result) => {
+          set_Image(result)
+        })
+        return;
+      }
+
+      set_Filetype(props._Message.metadata.filetype)
+      set_Filename(props._Message.metadata.filename)
+      set_Filesize(props._Message.metadata.filesize)
+    }
+    // eslint-disable-next-line
+  }, [])
+
+  function bytesToSize(bytes) {
+    var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+    if (bytes === 0) return '0 Byte';
+    var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
+    return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i];
+  }
+
+  function downloadFile(S3Key) {
+    Storage.get(S3Key).then((result) => {
+      window.location.href = result
+      context.spawnNotification("DOWNLOAD", "Downloaded", "File successfully downloaded.");
+    })
+  }
+
+  const FilePreview = () => {
+    switch(_Filetype) {
+      case "PDF": return <FaIcons.FaFilePdf className={styles.icon}/>
+      case "ZIP": return <FaIcons.FaFileArchive className={styles.icon}/>
+      case "DOC": return <FaIcons.FaFileWord className={styles.icon}/>
+      case "DEFAULT": return <FaIcons.FaFileDownload className={styles.icon}/>
+      default:
+        break;
+    }
+  }
 
   if (props.isIncoming) {
     return (
@@ -78,7 +129,20 @@ function ChatBubble(props) {
             <UserAvatar id={props._Message.author_id}/>
           </div>
           <div className={`${props.appendPrevious ? styles.incomingMessage_a : styles.incomingMessage}`}>
-            <p>{_Decrypted}</p>
+            <p style={{textAlign:"end"}}>{_Decrypted}</p>
+            { props._Message.type === "FILE" &&
+              <>
+                { _Image &&
+                  <img className={styles.messageContent} src={_Image} alt=""/>
+                }
+                <div className={styles.fileInfo}>
+                  <p className={styles.fileIcon}>{ FilePreview() }</p>
+                  <p className={styles.filename}>{ _Filename }</p>
+                  <p className={styles.filesize}>{ bytesToSize(_Filesize) }</p>
+                  <p className={styles.filedownload} onClick={() => downloadFile(props._Message.metadata.S3Key)}><FaIcons.FaDownload/></p>
+                </div>
+              </>
+            }
           </div>
         </div>
       </>
@@ -93,6 +157,19 @@ function ChatBubble(props) {
           </div>
           <div className={`${props.appendPrevious ? styles.outgoingMessage_a : styles.outgoingMessage}`}>
             <p>{_Decrypted}</p>
+            { props._Message.type === "FILE" &&
+              <>
+                { _Image &&
+                  <img className={styles.messageContent} src={_Image} alt=""/>
+                }
+                <div className={styles.fileInfo}>
+                  <p className={styles.fileIcon}>{ FilePreview() }</p>
+                  <p className={styles.filename}>{ _Filename }</p>
+                  <p className={styles.filesize}>{ bytesToSize(_Filesize) }</p>
+                  <p className={styles.filedownload} onClick={() => downloadFile(props._Message.metadata.S3Key)}><FaIcons.FaDownload/></p>
+                </div>
+              </>
+            }
           </div>
         </div>
       </>
@@ -116,7 +193,6 @@ function MessageSorter(props) {
 
         if (message.author_id !== context.user.attributes.sub) { isIncoming = true }
         if (message.type === "FILE") { isFile = true }
-        if (message.type === "IMG") { isImage = true }
         if (index !== 0) { if (props._Messages.at(index - 1).author_id === message.author_id) { appendPrevious = true }}
 
         if (relativeIndex !== -1 && index !== 0) {
@@ -130,7 +206,7 @@ function MessageSorter(props) {
                     <p>{relativeDate}</p>
                     <div className={styles.spacer}/>
                   </div>
-                  <ChatBubble _Message={message} isIncoming={isIncoming} isImage={isImage} isFile={isFile} appendPrevious={false} key={message.id}/>
+                  <ChatBubble _Message={message} isIncoming={isIncoming} isFile={isFile} appendPrevious={false} key={message.id}/>
                 </div>
               )
             }

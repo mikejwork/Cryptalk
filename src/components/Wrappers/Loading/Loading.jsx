@@ -12,7 +12,7 @@ function Loading() {
 export function LoadingDiv() {
   return (
     <div className={styles.container}>
-      <div class={styles.ldsRoller}><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+      <div className={styles.ldsRoller}><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
     </div>
   )
 }

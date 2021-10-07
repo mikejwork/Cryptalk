@@ -1,0 +1,39 @@
+.container {
+  position: absolute;
+  z-index: 1;
+  width: 100%;
+  height: 20ex;
+  top: -20.2ex;
+  background-color: var(--bg-darker);
+  border: 1px dashed var(--bg-accent);
+  pointer-events: all;
+}
+
+.uploader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2ex;
+  box-sizing: border-box;
+  height: 100%;
+}
+
+.icon {
+  color: var(--bg-accent);
+  font-size: 30pt;
+  pointer-events: none;
+}
+
+.uploader > p {
+  font-size: 15pt;
+  font-weight: 700;
+  pointer-events: none;
+}
+
+.uploader > i {
+  color: grey;
+  font-size: 9pt;
+  font-weight: 400;
+  pointer-events: none;
+}

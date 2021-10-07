@@ -289,10 +289,12 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
-                "content_link": {
-                    "name": "content_link",
+                "metadata": {
+                    "name": "metadata",
                     "isArray": false,
-                    "type": "String",
+                    "type": {
+                        "nonModel": "FileMetadata"
+                    },
                     "isRequired": false,
                     "attributes": []
                 },
@@ -829,6 +831,39 @@ export const schema = {
         }
     },
     "nonModels": {
+        "FileMetadata": {
+            "name": "FileMetadata",
+            "fields": {
+                "S3Key": {
+                    "name": "S3Key",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "filename": {
+                    "name": "filename",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "filesize": {
+                    "name": "filesize",
+                    "isArray": false,
+                    "type": "Int",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "filetype": {
+                    "name": "filetype",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": true,
+                    "attributes": []
+                }
+            }
+        },
         "Signal": {
             "name": "Signal",
             "fields": {
@@ -887,5 +922,5 @@ export const schema = {
             }
         }
     },
-    "version": "5e64fa4c6ca5ecb217f67cf1a0386069"
+    "version": "524ada51e5c4a044830fae614a62a928"
 };
