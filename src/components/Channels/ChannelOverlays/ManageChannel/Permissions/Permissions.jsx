@@ -19,6 +19,10 @@ function Permissions() {
   useEffect(() => {
     if (channelsContext._Channel) {
       getSubchannels()
+      const s_Channel = DataStore.observe(SubChannel, (s) => s.channelID("eq", channelsContext._Channel.id)).subscribe(() => getSubchannels())
+      return () => {
+        s_Channel.unsubscribe()
+      }
     }
     // eslint-disable-next-line
   }, [channelsContext._Channel])
@@ -27,7 +31,7 @@ function Permissions() {
     DataStore.query(SubChannel, (s) => s.channelID("eq", channelsContext._Channel.id), {
       sort: s => s.createdAt(SortDirection.ASCENDING)
     }).then((result) => {
-     set_Subchannels(result)
+      set_Subchannels(result)
     })
   }
 
@@ -68,7 +72,7 @@ function Permissions() {
         <div className={styles.form}>
           {_Subchannels.map((subchannel) => {
             return (
-              <>
+              <React.Fragment key={subchannel.id}>
                 <p>{ subchannel.type === "TEXT" ? <HiIcons.HiHashtag/> : <HiIcons.HiMicrophone/>}&nbsp;{subchannel.name}</p>
                 <hr/>
                 <div className={styles.cardContainer}>
@@ -97,7 +101,7 @@ function Permissions() {
                     )
                   })}
                 </div>
-              </>
+              </React.Fragment>
             )
           })}
 

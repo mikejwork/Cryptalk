@@ -25,7 +25,7 @@ export function TextChannelItem(props) {
     }
     set_Locked(check_locked())
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.data])
+  }, [props._SubChannel])
 
   function setCurrent() {
     if (!_Locked) {
@@ -81,7 +81,7 @@ export function VoiceChannelItem(props) {
     }
     set_Locked(check_locked())
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.data])
+  }, [props._SubChannel])
 
   async function getConnectedUsers() {
     DataStore.query(SubChannel, props._SubChannel.id).then((result) => {

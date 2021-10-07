@@ -5,6 +5,7 @@ import * as HiIcons from "react-icons/hi";
 import { DataStore, SortDirection } from "aws-amplify";
 import { DirectMessage, Messages } from '../../../models'
 import MessageSorter from '../../Wrappers/MessageSorter/MessageSorter'
+import MessageInput from '../../Wrappers/MessageInput/MessageInput'
 import { AuthContext } from "../../../contexts/AuthContext";
 import { ChannelsContext } from "../Channels/Channels";
 
@@ -80,7 +81,7 @@ function DirectRenderer() {
             }
           </div>
           <div className={styles.inputContainer}>
-            INPUT HERE
+            <MessageInput type="DIRECT" id={_DirectMessage?.id}/>
           </div>
         </div>
       </div>

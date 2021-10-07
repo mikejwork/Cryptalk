@@ -1,44 +1,82 @@
-import React, { useEffect, useState, useRef, useContext } from 'react'
+import React, { useState, useRef, useContext } from 'react'
 
+import CryptoJS from 'crypto-js'
 import { AuthContext } from "../../../contexts/AuthContext";
-import EmojiMenu from '../Emoji/EmojiMenu'
-import { MessageType } from '../../../models';
-import * as MdIcons from "react-icons/md";
+import { DataStore, Storage } from "aws-amplify";
+import { MessageType, Messages, FileMetadata } from '../../../models'
+
 import styles from './index.module.css'
-import DragDrop from '../DragDrop/DragDrop';
+import * as MdIcons from "react-icons/md";
+import * as FaIcons from "react-icons/fa";
+
+import EmojiMenu from '../Emoji/EmojiMenu'
+// import MessageUploader from '../MessageUploader/MessageUploader'
 
 function MessageInput(props) {
   const context = useContext(AuthContext)
-
   const uploaderRef = useRef(null)
-  const [_FileName, set_FileName] = useState("")
-  const [_FileSize, set_FileSize] = useState("")
-
-  const [_FilePreview, set_FilePreview] = useState(undefined)
-
-  const [_FileDelete, set_FileDelete] = useState(false)
-
-  const [_FileView, set_FileView] = useState("")
-
+  const [_Filetype, set_Filetype] = useState("DEFAULT")
+  const [_Filename, set_Filename] = useState("")
+  const [_Filesize, set_Filesize] = useState("")
+  const [_Filepreview, set_Filepreview] = useState()
   const [formState, setformState] = useState({
     message: "",
     type: MessageType.TEXT,
     file: undefined
   })
 
-  function processMessage() {
+  async function encrypt(message, key) {
+    var ciphertext = CryptoJS.AES.encrypt(message, key + "cryptalkKey");
+    return ciphertext.toString();
+  }
+
+  async function uploadToS3(file) {
+    context.spawnNotification("DOWNLOAD", "Uploading..", "Beginning upload.");
+    var ret = ''
+    await Storage.put(context.user.username + "_" + file.name, file).then(async (result) => {
+      ret = result.key
+    });
+    return ret
+  }
+
+  async function processMessage() {
     // If type is file we can have empty messages
     if (formState.type === MessageType.TEXT) {
       if (formState.message === undefined) { context.spawnNotification("ERROR", "Error", "Message cannot be empty."); return; }
       if (!/[^\s]/.test(formState.message)) { context.spawnNotification("ERROR", "Error", "Message cannot be empty."); return; }
     }
-    console.log("formState", formState)
-  }
 
-  function openUpload() {
-    if (uploaderRef?.current) {
-      uploaderRef.current.click()
+    const message = await encrypt(formState.message, props.id)
+
+    var contentLink = ""
+    var metadata = null
+    if (formState.type === MessageType.FILE) {
+      contentLink = await uploadToS3(formState.file);
+      metadata = new FileMetadata({
+        "S3Key": contentLink,
+        "filename": formState.file.name,
+        "filesize": formState.file.size,
+        "filetype": _Filetype
+      })
     }
+
+    await DataStore.save(
+      new Messages({
+        "author_username": context.user.username,
+        "author_id": context.user.attributes.sub,
+        "content": message,
+        "metadata": metadata,
+        "type": formState.type,
+        "directmessageID": props.type === "DIRECT" ? props.id : undefined,
+        "subchannelID": props.type === "SUBCHANNEL" ? props.id : undefined
+      })
+    )
+
+    setformState({
+      message: "",
+      type: MessageType.TEXT,
+      file: undefined
+    })
   }
 
   function bytesToSize(bytes) {
@@ -48,38 +86,73 @@ function MessageInput(props) {
     return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i];
   }
 
-  function onFileChange(e) {
-    let file = e
-    if (e.type === "change") {
-      file = e.target.files[0];
+  function updatePreview(file) {
+    // File name
+    set_Filename(file.name);
+
+    // File size
+    set_Filesize(bytesToSize(file.size));
+
+    // File type
+    if (file.type.startsWith("image/")) {
+      set_Filetype("IMAGE");
+      set_Filepreview(URL.createObjectURL(file))
+      return;
     }
 
-    if (!file) { return; }
-    console.log(file)
+    if (file.name.endsWith(".docx")) {
+      set_Filetype("DOC");
+      return;
+    }
 
-    set_FileName(file.name)
-    set_FileSize(bytesToSize(file.size))
+    switch(file.type) {
+      case "application/pdf":
+        set_Filetype("PDF");
+        break;
+      case "application/x-zip-compressed":
+        set_Filetype("ZIP");
+        break;
+      default:
+        break;
+    }
+  }
+
+  const FilePreview = () => {
+    switch(_Filetype) {
+      case "IMAGE": return <img src={_Filepreview} alt=" "/>;
+      case "PDF": return <FaIcons.FaFilePdf className={styles.icon}/>
+      case "ZIP": return <FaIcons.FaFileArchive className={styles.icon}/>
+      case "DOC": return <FaIcons.FaFileWord className={styles.icon}/>
+      case "DEFAULT": return <FaIcons.FaFileDownload className={styles.icon}/>
+      default:
+        break;
+    }
+  }
+
+  // Event management
+  function onKeyPress(e) {
+    if (e.key === "Enter") {
+      processMessage()
+    }
+  }
+
+  function onFileChange(e) {
+    var file = e
+    if (!file) { return; }
+    if (file.type === "change") { file = e.target.files[0] }
+    if (!file.name) { return; }
+    if (file.size > 2000000) {
+      context.spawnNotification("ERROR", "Error", "File size can't exceed 2MB.");
+      return;
+    }
+
     setformState(() => ({
       ...formState,
       type: MessageType.FILE,
       file: file
     }));
 
-    if (file.type.startsWith("image/")) {
-      let src = URL.createObjectURL(file);
-      set_FilePreview(src)
-      set_FileView("IMAGE")
-      set_FileDelete(true)
-    } else if (file.type === "application/pdf") {
-      set_FileView("PDF")
-      set_FileDelete(true)
-    } else if (file.type === "application/x-zip-compressed") {
-      set_FileView("ZIP")
-      set_FileDelete(true)
-    } else {
-      set_FileView("unknown")
-      set_FileDelete(true)
-    }
+    updatePreview(file)
   }
 
   function onChange(e) {
@@ -89,66 +162,49 @@ function MessageInput(props) {
     }));
   }
 
-  function onKeyPress(e) {
-    if (e.key === "Enter") {
-      processMessage()
-    }
-  }
-
-  //Used for drag and drop
-  const dropFile = (files) => {
-    onFileChange(files[0])
-  }
-
-  const FilePreview = () => {
-    switch(_FileView) {
-      case "IMAGE": return <img className={styles.preview} alt="attatchment preview" src={_FilePreview} />;
-      case "PDF": return <p className={styles.fileIcon}><MdIcons.MdInsertDriveFile/></p>
-      case "ZIP": return <p className={styles.fileIcon}><MdIcons.MdViewDay/></p>
-      case "unknown": return <p className={styles.fileIcon}><MdIcons.MdFileDownload/></p> 
-    }
-  }
-
-  function deleteFile(e) {
+  function onRemove() {
     setformState(() => ({
       ...formState,
-      type: 0,
-      file: null
+      type: MessageType.TEXT,
+      file: undefined
     }));
-      set_FilePreview(null)
-      set_FileName("");
-      set_FileDelete(false)
+    set_Filetype("DEFAULT")
+    set_Filename("")
+    set_Filesize("")
+    set_Filepreview(null)
   }
 
   return (
     <>
-      <DragDrop dropFile={dropFile}>
-        <div style={{ display: "none" }}>
-          <input type="file" ref={uploaderRef} onChange={onFileChange} />
-        </div>
-        {_FileName &&
-        <div className={styles.imageBlock}>
-          <div className={styles.attatchment} style={{ display: `${formState.type === MessageType.FILE ? "block" : "none"}` }}>
-            {_FileName} . <strong>{_FileSize}</strong>
-          </div>
-          <div className={styles.imageContainer}>
+      { formState.file &&
+        <div className={styles.preview}>
+          <div className={styles.filePreview}>
             { FilePreview() }
-
-            {_FileDelete &&
-              <p onClick={deleteFile} className={styles.reject}><MdIcons.MdClose/></p>
-            }
           </div>
+          <div className={styles.fileRemove} onClick={onRemove}>
+            <MdIcons.MdClose/>
           </div>
-          }
-
-        <div className={styles.main} onKeyPress={onKeyPress}>
-          <MdIcons.MdAttachFile className={styles.attatchFileIcon} onClick={openUpload} />
-          <EmojiMenu setting="APPEND" formState={formState} setformState={setformState} className={styles.emojiMenuIcon} />
-          <input value={formState.message} onChange={onChange} autoComplete="off" spellCheck="false" id="message" name="message" type="text" placeholder="Write a message.." />
-          <MdIcons.MdSend onClick={processMessage} className={styles.sendIcon} />
+          <div className={styles.fileInfo}>
+            <p className={styles.name}>{_Filename}</p>
+            <p className={styles.size}>{_Filesize}</p>
+          </div>
         </div>
-      </DragDrop>
+      }
+
+      <div className={styles.main}>
+        <input type="file" ref={uploaderRef} onChange={onFileChange} style={{ display: "none" }}/>
+
+        {/* <MessageUploader callback={onFileChange}/> */}
+
+        <div className={styles.container} onKeyPress={onKeyPress}>
+          <MdIcons.MdAttachFile className={styles.upload} onClick={() => uploaderRef.current.click()}/>
+          <EmojiMenu className={styles.emoji} setting="APPEND" formState={formState} setformState={setformState}/>
+          <input value={formState.message} onChange={onChange} autoComplete="off" spellCheck="false" id="message" name="message" type="text" placeholder="Write a message.."/>
+          <MdIcons.MdSend className={styles.send} onClick={processMessage}/>
+        </div>
+      </div>
     </>
+
   )
 }
 

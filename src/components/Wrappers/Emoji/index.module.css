@@ -2,6 +2,7 @@
   height: 16pt;
   width: 16pt;
   margin-right: 1ex;
+  z-index: 9999;
 }
 
 .emoji {

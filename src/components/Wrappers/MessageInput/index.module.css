@@ -1,88 +1,79 @@
-.attatchment {
-  color: grey;
-  font-size: 10pt;
-}
-
-.imageContainer {
-  padding-top: 0;
-  width: fit-content;
-  position: relative;
-  display: flex;
-  align-items: left;
-  justify-content: left;
-}
-
-.imageBlock {
-    border: 2px dotted black;
-    background-color:var(--bg);
-    padding: 1ex 0 1ex 2ex;
-    border-radius: 10px;
-}
-
-
-.preview {
-  margin-top: 1ex;
-  width: 7vw;
-  min-width: 20ex;
-}
-
 .main {
+  width: 100%;
+  position: relative;
+}
+
+.container {
   display: flex;
   flex-direction: row;
   align-items: center;
-  padding: 1ex 0ex 1ex 0ex;
+  padding: 0ex 2ex 0ex 2ex;
+  box-sizing: border-box;
   width: 100%;
 }
 
-.main > input {
+.container > input {
   flex: 1;
 }
 
-.main > .attatchFileIcon {
-  color: grey;
-  margin-right: 1ex;
-  font-size: 16pt;
+.send {
   cursor: pointer;
-  margin-left: 1ex;
-
+  padding: 0ex 1ex 0ex 1ex;
 }
 
-.main > .attatchFileIcon:hover {
-  color: var(--bg-accent);
-}
-
-.main > .sendIcon {
+.upload {
   color: grey;
-  margin-left: 1ex;
-  margin-right: 1ex;
-  font-size: 16pt;
   cursor: pointer;
+  padding: 0ex 1ex 0ex 1ex;
 }
 
-.main > .sendIcon:hover {
-  color: var(--bg-accent);
+.preview {
+  display: flex;
+  flex-direction: row;
 }
 
-.reject {
+.filePreview {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 1.5em;
-  height: 1.5em;
+  font-size: 36pt;
+  margin-right: 0.5ex;
+  width: 5ex;
+}
+
+.filePreview > img {
+  width: 5ex;
+}
+
+.fileRemove {
   position: absolute;
-  top: 1ex; 
-  /* 1ex because of photo margin */
-  right:0px;
-  color: var(--warning);
-
-}
-
-.reject:hover {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  font-size: 10pt;
+  background-color: rgb(199, 56, 56);
+  cursor: pointer;
+  z-index: 2;
   border-radius: 50%;
-  color: white;
-  background-color: var(--warning);
+  margin: 1ex 0ex 0ex 1ex;
 }
 
-.fileIcon {
-  font-size: 60pt;
+.icon {
+  margin: 1ex 0ex 1ex 0ex;
+}
+
+.fileInfo {
+  display: flex;
+  flex-direction: column;
+}
+
+.name {
+  font-size: 10pt;
+  font-weight: 700;
+}
+
+.size {
+  color: grey;
+  font-size: 10pt;
+  font-weight: 500;
 }

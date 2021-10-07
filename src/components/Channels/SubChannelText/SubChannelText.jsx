@@ -1,10 +1,13 @@
 import React, { useState, useContext, useEffect } from 'react'
 import styles from './index.module.css'
-import MessageSorter from '../../Wrappers/MessageSorter/MessageSorter'
+
 import { DataStore, SortDirection } from "aws-amplify";
 import { AuthContext } from "../../../contexts/AuthContext";
 import { ChannelsContext } from "../Channels/Channels";
 import { Messages } from '../../../models';
+
+import MessageSorter from '../../Wrappers/MessageSorter/MessageSorter'
+import MessageInput from '../../Wrappers/MessageInput/MessageInput'
 import Header from '../../Wrappers/Header/Header'
 
 import FriendsListItem from '../FriendsListItem/FriendsListItem'
@@ -39,20 +42,13 @@ function SubChannelText() {
     }
   }
 
-  // Event management
-  function onKeyPress(e) {
-    if (e.key === "Enter") {
-      // send message TODO
-    }
-  }
-
   return (
-    <div className={styles.container} onKeyPress={onKeyPress}>
+    <div className={styles.container}>
       <div className={styles.messageList}>
         <MessageSorter _Messages={_Messages}/>
       </div>
       <div className={styles.inputContainer}>
-        INPUT HERE
+        <MessageInput type="SUBCHANNEL" id={channelsContext?._SubChannel?.id}/>
       </div>
       <div className={styles.members}>
         <Header text="MEMBERS"/>

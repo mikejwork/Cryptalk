@@ -28,8 +28,11 @@ function Channels() {
   const [_ViewOverlay, set_ViewOverlay] = useState("ViewOverlay_None") // ViewOverlay_None ViewOverlay_NewChannel
 
   useEffect(() => {
+    set_SubChannel(null)
+  }, [_Channel])
+
+  useEffect(() => {
     if (context.datastore_ready && _Channel) {
-      get_Channel()
       const s_Channel = DataStore.observe(Channel, _Channel.id).subscribe(() => get_Channel())
       return () => {
         s_Channel.unsubscribe()
@@ -39,6 +42,7 @@ function Channels() {
   }, [context.datastore_ready, _Channel])
 
   async function get_Channel() {
+    console.log('get_channel')
     DataStore.query(Channel, _Channel.id).then((result) => {
       set_Channel(result)
     });
