@@ -1,4 +1,72 @@
 .container {
+  height: 100%;
   padding: 3ex;
-  background-color: var(--bg-darker)
+  overflow-y: scroll;
+  background-color: var(--bg-dark)
+}
+
+.streams {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 33.3%);
+}
+
+.streams > div {
+  overflow: hidden;
+  border-radius: 1ex;
+  border: 1px solid var(--bg-dark)
+}
+
+.streamContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.info {
+  position: absolute;
+  background-color: var(--bg-darker);
+  padding: 0.5ex 2ex 0.5ex 2ex;
+  opacity: 0.9;
+  margin: 0.5ex;
+  border-radius: 0.5ex;
+}
+
+.avatar {
+  position: absolute;
+  margin-top: 220px;
+  width: 5ex;
+  height: 5ex;
+  border-radius: 50%;
+  border: 0.2ex solid white;
+  box-shadow: 0px 0px 10px var(--bg-accent);
+}
+
+video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.menu {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.menu > span {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--bg-darker);
+  height: 2ex;
+  padding: 2ex;
+  border-radius: 0.5ex;
+  margin: 0ex 1ex 0ex 1ex;
+  cursor: pointer;
+}
+
+.menu > span:hover {
+  background-color: rgb(39, 39, 39);
 }

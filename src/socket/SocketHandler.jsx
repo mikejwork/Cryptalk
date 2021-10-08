@@ -1,5 +1,6 @@
-import { useEffect, useRef, useContext, createContext } from 'react'
+import { useEffect, useRef, useContext, createContext, useState } from 'react'
 
+import Peer from 'peerjs'
 import io from 'socket.io-client';
 
 import { AuthContext } from "../contexts/AuthContext";
@@ -9,48 +10,67 @@ export const SocketContext = createContext();
 function SocketHandler(props) {
   const context = useContext(AuthContext)
   const socketRef = useRef();
+  const peerRef = useRef();
+  const [peerData, setpeerData] = useState({})
+
+  // Stream settings
+  // const [_Mic, set_Mic] = useState(true)
+  // const [_Vid, set_Vid] = useState(true)
 
   useEffect(() => {
     if (context.datastore_ready) {
       console.log('[SocketHandler::connect]')
 
-      socketRef.current = io.connect('http://localhost:8000');
+      // Connect to socket
+      socketRef.current = io.connect(`http://${window.location.hostname}:3333`);
 
-      // socketRef.current.on('userJoin', payload => {
-      //   console.log('[SocketHandler::userJoined]')
-      //   console.log(payload)
+      peerRef.current = new Peer(context.user.attributes.sub)
 
-      //   if (payload.channel !== "main") { return; }
+      peerRef.current.on('open', () => {
+        console.log('[SocketHandler::PeerOpen] ' + peerRef.current.id)
+      })
 
-      //   if (context.user.username !== payload.name) {
-      //     context.spawnNotification("NETWORK", "Connected", `${payload.name} joined your channel.`);
-      //   } else {
-      //     context.spawnNotification("NETWORK", "Connected", `Connected to ${payload.channel} channel.`);
-      //   }
-      // })
+      navigator.mediaDevices.getUserMedia({
+        video: true,
+        audio: true
+      }).then((stream) => {
+        peerRef.current.on('call', (call) => {
+          call.answer(stream)
 
-      socketRef.current.emit("$connect", {
-        channel: "main",
-        username: context.user.username,
-        sub: context.user.attributes.sub
-      });
+          call.on('stream', (incoming) => {
+            console.log('callstream:answered')
+            // peerData.current[call.peer] = incoming
+            setpeerData(old => ({
+              ...old,
+              [call.peer]: incoming
+            }))
+          })
+          console.log("CALL", call)
+        })
 
-      return () => {
-        socketRef.current.emit("$disconnect", {
-          channel: "main",
-          username: context.user.username,
-          sub: context.user.attributes.sub
-        });
-      }
-    } else {
-      socketRef?.current?.emit('forceDisconnect');
+        // When user joins the current room, start a call with the user
+        socketRef.current.on('room::userJoined', (user) => {
+          const call = peerRef.current.call(user.sub, stream)
+
+          call.on('stream', (incoming) => {
+            console.log('callstream')
+            // peerData.current[user.sub] = incoming
+            setpeerData(old => ({
+              ...old,
+              [user.sub]: incoming
+            }))
+          })
+        })
+      })
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [context.datastore_ready])
 
   return (
     <SocketContext.Provider value={{
-      socket: socketRef
+      socket: socketRef.current,
+      peer: peerRef,
+      peerData: peerData
     }}>
       {props.children}
     </SocketContext.Provider>
@@ -58,3 +78,10 @@ function SocketHandler(props) {
 }
 
 export default SocketHandler
+
+
+// peerjs --port 4444
+// peerRef.current = new Peer(context.user.attributes.sub, {
+//   host: '/',
+//   port: '4444'
+// })

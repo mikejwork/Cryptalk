@@ -22,7 +22,7 @@ function SubChannelRenderer() {
         </div>
       </div>
       <div className={styles.content}>
-        {channelsContext._SubChannel.type === 'TEXT' ? <SubChannelText/> : <SubChannelVoice/>}
+        {channelsContext._SubChannel.type === 'TEXT' ? <SubChannelText/> : <SubChannelVoice id={channelsContext._SubChannel.id}/>}
       </div>
     </>
   )
