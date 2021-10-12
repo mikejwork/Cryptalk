@@ -14,6 +14,7 @@ const Video = (props) => {
     // eslint-disable-next-line
   }, []);
 
+  if (props.muted) { return ( <video muted playsInline autoPlay ref={ref}/> ); }
   return ( <video playsInline autoPlay ref={ref}/> );
 }
 
@@ -99,7 +100,7 @@ function SubChannelVoice(props) {
               <UserAvatar className={styles.avatar} alt="" id={context.user.attributes.sub}/>
             </div>
             <div className={styles.streamContainer}>
-              <Video stream={socketContext._LocalStream.current}/>
+              <Video muted={true} stream={socketContext._LocalStream.current}/>
             </div>
           </div>
         }

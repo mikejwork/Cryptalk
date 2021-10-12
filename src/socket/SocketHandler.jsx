@@ -38,7 +38,6 @@ function SocketHandler(props) {
       // Get stream then set listeners
       navigator.mediaDevices.getUserMedia({ video: true, audio: true }).then((stream) => {
         _LocalStream.current = stream
-        _LocalStream.current.getAudioTracks()[0].enabled = false;
 
         // Listen for incoming calls, answer them and add to peerData
         peerRef.current.on('call', (call) => {
