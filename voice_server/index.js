@@ -18,6 +18,7 @@ io.on('connection', (socket) => {
     leaveAll(user)
 
     socket.join(roomID)
+    console.log(`${roomID} + ${user.username}`)
 
     join(roomID, {...user, socketID: socket.id})
     socket.to(roomID).emit('room::userJoined', user)
@@ -25,6 +26,11 @@ io.on('connection', (socket) => {
     socket.on('disconnect', () => {
       leave(roomID, user)
     })
+  })
+
+  socket.on('room::leave', (roomID, user) => {
+    console.log(`${roomID} - ${user.username}`)
+    socket.to(roomID).emit('room::userLeft', user)
   })
 
   socket.on('disconnect', () => {

@@ -4,7 +4,7 @@ import * as FaIcons from 'react-icons/fa'
 import { AuthContext } from '../../../contexts/AuthContext'
 import { SocketContext } from '../../../socket/SocketHandler'
 
-// import UserAvatar from '../../Wrappers/Avatar/UserAvatar'
+import UserAvatar from '../../Wrappers/Avatar/UserAvatar'
 
 const Video = (props) => {
   const ref = useRef();
@@ -52,6 +52,10 @@ function SubChannelVoice(props) {
   useEffect(() => {
     socketContext.socket.emit('room::join', props.id, { username: context.user.username, sub: context.user.attributes.sub})
     set_Status("CONNECTED")
+
+    return () => {
+      socketContext.disconnect(props.id)
+    }
     // eslint-disable-next-line
   }, [props.id])
 
@@ -60,7 +64,7 @@ function SubChannelVoice(props) {
       return (
         <div key={key}>
           <div className={styles.info}>
-            <p>Username here</p>
+            <UserAvatar className={styles.avatar} alt="" id={key}/>
           </div>
           <div className={styles.streamContainer}>
             <Video stream={value}/>
@@ -80,19 +84,27 @@ function SubChannelVoice(props) {
         <span>
           <FaIcons.FaMicrophone style={{color:"white"}}/>
         </span>
-        <span>
+        <span onClick={() => console.log(socketContext.testData)}>
           <FaIcons.FaCamera style={{color:"white"}}/>
         </span>
-        <span>
+        <span onClick={() => console.log(socketContext.peerData)}>
           <FaIcons.FaHeadphonesAlt style={{color:"grey"}}/>
         </span>
       </div>
       <hr/>
       <div className={styles.streams}>
+        { socketContext?._LocalStream?.current &&
+          <div>
+            <div className={styles.info}>
+              <UserAvatar className={styles.avatar} alt="" id={context.user.attributes.sub}/>
+            </div>
+            <div className={styles.streamContainer}>
+              <Video stream={socketContext._LocalStream.current}/>
+            </div>
+          </div>
+        }
         { streamList() }
       </div>
-
-      {/* <UserAvatar className={styles.avatar} alt="" id="4a857176-e238-4410-9556-ad6ce055177f"/> */}
     </div>
   )
 }
