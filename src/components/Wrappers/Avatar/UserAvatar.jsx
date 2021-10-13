@@ -3,6 +3,20 @@ import { Storage } from "aws-amplify";
 import { useSpring, animated } from 'react-spring';
 import { AuthContext } from "../../../contexts/AuthContext";
 
+import FastAverageColor from 'fast-average-color';
+
+export async function AvatarHue(id) {
+  var temp;
+  const result = await Storage.get(id + ".jpg", { download: true });
+  const url = URL.createObjectURL(result.Body);
+
+  const fac = new FastAverageColor();
+  await fac.getColorAsync(url).then(async (result) => {
+    temp = result.hex
+  })
+  return temp
+}
+
 function UserAvatar(props) {
   const context = useContext(AuthContext);
   const [source, setSource] = useState(undefined);

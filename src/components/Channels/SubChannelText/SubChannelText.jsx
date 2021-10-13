@@ -37,9 +37,9 @@ function SubChannelText() {
     })
     set_Messages(result)
 
-    if (document.getElementById("message-end") !== null) {
-      document.getElementById("message-end").scrollIntoView({ behavior: "smooth" })
-    }
+    // if (document.getElementById("message-end") !== null) {
+    //   document.getElementById("message-end").scrollIntoView({ behavior: "smooth" })
+    // }
   }
 
   return (

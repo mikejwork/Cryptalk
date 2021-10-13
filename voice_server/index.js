@@ -1,13 +1,8 @@
 const express = require('express')
 const app = express()
 const server = require('http').Server(app)
-const io = require('socket.io')(server, {
-  cors: {
-    origins: ["*"]
-  }
-})
+const io = require('socket.io')(server, { cors: { origins: ["*"] }})
 const cors = require('cors')
-const { v4: uuidV4 } = require('uuid')
 
 app.use(cors())
 
@@ -31,6 +26,26 @@ io.on('connection', (socket) => {
   socket.on('room::leave', (roomID, user) => {
     console.log(`${roomID} - ${user.username}`)
     socket.to(roomID).emit('room::userLeft', user)
+  })
+
+  socket.on('room::enableVoice', (roomID, user) => {
+    console.log(`${user.username} - unmuted mic`)
+    socket.to(roomID).emit('room::enableVoice', user)
+  })
+
+  socket.on('room::disableVoice', (roomID, user) => {
+    console.log(`${user.username} - muted mic`)
+    socket.to(roomID).emit('room::disableVoice', user)
+  })
+
+  socket.on('room::enableVideo', (roomID, user) => {
+    console.log(`${user.username} - enable video`)
+    socket.to(roomID).emit('room::enableVideo', user)
+  })
+
+  socket.on('room::disableVideo', (roomID, user) => {
+    console.log(`${user.username} - disabled video`)
+    socket.to(roomID).emit('room::disableVideo', user)
   })
 
   socket.on('disconnect', () => {

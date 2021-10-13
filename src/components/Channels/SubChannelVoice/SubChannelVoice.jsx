@@ -1,110 +1,131 @@
 import React, { useEffect, useContext, useRef, useState } from 'react'
 import styles from './index.module.css'
 import * as FaIcons from 'react-icons/fa'
+import * as BsIcons from 'react-icons/bs'
 import { AuthContext } from '../../../contexts/AuthContext'
 import { SocketContext } from '../../../socket/SocketHandler'
 
-import UserAvatar from '../../Wrappers/Avatar/UserAvatar'
+import UserAvatar, { AvatarHue } from '../../Wrappers/Avatar/UserAvatar'
 
+/* Video stream handler */
 const Video = (props) => {
-  const ref = useRef();
+  const videoRef = useRef();
 
   useEffect(() => {
-    ref.current.srcObject = props.stream;
-    // eslint-disable-next-line
-  }, []);
+    videoRef.current.srcObject = props.stream
+    //eslint-disable-next-line
+  }, [])
 
-  if (props.muted) { return ( <video muted playsInline autoPlay ref={ref}/> ); }
-  return ( <video playsInline autoPlay ref={ref}/> );
+  return ( <video ref={videoRef} playsInline autoPlay muted/>)
 }
 
-const Status = (props) => {
-  switch(props.status) {
-    case "WAITING":
-      return (
-        <>
-          <FaIcons.FaWifi style={{color:"orange"}}/>
-          <p style={{margin:"0 0 0 1ex", fontSize:"10pt"}}>Awaiting connection</p>
-        </>
-      )
-    case "CONNECTED":
-      return (
-        <>
-          <FaIcons.FaWifi style={{color:"green"}}/>
-          <p style={{margin:"0 0 0 1ex", fontSize:"10pt"}}>Connected to voice</p>
-        </>
-      )
-    default:
-      return (
-        <>
-          <FaIcons.FaWifi style={{color:"red"}}/>
-          <p style={{margin:"0 0 0 1ex", fontSize:"10pt"}}>Not connected</p>
-        </>
-      )
-  }
+function PeerContainer(props) {
+  const socketContext = useContext(SocketContext)
+  const [colour, setcolour] = useState(``)
+  const [_Video, set_Video] = useState(false)
+  const [_Audio, set_Audio] = useState(false)
+
+  /* Coloured background */
+  useEffect(() => {
+    const getColour = async () => {
+      const fuck = await AvatarHue(props.peer.sub);
+      setcolour(fuck)
+    }
+    getColour()
+    // eslint-disable-next-line
+  }, [props.peer])
+
+  /* UI Setup */
+  useEffect(() => {
+    set_Video(props.peer.video)
+    set_Audio(props.peer.audio)
+
+    socketContext.socket.on('room::enableVoice', (user) => {
+      if (user.sub === props.peer.sub) {
+        set_Audio(true)
+      }
+    })
+
+    socketContext.socket.on('room::disableVoice', (user) => {
+      if (user.sub === props.peer.sub) {
+        set_Audio(false)
+      }
+    })
+
+    socketContext.socket.on('room::enableVideo', (user) => {
+      if (user.sub === props.peer.sub) {
+        set_Video(true)
+      }
+    })
+
+    socketContext.socket.on('room::disableVideo', (user) => {
+      if (user.sub === props.peer.sub) {
+        set_Video(false)
+      }
+    })
+  }, [])
+
+
+  return (
+    <>
+      { _Video ?
+        <div className={styles.streamContainerVideo}>
+          <div className={styles.videoContainer}>
+            { !_Audio &&
+              <div className={styles.mutedVideo}><BsIcons.BsMicMuteFill/></div>
+            }
+            <Video stream={props.peer.call._remoteStream}/>
+          </div>
+        </div>
+      :
+        <div className={styles.streamContainer} style={{backgroundColor:`${colour}`}}>
+
+          { !_Audio &&
+            <div className={styles.muted}><BsIcons.BsMicMuteFill/></div>
+          }
+          <UserAvatar className={styles.avatar} alt="" id={props.peer.sub}/>
+          <p className={styles.username}>{props.peer.username}</p>
+        </div>
+      }
+    </>
+
+  )
 }
 
 function SubChannelVoice(props) {
   const context = useContext(AuthContext)
   const socketContext = useContext(SocketContext)
 
-  const [_Status, set_Status] = useState("")
-
   useEffect(() => {
-    socketContext.socket.emit('room::join', props.id, { username: context.user.username, sub: context.user.attributes.sub})
-    set_Status("CONNECTED")
+    socketContext.room_connect(props.id)
 
     return () => {
-      socketContext.disconnect(props.id)
+      socketContext.room_disconnect(props.id)
     }
     // eslint-disable-next-line
   }, [props.id])
-
-  const streamList = () => {
-    for (let [key, value] of Object.entries(socketContext.peerData)) {
-      return (
-        <div key={key}>
-          <div className={styles.info}>
-            <UserAvatar className={styles.avatar} alt="" id={key}/>
-          </div>
-          <div className={styles.streamContainer}>
-            <Video stream={value}/>
-          </div>
-        </div>
-      )
-    }
-  }
 
   return (
     <div className={styles.container}>
       <hr/>
       <div className={styles.menu}>
-        {<span>
-          <Status status={_Status}/>
-        </span>}
+        <span onClick={socketContext.toggle_Audio}>
+          <FaIcons.FaMicrophone style={{color:`${socketContext._Audio ? "white" : "red"}`}}/>
+        </span>
+        <span onClick={socketContext.toggle_Video}>
+          <FaIcons.FaCamera style={{color:`${socketContext._Video ? "white" : "red"}`}}/>
+        </span>
         <span>
-          <FaIcons.FaMicrophone style={{color:"white"}}/>
-        </span>
-        <span onClick={() => console.log(socketContext.testData)}>
-          <FaIcons.FaCamera style={{color:"white"}}/>
-        </span>
-        <span onClick={() => console.log(socketContext.peerData)}>
           <FaIcons.FaHeadphonesAlt style={{color:"grey"}}/>
         </span>
       </div>
       <hr/>
       <div className={styles.streams}>
-        { socketContext?._LocalStream?.current &&
-          <div>
-            <div className={styles.info}>
-              <UserAvatar className={styles.avatar} alt="" id={context.user.attributes.sub}/>
-            </div>
-            <div className={styles.streamContainer}>
-              <Video muted={true} stream={socketContext._LocalStream.current}/>
-            </div>
-          </div>
-        }
-        { streamList() }
+        { socketContext.current_peers.map((peer) => {
+          return (
+            <PeerContainer key={peer.sub} peer={peer}/>
+          )
+        })}
       </div>
     </div>
   )

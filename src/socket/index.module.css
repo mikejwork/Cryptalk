@@ -1,0 +1,18 @@
+.container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  color: white;
+  font-weight: 700;
+  padding: 0ex 5ex 0ex 5ex;
+  background-color: rgb(19, 19, 19);
+  font-size: 9pt;
+}
+
+.container > div {
+  margin: 0ex 2ex 0ex 2ex;
+}
+
+.container strong {
+  color: var(--bg-accent);
+}
