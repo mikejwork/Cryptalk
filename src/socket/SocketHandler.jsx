@@ -15,6 +15,7 @@ import styles from './index.module.css'
 export const SocketContext = createContext();
 
 // Socket links
+// eslint-disable-next-line
 const development = `http://${window.location.hostname}:3333`;
 // eslint-disable-next-line
 const production = `ec2-3-24-215-60.ap-southeast-2.compute.amazonaws.com:3333`;
@@ -50,7 +51,7 @@ function SocketHandler(props) {
   useEffect(() => {
     if (stream_setup) {
       // Connect to socket
-      socket_connect(development)
+      socket_connect(production)
 
       // Event handlers for socket
       socket_setEvents()

@@ -28,12 +28,6 @@ export declare class FileMetadata {
   constructor(init: ModelInit<FileMetadata>);
 }
 
-export declare class Signal {
-  readonly type: string;
-  readonly sdp?: string;
-  constructor(init: ModelInit<Signal>);
-}
-
 export declare class User {
   readonly username: string;
   readonly sub: string;
@@ -44,14 +38,6 @@ export declare class Friend {
   readonly sub: string;
   readonly username: string;
   constructor(init: ModelInit<Friend>);
-}
-
-type ReturnSignalMetaData = {
-  readOnlyFields: 'createdAt' | 'updatedAt';
-}
-
-type SendSignalMetaData = {
-  readOnlyFields: 'createdAt' | 'updatedAt';
 }
 
 type DirectMessageMetaData = {
@@ -76,30 +62,6 @@ type RequestStorageMetaData = {
 
 type FriendsMetaData = {
   readOnlyFields: 'createdAt' | 'updatedAt';
-}
-
-export declare class ReturnSignal {
-  readonly id: string;
-  readonly callerId: string;
-  readonly recipientId: string;
-  readonly subchannelID?: string;
-  readonly signal: Signal;
-  readonly createdAt?: string;
-  readonly updatedAt?: string;
-  constructor(init: ModelInit<ReturnSignal, ReturnSignalMetaData>);
-  static copyOf(source: ReturnSignal, mutator: (draft: MutableModel<ReturnSignal, ReturnSignalMetaData>) => MutableModel<ReturnSignal, ReturnSignalMetaData> | void): ReturnSignal;
-}
-
-export declare class SendSignal {
-  readonly id: string;
-  readonly callerId: string;
-  readonly signal?: Signal;
-  readonly subchannelID?: string;
-  readonly recipientId: string;
-  readonly createdAt?: string;
-  readonly updatedAt?: string;
-  constructor(init: ModelInit<SendSignal, SendSignalMetaData>);
-  static copyOf(source: SendSignal, mutator: (draft: MutableModel<SendSignal, SendSignalMetaData>) => MutableModel<SendSignal, SendSignalMetaData> | void): SendSignal;
 }
 
 export declare class DirectMessage {
@@ -134,8 +96,6 @@ export declare class SubChannel {
   readonly users?: User[];
   readonly channelID?: string;
   readonly messages?: (Messages | null)[];
-  readonly sendSignals?: (SendSignal | null)[];
-  readonly returnSignals?: (ReturnSignal | null)[];
   readonly users_connected?: (User | null)[];
   readonly createdAt?: string;
   readonly updatedAt?: string;

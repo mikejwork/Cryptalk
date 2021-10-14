@@ -47,7 +47,7 @@ function Footer() {
             <li>© 2021 Cryptalk</li>
           </ul>
         </animated.div>
-        <button onClick={() => setOpen(!open)}><animated.div className={styles.arrowDiv} style={arrowStyle} id="cypress-footerBtn"><MdIcons.MdKeyboardArrowLeft/></animated.div></button>
+        <button name="footer-button" onClick={() => setOpen(!open)}><animated.div className={styles.arrowDiv} style={arrowStyle} id="cypress-footerBtn"><MdIcons.MdKeyboardArrowLeft/></animated.div></button>
       </div>
     </div>
   )

@@ -1,187 +1,5 @@
 export const schema = {
     "models": {
-        "ReturnSignal": {
-            "name": "ReturnSignal",
-            "fields": {
-                "id": {
-                    "name": "id",
-                    "isArray": false,
-                    "type": "ID",
-                    "isRequired": true,
-                    "attributes": []
-                },
-                "callerId": {
-                    "name": "callerId",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": true,
-                    "attributes": []
-                },
-                "recipientId": {
-                    "name": "recipientId",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": true,
-                    "attributes": []
-                },
-                "subchannelID": {
-                    "name": "subchannelID",
-                    "isArray": false,
-                    "type": "ID",
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "signal": {
-                    "name": "signal",
-                    "isArray": false,
-                    "type": {
-                        "nonModel": "Signal"
-                    },
-                    "isRequired": true,
-                    "attributes": []
-                },
-                "createdAt": {
-                    "name": "createdAt",
-                    "isArray": false,
-                    "type": "AWSDateTime",
-                    "isRequired": false,
-                    "attributes": [],
-                    "isReadOnly": true
-                },
-                "updatedAt": {
-                    "name": "updatedAt",
-                    "isArray": false,
-                    "type": "AWSDateTime",
-                    "isRequired": false,
-                    "attributes": [],
-                    "isReadOnly": true
-                }
-            },
-            "syncable": true,
-            "pluralName": "ReturnSignals",
-            "attributes": [
-                {
-                    "type": "model",
-                    "properties": {}
-                },
-                {
-                    "type": "key",
-                    "properties": {
-                        "name": "bySubChannel",
-                        "fields": [
-                            "subchannelID"
-                        ]
-                    }
-                },
-                {
-                    "type": "auth",
-                    "properties": {
-                        "rules": [
-                            {
-                                "allow": "private",
-                                "operations": [
-                                    "create",
-                                    "update",
-                                    "delete",
-                                    "read"
-                                ]
-                            }
-                        ]
-                    }
-                }
-            ]
-        },
-        "SendSignal": {
-            "name": "SendSignal",
-            "fields": {
-                "id": {
-                    "name": "id",
-                    "isArray": false,
-                    "type": "ID",
-                    "isRequired": true,
-                    "attributes": []
-                },
-                "callerId": {
-                    "name": "callerId",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": true,
-                    "attributes": []
-                },
-                "signal": {
-                    "name": "signal",
-                    "isArray": false,
-                    "type": {
-                        "nonModel": "Signal"
-                    },
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "subchannelID": {
-                    "name": "subchannelID",
-                    "isArray": false,
-                    "type": "ID",
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "recipientId": {
-                    "name": "recipientId",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": true,
-                    "attributes": []
-                },
-                "createdAt": {
-                    "name": "createdAt",
-                    "isArray": false,
-                    "type": "AWSDateTime",
-                    "isRequired": false,
-                    "attributes": [],
-                    "isReadOnly": true
-                },
-                "updatedAt": {
-                    "name": "updatedAt",
-                    "isArray": false,
-                    "type": "AWSDateTime",
-                    "isRequired": false,
-                    "attributes": [],
-                    "isReadOnly": true
-                }
-            },
-            "syncable": true,
-            "pluralName": "SendSignals",
-            "attributes": [
-                {
-                    "type": "model",
-                    "properties": {}
-                },
-                {
-                    "type": "key",
-                    "properties": {
-                        "name": "bySubChannel",
-                        "fields": [
-                            "subchannelID"
-                        ]
-                    }
-                },
-                {
-                    "type": "auth",
-                    "properties": {
-                        "rules": [
-                            {
-                                "allow": "private",
-                                "operations": [
-                                    "create",
-                                    "update",
-                                    "delete",
-                                    "read"
-                                ]
-                            }
-                        ]
-                    }
-                }
-            ]
-        },
         "DirectMessage": {
             "name": "DirectMessage",
             "fields": {
@@ -427,34 +245,6 @@ export const schema = {
                     "isArray": true,
                     "type": {
                         "model": "Messages"
-                    },
-                    "isRequired": false,
-                    "attributes": [],
-                    "isArrayNullable": true,
-                    "association": {
-                        "connectionType": "HAS_MANY",
-                        "associatedWith": "subchannelID"
-                    }
-                },
-                "sendSignals": {
-                    "name": "sendSignals",
-                    "isArray": true,
-                    "type": {
-                        "model": "SendSignal"
-                    },
-                    "isRequired": false,
-                    "attributes": [],
-                    "isArrayNullable": true,
-                    "association": {
-                        "connectionType": "HAS_MANY",
-                        "associatedWith": "subchannelID"
-                    }
-                },
-                "returnSignals": {
-                    "name": "returnSignals",
-                    "isArray": true,
-                    "type": {
-                        "model": "ReturnSignal"
                     },
                     "isRequired": false,
                     "attributes": [],
@@ -864,25 +654,6 @@ export const schema = {
                 }
             }
         },
-        "Signal": {
-            "name": "Signal",
-            "fields": {
-                "type": {
-                    "name": "type",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": true,
-                    "attributes": []
-                },
-                "sdp": {
-                    "name": "sdp",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": false,
-                    "attributes": []
-                }
-            }
-        },
         "User": {
             "name": "User",
             "fields": {
@@ -922,5 +693,5 @@ export const schema = {
             }
         }
     },
-    "version": "524ada51e5c4a044830fae614a62a928"
+    "version": "55e6908b7e6f1aac7ce4305989c5acfc"
 };
