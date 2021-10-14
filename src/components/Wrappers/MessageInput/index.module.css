@@ -1,0 +1,79 @@
+.main {
+  width: 100%;
+  position: relative;
+}
+
+.container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0ex 2ex 0ex 2ex;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.container > input {
+  flex: 1;
+}
+
+.send {
+  cursor: pointer;
+  padding: 0ex 1ex 0ex 1ex;
+}
+
+.upload {
+  color: grey;
+  cursor: pointer;
+  padding: 0ex 1ex 0ex 1ex;
+}
+
+.preview {
+  display: flex;
+  flex-direction: row;
+}
+
+.filePreview {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36pt;
+  margin-right: 0.5ex;
+  width: 5ex;
+}
+
+.filePreview > img {
+  width: 5ex;
+}
+
+.fileRemove {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  font-size: 10pt;
+  background-color: rgb(199, 56, 56);
+  cursor: pointer;
+  z-index: 2;
+  border-radius: 50%;
+  margin: 1ex 0ex 0ex 1ex;
+}
+
+.icon {
+  margin: 1ex 0ex 1ex 0ex;
+}
+
+.fileInfo {
+  display: flex;
+  flex-direction: column;
+}
+
+.name {
+  font-size: 10pt;
+  font-weight: 700;
+}
+
+.size {
+  color: grey;
+  font-size: 10pt;
+  font-weight: 500;
+}

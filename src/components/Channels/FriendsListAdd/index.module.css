@@ -1,0 +1,68 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--border-radius);
+}
+
+.clickable {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  border-radius: var(--border-radius) var(--border-radius) 0 0;
+  cursor: pointer;
+  font-size: 11pt;
+  padding: 1ex 0ex 1ex 0ex;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.infoContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.channelIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 5ex;
+  color: rgba(168, 168, 168, 0.3);
+}
+
+.name {
+  font-weight: 700;
+  color: rgba(168, 168, 168, 0.3);
+}
+
+.form {
+  border-radius: 0 0 var(--border-radius) var(--border-radius);
+  background-color: var(--bg);
+  display: flex;
+  flex-direction: row;
+}
+
+.form > input {
+  background-color: var(--bg);
+  margin: 0;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.form > button {
+  width: 7ex;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  border-radius: 0 0 var(--border-radius) 0;
+}
+
+.form > button:hover {
+  color: var(--bg-accent);
+}

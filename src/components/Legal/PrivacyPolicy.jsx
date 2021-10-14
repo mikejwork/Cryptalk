@@ -1,5 +1,12 @@
+/*
+  Author: Braden
+  Description:
+    Site privacy policy
+  Related PBIs: 1
+*/
+
 import React from 'react'
-import styles from '../../css/Legal/Legal.module.css';
+import styles from './index.module.css';
 
 function PrivacyPolicy(props) {
   return (

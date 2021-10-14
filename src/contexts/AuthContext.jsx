@@ -1,8 +1,15 @@
+/*
+  Author: Michael
+  Description:
+    Authentication context management for the site, managing login state and other variables needed.
+  Related PBIs: nil
+*/
+
 /* eslint-disable no-loop-func */
 import React, { useState, useEffect, createContext } from "react";
-import { Auth, Hub, DataStore } from "aws-amplify";
-
+import { Auth, Hub, DataStore, Storage } from "aws-amplify";
 import { Friends, RequestStorage, RequestStatus, Channel } from '../models';
+import LoadingPage from '../components/Wrappers/Loading/Loading'
 
 export const AuthContext = createContext();
 
@@ -13,6 +20,9 @@ function AuthContextProvider(props) {
   const [channels_list, setChannels] = useState([])
   const [loading, setLoading] = useState(true);
   const [datastore_ready, setdatastore_ready] = useState(false)
+
+  // cache test
+  const [_cachedAvatar, set_cachedAvatar] = useState()
 
   async function checkUser() {
     try {
@@ -35,7 +45,7 @@ function AuthContextProvider(props) {
     Hub.listen("datastore", (data) => {
       // console.log(data.payload.event)
       if (data.payload.event === "ready") {
-        console.log("datastore::listener => ready")
+        // console.log("datastore::listener => ready")
         setdatastore_ready(true)
         setLoading(false);
       }
@@ -43,17 +53,14 @@ function AuthContextProvider(props) {
 
     Hub.listen("auth", (data) => {
       switch(data.payload.event) {
-
         case "signIn":
           checkUser()
           break;
-
         case "signOut":
           DataStore.clear();
           checkUser()
           setdatastore_ready(false)
           break;
-
         default:
           break;
       }
@@ -61,13 +68,21 @@ function AuthContextProvider(props) {
   }
 
   useEffect(() => {
+    if (user) {
+      async function fetchAvatar() {
+        const src = await Storage.get(user.attributes.sub + ".jpg");
+        set_cachedAvatar(src);
+      }
+      fetchAvatar()
+    }
+  }, [user])
+
+  useEffect(() => {
     checkUser();
     setAuthListener();
-
     return () => {
       Hub.remove("auth");
     }
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -229,22 +244,25 @@ function AuthContextProvider(props) {
   }
 
   if (loading) {
-    // TODO, make something nicer, maybe a loading gif?
-    return <></>;
+    return <LoadingPage/>;
   }
 
   return (
-    <AuthContext.Provider value={
-      {
-        user: user,
-        updateUser: setUser,
-        datastore_ready: datastore_ready,
-        friends: friend_list,
-        requests: request_list,
-        channels: channels_list
-      }}>
-      {props.children}
-    </AuthContext.Provider>
+    <>
+        <AuthContext.Provider value={{
+          spawnNotification: props.notificationRef.current?.spawn,
+          user: user,
+          updateUser: setUser,
+          datastore_ready: datastore_ready,
+          friends: friend_list,
+          requests: request_list,
+          channels: channels_list,
+          _cachedAvatar: _cachedAvatar
+        }}>
+
+        {props.children}
+      </AuthContext.Provider>
+    </>
   );
 }
 

@@ -29,16 +29,27 @@
 </div>
 
 
-<Hash>#</Hash> <strong>Credits</strong><br/>
-- Braden Smith - Software Developer<br/>
-- Michael Jurie - Software Developer<br/>
-- Luke Cocorocchio - Scrum Master<br/>
-- Matthew Sesto - Product Owner<br/>
+**Credits:**
+1. Braden Smith - Software Developer
+2. Michael Jurie - Software Developer
+3. Luke Cocorocchio - Scrum Master
+4. Matthew Sesto - Product Owner
 
-<hr/>
+**Project description**<br/>
+Cryptalk is a secure text and voice chat application that allows for real-time communication for teams, build specifically for the Royal Melbourne Institute of Technology for their faculty and student base. The project requires scalable cloud infrastructure to manage the backend database and large number of requests, and a sleek and enjoyable user interface
 
-<Hash>#</Hash> <strong>Technology</strong><br/>
-- Node.js<br/>
-- React.js<br/>
-- AWS Amplify, Datastore, Cognito<br/>
-- GraphQL<br/>
+**Features**<br/>
+User authentication
+User profile & customisation
+Friend request system
+Direct messaging
+Channel system
+Text channels & Voice channels
+Specific channel permission system
+Attachment sending and downloads (all stored on-cloud)
+WebRTC, Peer to peer voice chat
+
+**Outstanding Problems**
+1. Socket server overhaul, problems with TLS/SSL certificates on production app. Voice chat only works with local development server running at the moment.
+2. Sockets and WebRTC can be optimised further to reduce connection dropouts.
+3. Video chat can easily be implemented with the above changes, but for now is too buggy to keep in the production app.

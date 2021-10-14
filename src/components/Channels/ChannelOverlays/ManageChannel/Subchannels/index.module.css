@@ -1,0 +1,71 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  padding: 0ex 0ex 0ex 3ex;
+  height: 100%;
+}
+
+.title > h1 {
+  margin: 0;
+  padding: 0;
+}
+
+.title > h5 {
+  color: grey;
+  margin-top: -1ex;
+}
+
+.form {
+  padding: 2ex 0ex 2ex 0ex;
+  display: flex;
+  flex-direction: column;
+}
+
+.form > p {
+  font-size: 10pt;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.form > p > i {
+  color: grey;
+}
+
+.form > hr {
+  margin-top: 0;
+}
+
+.create {
+  margin-top: auto;
+  width: 100%;
+}
+
+
+.avatar {
+  width: 5ex;
+  height: 5ex;
+}
+
+.form > input {
+  background-color: var(--bg);
+}
+
+.setting {
+  margin-top: 2ex;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.setting > h5 {
+  margin-left: 1ex;
+}
+
+.submit {
+  margin-top: 2ex;
+}
+
+.submit > button {
+  width: 100%;
+}

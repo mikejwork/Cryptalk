@@ -1,0 +1,79 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  padding: 0ex 0ex 0ex 3ex;
+  height: 100%;
+}
+
+.title > h1 {
+  margin: 0;
+  padding: 0;
+}
+
+.title > h5 {
+  color: grey;
+  margin-top: -1ex;
+}
+
+.preview {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 4ex;
+}
+
+.preview > h1 {
+  width: 5ex;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.previewInfo {
+  display: flex;
+  flex-direction: column;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.previewInfo > p {
+  color: grey;
+}
+
+.form {
+  padding: 2ex 0ex 2ex 0ex;
+  display: flex;
+  flex-direction: column;
+}
+
+.form > input {
+  margin-bottom: 1ex;
+  background-color: var(--bg-dark);
+}
+
+.form > p {
+  font-size: 10pt;
+}
+
+.form > p > i {
+  color: grey;
+}
+
+.iconForm {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  position: absolute;
+  margin-bottom: 5.5ex;
+  margin-left: 0.5ex;
+}
+
+.create {
+  margin-top: auto;
+  width: 100%;
+}

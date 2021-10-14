@@ -21,7 +21,7 @@ describe("Profile", () => {
     cy.get("#cypress-profileUsername").should('have.text', 'cypresstestaccount')
   })
 
-  it("allows editing though the user avatar", () => {
+  it("edit profile from avatar", () => {
     cy.get("#cypress-profileAvatarEdit").click()
     cy.get("#cypress-profileEdit").should("exist");
   })
@@ -31,18 +31,18 @@ describe("Profile", () => {
     cy.get("#cypress-profile").should("exist");
   })
 
-  it("change password btn renders", () => {
+  it("change password button renders", () => {
     cy.get("#cypress-changePassword").should("exist");
   })
 
-  it("change password btn redirects", () => {
+  it("change password button redirects", () => {
     cy.get("#cypress-changePassword").click()
     cy.get("#cypress-changePasswordPage").should("exist");
     cy.get("#cypress-returnToProfile").click()
     cy.get("#cypress-profile").should("exist");
   })
 
-  it("two factor auth btn renders", () => {
+  it("two factor auth button renders", () => {
     cy.get("#cypress-twoFactor").should("exist");
   })
 })

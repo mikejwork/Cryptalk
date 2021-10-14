@@ -1,0 +1,35 @@
+.dropdown {
+  padding: 1.75ex;
+  border-radius: 50%;
+  display: flex;
+  cursor: pointer;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--bg-dark);
+}
+
+.dropdownOpen {
+  padding: 1.75ex;
+  border-radius: 50% 50% 0% 0%;
+  display: flex;
+  cursor: pointer;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--bg);
+}
+
+.dropdown:hover {
+  background-color: var(--bg);
+}
+
+.dropdownContent {
+  position: absolute;
+  top: 7.7ex;
+  width: 30ex;
+  background-color: var(--bg);
+  overflow: hidden;
+  padding: 1.75ex;
+  border-radius: 1ex 0ex 1ex 1ex;
+}

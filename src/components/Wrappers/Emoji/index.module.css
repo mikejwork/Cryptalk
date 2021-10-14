@@ -1,0 +1,47 @@
+.parent {
+  height: 16pt;
+  width: 16pt;
+  margin-right: 1ex;
+  z-index: 9999;
+}
+
+.emoji {
+  color: grey;
+  font-size: 16pt;
+  cursor: pointer;
+}
+
+.emoji:hover {
+  color: var(--bg-accent);
+}
+
+.container {
+  position: relative;
+  top: -12.5rem;
+  left: -13rem;
+  padding: 1ex;
+  width: 24ex;
+  display: flex;
+  flex-direction: column;
+  color: black;
+  background-color: white;
+  border-radius: var(--border-radius) var(--border-radius) 0 var(--border-radius);
+}
+
+.list {
+  height: 20ex;
+  display: grid;
+  grid-template-columns: repeat(8, 2.97ex);
+  grid-gap: 0rem;
+  overflow-y: auto;
+}
+
+.list > p {
+  cursor: pointer;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}

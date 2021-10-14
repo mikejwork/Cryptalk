@@ -1,3 +1,10 @@
+type FileMetadata {
+  S3Key: String!
+  filename: String!
+  filesize: Int!
+  filetype: String!
+}
+
 type DirectMessage @model @auth(rules: [{allow: private}]) {
   id: ID!
   participants: [String]
@@ -14,7 +21,7 @@ type Messages @model @auth(rules: [{allow: private}]) @key(name: "bySubChannel",
   author_username: String!
   author_id: String!
   type: MessageType!
-  content_link: String
+  metadata: FileMetadata
   subchannelID: ID
   content: String!
   directmessageID: ID
@@ -37,6 +44,7 @@ type SubChannel @model @auth(rules: [{allow: private}]) @key(name: "byChannel", 
   users: [User!]
   channelID: ID
   messages: [Messages] @connection(keyName: "bySubChannel", fields: ["id"])
+  users_connected: [User]
 }
 
 type Channel @model @auth(rules: [{allow: private}]) {

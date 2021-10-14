@@ -1,0 +1,73 @@
+.container {
+  position: fixed;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  pointer-events: none;
+  z-index: 9999;
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+.sideContainer {
+  width: 50ex;
+  padding: 12ex 5ex 5ex 5ex;
+  display: flex;
+  flex-direction: column;
+}
+
+.wrapContainer {
+  pointer-events: all;
+  padding: 1ex;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  color: black;
+  background-color: white;
+  cursor: pointer;
+  border-radius: 1ex;
+  margin-bottom: 1ex;
+}
+
+.icon {
+  font-size: 15pt;
+  width: 5ex;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon > p {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.actions {
+  display: flex;
+  font-size: 13pt;
+}
+
+.close {
+  cursor: pointer;
+}
+
+.close:hover {
+  transform: scale(0.8);
+}
+
+.title {
+  font-size: 12pt;
+  font-weight: 700;
+}
+
+.message {
+  font-size: 10pt;
+  font-weight: 500;
+}

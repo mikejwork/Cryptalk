@@ -1,0 +1,28 @@
+.container {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  gap: 0px 0px;
+  grid-template-columns: 0.8fr 0.2fr;
+  grid-template-rows: 1fr;
+  grid-template-areas:
+    "list  members"
+    "input members";
+}
+
+.messageList {
+  grid-area: list;
+  padding: 0ex 2ex 0ex 2ex;
+  overflow: hidden;
+}
+
+.inputContainer {
+  padding-bottom: 3ex;
+  grid-area: input;
+}
+
+.members {
+  padding: 2ex;
+  grid-area: members;
+  background-color: var(--bg-darker);
+}

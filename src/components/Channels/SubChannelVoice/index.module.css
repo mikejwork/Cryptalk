@@ -1,0 +1,147 @@
+.container {
+  height: 100%;
+  padding: 3ex;
+  overflow-y: scroll;
+  background-color: var(--bg-dark)
+}
+
+.menu {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.menu > span {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--bg-darker);
+  height: 2ex;
+  padding: 2ex;
+  border-radius: 0.5ex;
+  margin: 0ex 1ex 0ex 1ex;
+  cursor: pointer;
+}
+
+.menu > span:hover {
+  background-color: rgb(39, 39, 39);
+}
+
+.streams {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 50%);
+}
+
+.streams > div {
+  border-radius: 1ex;
+  border: 1px solid var(--bg-dark)
+}
+
+.streamContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 1ex;
+  background-color: var(--bg-darker);
+  transition: all 0.1s ease-in-out;
+  height: 45ex;
+}
+
+.streamContainerVideo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 1ex;
+  background-color: var(--bg-darker);
+  transition: all 0.1s ease-in-out;
+  height: 45ex;
+}
+
+.avatar {
+  width: 10ex;
+  height: 10ex;
+  border-radius: 50%;
+}
+
+.username {
+  font-size: 10pt;
+  font-weight: 600;
+}
+
+.videoContainer {
+  overflow: hidden;
+  border-radius: 1ex;
+}
+
+.videoContainer > video {
+  max-width: 100%;
+  height: auto;
+  object-fit: fill;
+  object-position: center;
+  display: inline-block;
+}
+
+.mutedVideo {
+  position: absolute;
+  z-index: 100;
+  margin: 1ex 0ex 0ex 1ex;
+  color: black;
+  background-color: rgb(197, 46, 20);
+  width: 3ex;
+  height: 3ex;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-size: 10pt;
+}
+
+.muted {
+  position: absolute;
+  z-index: 100;
+  margin: 7ex 0ex 0ex 8ex;
+  color: black;
+  background-color: rgb(197, 46, 20);
+  width: 3ex;
+  height: 3ex;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-size: 10pt;
+}
+
+.audioContainer {
+  display: flex;
+  flex-direction: column-reverse;
+  position: relative;
+  top: -45ex;
+  width: 100%;
+  height: 45ex;
+  border-radius: 1ex;
+  opacity: 0;
+  transition: all 0.2s ease-in-out;
+}
+
+.audioContainer:hover {
+  opacity: 1;
+}
+
+.audioPlayer {
+  display: none;
+}
+
+.audioSliderContainer {
+  height: 100%;
+  display: flex;
+  flex-direction: column-reverse;
+  padding: 0ex 3ex 1ex 3ex;
+}
+
+.audioSlider {
+  box-sizing: border-box;
+}

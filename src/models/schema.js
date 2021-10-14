@@ -107,10 +107,12 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
-                "content_link": {
-                    "name": "content_link",
+                "metadata": {
+                    "name": "metadata",
                     "isArray": false,
-                    "type": "String",
+                    "type": {
+                        "nonModel": "FileMetadata"
+                    },
                     "isRequired": false,
                     "attributes": []
                 },
@@ -251,6 +253,16 @@ export const schema = {
                         "connectionType": "HAS_MANY",
                         "associatedWith": "subchannelID"
                     }
+                },
+                "users_connected": {
+                    "name": "users_connected",
+                    "isArray": true,
+                    "type": {
+                        "nonModel": "User"
+                    },
+                    "isRequired": false,
+                    "attributes": [],
+                    "isArrayNullable": true
                 },
                 "createdAt": {
                     "name": "createdAt",
@@ -609,6 +621,39 @@ export const schema = {
         }
     },
     "nonModels": {
+        "FileMetadata": {
+            "name": "FileMetadata",
+            "fields": {
+                "S3Key": {
+                    "name": "S3Key",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "filename": {
+                    "name": "filename",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "filesize": {
+                    "name": "filesize",
+                    "isArray": false,
+                    "type": "Int",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "filetype": {
+                    "name": "filetype",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": true,
+                    "attributes": []
+                }
+            }
+        },
         "User": {
             "name": "User",
             "fields": {
@@ -648,5 +693,5 @@ export const schema = {
             }
         }
     },
-    "version": "c201398d69e1e5cc528a3a9f09428981"
+    "version": "55e6908b7e6f1aac7ce4305989c5acfc"
 };

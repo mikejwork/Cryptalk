@@ -1,7 +1,14 @@
+/*
+  Author: Michael
+  Description:
+    Simple toggle component, acts as a switch
+  Related PBIs: nil
+*/
+
 import React, { useState, useEffect } from 'react'
 import * as HiIcons from "react-icons/hi";
 import { useSpring, animated } from 'react-spring';
-import styles from '../../../css/Wrappers/Toggle/Toggle.module.css';
+import styles from './index.module.css';
 
 function Toggle(props) {
   const [toggle, settoggle] = useState(false)
