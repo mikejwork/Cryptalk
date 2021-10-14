@@ -337,26 +337,6 @@ function SocketHandler(props) {
 
   return (
     <SocketContext.Provider value={globalValues}>
-      <div className={styles.container}>
-        <div>
-          <p>Socket ID: <strong>{socket?.current?.id}</strong></p>
-        </div>
-        <div>
-          <p>Socket Status: <strong>{socket_status}</strong></p>
-        </div>
-        <div>
-          <p>Peer ID: <strong>{peer?.current?.id}</strong></p>
-        </div>
-        <div>
-          <p># Peers: <strong>{current_peers?.length}</strong></p>
-        </div>
-        <div>
-          <p># Room ID: <strong>{_current_room}</strong></p>
-        </div>
-        <div>
-          <u onClick={() => console.log(current_peers)}>Print peers</u>
-        </div>
-      </div>
       {props.children}
     </SocketContext.Provider>
   )
@@ -371,51 +351,23 @@ export default SocketHandler
 //   port: '4444'
 // })
 
-
-// socket.current.on('room::enableVoice', (user) => {
-//   console.log(`${user.username} - unmuted mic`)
-//   var current;
-//   setcurrent_peers(x => { current = x; return x; })
-
-//   for (var i in current) {
-//     current[i].audio = true
-//   }
-
-//   setcurrent_peers(current)
-// })
-
-// socket.current.on('room::disableVoice', (user) => {
-//   console.log(`${user.username} - muted mic`)
-//   var current;
-//   setcurrent_peers(x => { current = x; return x; })
-
-//   for (var i in current) {
-//     current[i].audio = false
-//   }
-
-//   setcurrent_peers(current)
-// })
-
-// socket.current.on('room::enableVideo', (user) => {
-//   console.log(`${user.username} - enabled video`)
-//   var current;
-//   setcurrent_peers(x => { current = x; return x; })
-
-//   for (var i in current) {
-//     current[i].video = true
-//   }
-
-//   setcurrent_peers(current)
-// })
-
-// socket.current.on('room::disableVideo', (user) => {
-//   console.log(`${user.username} - disabled video`)
-//   var current;
-//   setcurrent_peers(x => { current = x; return x; })
-
-//   for (var i in current) {
-//     current[i].video = false
-//   }
-//   console.log(current)
-//   setcurrent_peers(current)
-// })
+/* <div className={styles.container}>
+  <div>
+    <p>Socket ID: <strong>{socket?.current?.id}</strong></p>
+  </div>
+  <div>
+    <p>Socket Status: <strong>{socket_status}</strong></p>
+  </div>
+  <div>
+    <p>Peer ID: <strong>{peer?.current?.id}</strong></p>
+  </div>
+  <div>
+    <p># Peers: <strong>{current_peers?.length}</strong></p>
+  </div>
+  <div>
+    <p># Room ID: <strong>{_current_room}</strong></p>
+  </div>
+  <div>
+    <u onClick={() => console.log(current_peers)}>Print peers</u>
+  </div>
+</div> */
