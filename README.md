@@ -35,10 +35,10 @@
 3. Luke Cocorocchio - Scrum Master
 4. Matthew Sesto - Product Owner
 
-**Project description**
+**Project description**<br/>
 Cryptalk is a secure text and voice chat application that allows for real-time communication for teams, build specifically for the Royal Melbourne Institute of Technology for their faculty and student base. The project requires scalable cloud infrastructure to manage the backend database and large number of requests, and a sleek and enjoyable user interface
 
-**Features**
+**Features**<br/>
 User authentication
 User profile & customisation
 Friend request system
@@ -53,4 +53,4 @@ WebRTC, Peer to peer voice chat
 1. Sockets and WebRTC can be optimised further to reduce connection dropouts.
 2. Video chat can easily be implemented with the above changes, but for now is too buggy to keep in the production app.
 
-**Showcase**
+**Showcase**<br/>
