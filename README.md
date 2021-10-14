@@ -50,7 +50,6 @@ Attachment sending and downloads (all stored on-cloud)
 WebRTC, Peer to peer voice chat
 
 **Outstanding Problems**
-1. Sockets and WebRTC can be optimised further to reduce connection dropouts.
-2. Video chat can easily be implemented with the above changes, but for now is too buggy to keep in the production app.
-
-**Showcase**<br/>
+1. Socket server overhaul, problems with TLS/SSL certificates on production app. Voice chat only works with local development server running at the moment.
+2. Sockets and WebRTC can be optimised further to reduce connection dropouts.
+3. Video chat can easily be implemented with the above changes, but for now is too buggy to keep in the production app.

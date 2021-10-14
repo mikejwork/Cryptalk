@@ -1,24 +1,22 @@
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
-
 const express = require('express')
 const app = express()
 const cors = require('cors')
-const fs = require('fs');
-
-const server = require('https').createServer({
-  key: fs.readFileSync('./certs/custom.key'),
-  cert: fs.readFileSync('./certs/certificate.pem'),
-  requestCert: false,
-  rejectUnauthorized: false
-}, app)
-
-const io = require('socket.io')(server, {
-  cors: {
-    origins: ["*"]
-  }
-})
+var bodyParser = require('body-parser');
+const server = require('http').Server(app)
+const io = require('socket.io')(server, { cors: { origins: ["*"] }})
 
 app.use(cors())
+app.use(express.static(__dirname + '/'));
+app.use(bodyParser.urlencoded({extend:true}));
+app.engine('html', require('ejs').renderFile);
+app.set('view engine', 'ejs');
+app.set('views', __dirname + '/views');
+
+app.get('/', function(req, res){
+  res.render("index", {
+    rooms: rooms
+  });
+});
 
 // Documentation -- Events
 
@@ -30,6 +28,7 @@ app.use(cors())
 // room::disableVoice( user: {username, sub} )
 // room::enableVideo( user: {username, sub} )
 // room::disableVideo( user: {username, sub} )
+
 
 var rooms = {}
 
@@ -43,13 +42,11 @@ io.on('connection', (socket) => {
 
     socket.on('disconnect', () => {
       leave(socket, roomID, user)
-      socket.leave(roomID)
     })
   })
 
   socket.on('room::leave', (roomID, user) => {
     leave(socket, roomID, user)
-    socket.leave(roomID)
   })
 
   socket.on('room::enableVoice', (roomID, user) => {

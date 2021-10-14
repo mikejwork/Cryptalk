@@ -51,7 +51,7 @@ function SocketHandler(props) {
   useEffect(() => {
     if (stream_setup) {
       // Connect to socket
-      socket_connect(production)
+      socket_connect(development)
 
       // Event handlers for socket
       socket_setEvents()

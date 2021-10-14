@@ -108,8 +108,6 @@ function PeerContainer(props) {
     // eslint-disable-next-line
   }, [])
 
-
-
   return (
     <div className={styles.container}>
       <div className={styles.streamContainer} style={{backgroundColor:`${colour}`}}>
