@@ -1,3 +1,10 @@
+/*
+  Author: Michael
+  Description:
+    Socket handler, handles socket and peer connection for the app voice chat feature
+  Related PBIs: 11
+*/
+
 import { useEffect, useRef, useContext, createContext, useState } from 'react'
 import Peer from 'peerjs'
 import io from 'socket.io-client';
@@ -9,6 +16,7 @@ export const SocketContext = createContext();
 
 // Socket links
 const development = `http://${window.location.hostname}:3333`;
+// eslint-disable-next-line
 const production = `ec2-3-24-215-60.ap-southeast-2.compute.amazonaws.com:3333`;
 
 function SocketHandler(props) {
@@ -29,19 +37,20 @@ function SocketHandler(props) {
   const _Audio = useRef(true);
   const [_AudioState, set_AudioState] = useState(true)
 
-  const _Video = useRef(true);
-  const [_VideoState, set_VideoState] = useState(true)
+  const _Video = useRef(false);
+  const [_VideoState, set_VideoState] = useState(false)
 
   useEffect(() => {
     if (context.datastore_ready) {
       initialize_stream()
     }
+    // eslint-disable-next-line
   }, [context.datastore_ready])
 
   useEffect(() => {
     if (stream_setup) {
       // Connect to socket
-      socket_connect(production)
+      socket_connect(development)
 
       // Event handlers for socket
       socket_setEvents()
@@ -178,6 +187,8 @@ function SocketHandler(props) {
     navigator.mediaDevices.getUserMedia({ video: _Video.current, audio: _Audio.current }).then((stream) => {
       local_stream.current = stream
       setstream_setup(true)
+    }, (err) => {
+      context.spawnNotification("ERROR", "Permission denied", "Please allow access to your camera and microphone to use the site.")
     })
   }
 
@@ -206,27 +217,27 @@ function SocketHandler(props) {
   }
 
   async function enable_video() {
-    socket.current.emit('room::enableVideo', current_room.current, { username: context.user.username, sub: context.user.attributes.sub })
-    context.spawnNotification("INFO", "Video enabled", "Your video has been enabled.");
-
     var current;
     await setcurrent_peers(x => { current = x; return x; })
 
-    for (var i in current) {
-      current[i].call._localStream.getVideoTracks()[0].enabled = true
-    }
+    navigator.mediaDevices.getUserMedia({ video: _Video.current, audio: _Audio.current }).then((stream) => {
+      for (var i in current) {
+        current[i].call._localStream.addTrack(stream.getVideoTracks()[0])
+        // current[i].call._localStream.getVideoTracks()[0].enabled = true
+      }
+    }, (err) => {
+      context.spawnNotification("ERROR", "Permission denied", "Please allow access to your camera.")
+      return;
+    })
+
+    socket.current.emit('room::enableVideo', current_room.current, { username: context.user.username, sub: context.user.attributes.sub })
+    context.spawnNotification("INFO", "Video enabled", "Your video has been enabled.");
   }
 
   async function disable_video() {
     socket.current.emit('room::disableVideo', current_room.current, { username: context.user.username, sub: context.user.attributes.sub })
     context.spawnNotification("INFO", "Video disabled", "Your video has been disabled.");
-
-    var current;
-    await setcurrent_peers(x => { current = x; return x; })
-
-    for (var i in current) {
-      current[i].call._localStream.getVideoTracks()[0].enabled = false
-    }
+    // TODO
   }
 
   function toggle_Audio() {

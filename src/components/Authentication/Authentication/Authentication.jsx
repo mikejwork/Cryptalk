@@ -1,5 +1,14 @@
+/*
+  Author: Michael, Braden
+  Description:
+    This class is used as a switch state so there is a clean change between pages
+    that are related to authorisation. Things such as Login, Register, Password Recovery
+    are all using this as framework for the page.
+  Related PBIs: 2, 3, 5
+*/
+
 import React, {useState, useContext} from "react";
-import s_Form from './index.module.css';
+import styles from './index.module.css';
 import { AuthContext } from "../../../contexts/AuthContext";
 import { Redirect } from "react-router-dom";
 
@@ -35,7 +44,7 @@ function Authentication(props) {
 
   // Just a switch case inside our overall page formatting
   return (
-    <div className={s_Form.authentication}>
+    <div className={styles.authentication}>
       { CurrentView() }
     </div>
   )

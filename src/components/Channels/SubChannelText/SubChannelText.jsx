@@ -1,3 +1,10 @@
+/*
+  Author: Michael
+  Description:
+    Text sub channel, shows member list, message list, etc.
+  Related PBIs: 10
+*/
+
 import React, { useState, useContext, useEffect } from 'react'
 import styles from './index.module.css'
 

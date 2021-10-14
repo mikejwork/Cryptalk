@@ -1,3 +1,10 @@
+/*
+  Author: Michael
+  Description:
+    Messgae input for channels and direct messaging
+  Related PBIs: nil
+*/
+
 import React, { useState, useRef, useContext } from 'react'
 
 import CryptoJS from 'crypto-js'

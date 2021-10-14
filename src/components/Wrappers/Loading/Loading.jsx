@@ -1,3 +1,10 @@
+/*
+  Author: Michael
+  Description:
+    Simple rolling loading animation
+  Related PBIs: nil
+*/
+
 import React from 'react'
 import styles from './index.module.css'
 

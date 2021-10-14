@@ -1,3 +1,11 @@
+/*
+  Author: Braden
+  Description:
+    Shows the profile of the user, shows the name, avatar,
+    change password function, email and shows ability to edit
+  Related PBIs: 17
+*/
+
 import React, { useContext, useState, useEffect } from "react";
 import { AuthContext } from "../../../contexts/AuthContext";
 import { DataStore } from "aws-amplify";

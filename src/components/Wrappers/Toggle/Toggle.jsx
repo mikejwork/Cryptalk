@@ -1,3 +1,10 @@
+/*
+  Author: Michael
+  Description:
+    Simple toggle component, acts as a switch
+  Related PBIs: nil
+*/
+
 import React, { useState, useEffect } from 'react'
 import * as HiIcons from "react-icons/hi";
 import { useSpring, animated } from 'react-spring';

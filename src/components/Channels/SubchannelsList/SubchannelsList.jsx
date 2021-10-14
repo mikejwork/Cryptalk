@@ -1,3 +1,10 @@
+/*
+  Author: Michael
+  Description:
+    The list of sub-channels for the current channel
+  Related PBIs: 9
+*/
+
 import React, { useContext, useState, useEffect } from 'react'
 import styles from './index.module.css'
 

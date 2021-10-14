@@ -41,72 +41,10 @@
   width: 100%;
 }
 
-.cardContainer {
-  display: flex;
-  flex-direction: row;
-  padding: 1ex;
-}
-
-.card {
-  cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  margin: 0ex 0.5ex 0ex 0.5ex;
-}
-
-.card img {
-  width: 5ex;
-  border-radius: 50%;
-}
-
-.card p {
-  font-size: 10pt;
-  font-weight: 600;
-}
 
 .avatar {
   width: 5ex;
   height: 5ex;
-}
-
-.addOverlay {
-  opacity: 0;
-  position: absolute;
-  background-color: rgba(31, 66, 31, 0.699);
-  border: 1px dashed green;
-  width: 5ex;
-  height: 5ex;
-  margin-top: -2.6ex;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.05s ease-in-out;
-}
-
-.addOverlay:hover {
-  opacity: 1;
-}
-
-.removeOverlay {
-  opacity: 0;
-  position: absolute;
-  background-color: rgba(66, 35, 31, 0.699);
-  border: 1px dashed red;
-  width: 5ex;
-  height: 5ex;
-  margin-top: -2.6ex;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.05s ease-in-out;
-}
-
-.removeOverlay:hover {
-  opacity: 1;
 }
 
 .form > input {

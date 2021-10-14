@@ -1,3 +1,12 @@
+
+/*
+  Author: Braden
+  Description:
+    Function to change user password via amplify functions
+
+  Related PBIs: 18
+*/
+
 import React, { useContext, useState } from "react";
 import { AuthContext } from "../../../contexts/AuthContext";
 import { Auth } from "aws-amplify";
@@ -9,6 +18,7 @@ function ProfileReset(props) {
 
   const [formState, setformState] = useState({oldPassword: "", newPassword: ""})
 
+  //change user password
   async function submit() {
     const { oldPassword, newPassword } = formState;
 

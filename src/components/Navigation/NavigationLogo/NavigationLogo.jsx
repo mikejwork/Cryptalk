@@ -1,3 +1,10 @@
+/*
+  Author: Michael
+  Description:
+    Navigation site logo
+  Related PBIs: nil
+*/
+
 import React from 'react'
 import styles from './index.module.css'
 

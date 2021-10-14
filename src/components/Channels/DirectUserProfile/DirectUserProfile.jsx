@@ -1,3 +1,12 @@
+/*
+  Author: Michael
+  Description:
+    Called in the direct message overlay, it displays information
+    about the friend that the user is sending messages to
+
+  Related PBIs: 14
+*/
+
 import React, { useContext, useState } from 'react'
 import { useSpring, animated } from 'react-spring'
 import styles from './index.module.css'
@@ -5,6 +14,7 @@ import * as HiIcons from "react-icons/hi";
 import { ChannelsContext } from "../Channels/Channels";
 import UserAvatar from '../../Wrappers/Avatar/UserAvatar'
 
+//used to create an animation when hovered over
 function ActionButton(props) {
   const [_Hovered, set_Hovered] = useState(false)
   const [anim, api] = useSpring(() => ({
@@ -34,7 +44,7 @@ function ActionButton(props) {
 
 function DirectUserProfile() {
   const channelsContext = useContext(ChannelsContext)
-
+  //displays user information
   return (
     <>
       <div className={styles.subtitle}/>

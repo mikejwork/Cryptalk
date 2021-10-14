@@ -1,3 +1,10 @@
+/*
+  Author: Braden
+  Description:
+    Friend request list item, shows options to accept or reject friend requests
+  Related PBIs: 13
+*/
+
 import React from 'react'
 import styles from './index.module.css'
 import * as MdIcons from "react-icons/md";

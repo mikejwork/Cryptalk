@@ -1,3 +1,10 @@
+/*
+  Author: Michael
+  Description:
+    Uploader for user attatchments, drag-and-drop
+  Related PBIs: nil
+*/
+
 import React, { useRef, useEffect, useState } from 'react'
 
 import styles from './index.module.css'

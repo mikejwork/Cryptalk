@@ -1,3 +1,11 @@
+/*
+  Author: Michael
+  Description:
+    Shows the user information about the details of the specific channel,
+    this inlcudes creation date, and edited date.
+  Related PBIs: 7, 19
+*/
+
 import React, { useState, useContext } from 'react'
 import { DataStore } from "aws-amplify"
 import { Channel } from '../../../../../models';
@@ -13,22 +21,27 @@ function Details(props) {
   const [_Icon, set_Icon] = useState({message: channelsContext._Channel.icon})
   const [formState, setformState] = useState({name: channelsContext._Channel.name, desc: channelsContext._Channel.description})
 
+  //Returns the date as an output for html
   function creationDate() {
     var date = new Date(channelsContext._Channel.createdAt);
     return (<>{ date.getFullYear() }-{ date.getMonth() + 1 }-{ date.getDate() }</>)
   }
 
+  //Returns the edited date as an output for html
   function editedAt() {
     var date = new Date(channelsContext._Channel.createdAt);
     return (<>{ date.getFullYear() }-{ date.getMonth() + 1 }-{ date.getDate() } { 24 - date.getHours() }:{ date.getMinutes() }:{ date.getSeconds() }</>)
   }
 
+  //Saves all the changes after edit has been completed
   async function save_changes() {
+    //stores information into the Channels Database
     await DataStore.save(Channel.copyOf(channelsContext._Channel, item => {
       item.name = formState.name
       item.description = formState.desc
       item.icon = _Icon.message
     })).then((result) => {
+      //sets the channel information
       channelsContext.set_Channel(result)
       channelsContext.set_SubChannel(null)
     });

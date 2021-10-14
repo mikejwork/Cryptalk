@@ -1,3 +1,11 @@
+/*
+  Author: Michael, Braden
+  Description:
+    This class is used to list all the user Channels, Friends and Friend requests
+
+  Related PBIs: 19, 7, 13
+*/
+
 import React, { useContext } from 'react'
 
 import { ChannelsContext } from "../Channels/Channels";
@@ -22,12 +30,13 @@ function ChannelsList() {
         <Header text="GROUPS">
           <HiIcons.HiDocumentAdd onClick={() => channelsContext.set_ViewOverlay("ViewOverlay_NewChannel")} id="cypress-addChannel"/>
         </Header>
+        {/* Finds all channels user has */}
       { context?.channels?.map((channel) => {
         return (
           <ChannelsListItem key={channel.id} _Channel={channel}/>
         )
       })}
-
+        {/* Lists and finds all friends user has */}
       <Header text="FRIENDS"/>
       { context?.friends?.map((friend) => {
         return (

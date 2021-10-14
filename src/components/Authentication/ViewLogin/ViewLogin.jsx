@@ -1,3 +1,14 @@
+/*
+  Author: Michael (backend), Braden (frontend)
+  Description:
+  Used to enable a user to choose between veriaty of functions that relate
+  to user accounts, either login, register, or regain account if password forgotten.
+  Utilises AWS Amplify to log the user in
+
+  Related PBIs: 2, 3, 5
+*/
+
+
 import React, { useState, useContext } from 'react'
 import { Auth } from "aws-amplify";
 import * as MdIcons from "react-icons/md";
@@ -14,6 +25,7 @@ function ViewLogin(props) {
   // State - storage
   const [formState, setformState] = useState(initialForm)
 
+  //Signs in the user, and checks for correct user input, and if user is valid
   async function submit() {
     set_Loading(true)
     const {username, password} = formState;
@@ -40,6 +52,7 @@ function ViewLogin(props) {
     }
   }
 
+  //Enters the user input into the formstate object
   function onChange(e) {
     setformState(() => ({
       ...formState,
@@ -54,6 +67,7 @@ function ViewLogin(props) {
     }
   }
 
+  //If login returns specific login, a link will appear to confirm the email of the user
   return (
     <div className={style.container}>
       <div className={style.form} onKeyPress={onKeyPress}>

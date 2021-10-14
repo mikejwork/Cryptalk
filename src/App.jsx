@@ -1,3 +1,10 @@
+/*
+  Author: Michael
+  Description:
+    Contains the router for the app, all pages navigation and contexts.
+  Related PBIs: nil
+*/
+
 import React, { useRef } from "react";
 import AuthContextProvider from "./contexts/AuthContext";
 import { BrowserRouter as Router, Switch, Route} from "react-router-dom";

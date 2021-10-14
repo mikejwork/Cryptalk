@@ -1,3 +1,10 @@
+/*
+  Author: Michael
+  Description:
+    Notification handler
+  Related PBIs: nil
+*/
+
 import React, { useEffect, useState, forwardRef, useImperativeHandle } from 'react'
 import { useSpring, animated } from 'react-spring'
 import * as MdIcons from "react-icons/md";

@@ -1,3 +1,10 @@
+/*
+  Author: Braden
+  Description:
+    Site footer to display links to the legal documents.
+  Related PBIs: 1
+*/
+
 import React, { useState, useEffect } from 'react'
 import { useSpring, animated } from 'react-spring'
 import * as MdIcons from "react-icons/md";

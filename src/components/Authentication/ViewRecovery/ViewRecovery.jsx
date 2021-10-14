@@ -1,3 +1,16 @@
+/*
+  Author: Michael, Braden
+  Description:
+    If a user forgets their password, this will be help them recover
+    and change it, and use the email that their account is linked to.
+    The first state makes the user input their username, after they submit
+    an email will be sent to the user's email address, and the page will
+    change, and then the user will have to input the code sent, and the
+    new password.
+
+  Related PBIs: 3, 5
+*/
+
 import React, { useState, useContext } from 'react'
 import { Auth } from "aws-amplify";
 import * as MdIcons from "react-icons/md";
@@ -11,6 +24,8 @@ function ViewRecovery(props) {
   // State - storage
   const [formState, setformState] = useState(initialForm)
 
+  //Two states use the same function, the first if submits the username using an amplify function
+  //Second state then submits the code provided and the new passwords to amplify.
   async function submit() {
     // First stage -- send confirmation email
     if (formState.stage === "FIRST") {
@@ -20,12 +35,14 @@ function ViewRecovery(props) {
             ...formState,
             AttributeName: result.CodeDeliveryDetails.AttributeName,
             Destination: result.CodeDeliveryDetails.Destination,
+            //if successful move to code and password input state
             stage: "SECOND"
           }));
           context.spawnNotification("SUCCESS", "Success", `Confirmation email sent.`);
           return;
         })
       } catch (error) {
+        //creates error
         context.spawnNotification("ERROR", "Error", error.message);
       }
     }
@@ -34,6 +51,7 @@ function ViewRecovery(props) {
       const { code_1, code_2, code_3, code_4, code_5, code_6 } = formState
       const authCode = code_1 + code_2 + code_3 + code_4 + code_5 + code_6;
       try {
+        //submit the username with the code and new password
         await Auth.forgotPasswordSubmit(formState.username, authCode, formState.desired_password).then((result) => {
           if (result === "SUCCESS") {
             context.spawnNotification("SUCCESS", "Success", "Password changed, please login.");
@@ -50,6 +68,7 @@ function ViewRecovery(props) {
     const { maxLength, value, name } = e.target;
     const codeNumber = name[5];
 
+    //Moves the user to the next input if the input has been filled in
     if (value.length >= maxLength) {
       if (parseInt(codeNumber, 10) < 6) {
         const nextCode = document.querySelector(

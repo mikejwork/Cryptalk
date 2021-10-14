@@ -1,6 +1,18 @@
+/*
+  Author: Michael
+  Description:
+    This class is the "Dashboard" of the website, as it shows the main
+    functionality of the website. This class is used to show both the
+    user's friends, and channels that they are connected with.
+
+  Related PBIs:
+*/
+
 import React, { useState, useContext, createContext, useEffect } from 'react'
 import { AuthContext } from "../../../contexts/AuthContext";
 import styles from './index.module.css'
+
+import { Redirect } from "react-router-dom";
 
 import ChannelsList from '../ChannelsList/ChannelsList'
 import SubchannelsList from '../SubchannelsList/SubchannelsList'
@@ -32,6 +44,7 @@ function Channels() {
   }, [_Channel])
 
   useEffect(() => {
+    //if all data has been loaded successfully, show the channels
     if (context.datastore_ready && _Channel) {
       const s_Channel = DataStore.observe(Channel, _Channel.id).subscribe(() => get_Channel())
       return () => {
@@ -60,7 +73,7 @@ function Channels() {
     set_ViewOverlay: set_ViewOverlay
   };
 
-  if (!context.datastore_ready) { return null }
+  if (!context.datastore_ready) { return <Redirect to="/authentication"/> }
 
   return (
     <ChannelsContext.Provider value={sharedState}>

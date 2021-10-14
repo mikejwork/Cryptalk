@@ -1,3 +1,12 @@
+/*
+  Author: Michael
+  Description:
+    This class hosts the function of adding a new channel, an
+    overlay form presents itself when clicks on the channels page.
+
+  Related PBIs: 7
+*/
+
 import React, { useState, useContext, useEffect } from 'react'
 
 import { ChannelsContext } from "../../Channels/Channels";
@@ -19,12 +28,14 @@ function NewChannel() {
     opacity: `0`
   }))
 
+  //renders the pop-up when called
   useEffect(() => {
     api.start({opacity:`1`})
     return () => {api.start({opacity:`0`})}
     // eslint-disable-next-line
   }, [])
 
+  //closes the pop-up by setting opacity to 0
   async function close() {
     await api.start({
       opacity:`0`,
@@ -35,6 +46,7 @@ function NewChannel() {
     })
   }
 
+  //creates the channel, with error checking
   async function createChannel() {
     const { name, desc } = formState;
 
@@ -45,13 +57,14 @@ function NewChannel() {
     if (name.length > 16) { context.spawnNotification("ERROR", "Error", "Channel name too long. Must be less than 16 characters."); return; }
     if (name.desc > 32) { context.spawnNotification("ERROR", "Error", "Channel description too long. Must be less than 16 characters."); return; }
 
+    //checks for if the channel name already exists
     const models = await DataStore.query(Channel);
     for (var i in models) {
       if (models[i].name === name) {
         return null
       }
     }
-
+    //after checking for validility, it saves the database to channels
     const channel = await DataStore.save(
         new Channel({
         "name": name,
@@ -62,6 +75,7 @@ function NewChannel() {
       })
     );
 
+    //creates main-chat, so the channel has a sub-channel initially in it.
     await DataStore.save(
       new SubChannel({
         "name": "main-chat",
@@ -82,6 +96,7 @@ function NewChannel() {
     }));
   }
 
+  //basic form setup
   return (
     <animated.div style={anim} className={styles.container} id="cypress-addChannelContainer">
       <div className={styles.title}>

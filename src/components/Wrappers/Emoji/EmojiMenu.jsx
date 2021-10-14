@@ -1,3 +1,10 @@
+/*
+  Author: Michael
+  Description:
+    Emoji menu for text chatting
+  Related PBIs: nil
+*/
+
 import React, { useState } from 'react'
 import * as MdIcons from "react-icons/md";
 import styles from './index.module.css';

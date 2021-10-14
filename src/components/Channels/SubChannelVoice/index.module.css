@@ -53,6 +53,8 @@
 .streamContainerVideo {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
   border-radius: 1ex;
   background-color: var(--bg-darker);
   transition: all 0.1s ease-in-out;
@@ -76,8 +78,8 @@
 }
 
 .videoContainer > video {
-  min-width: 100%;
-  max-height: 100%;
+  max-width: 100%;
+  height: auto;
   object-fit: fill;
   object-position: center;
   display: inline-block;
@@ -111,4 +113,35 @@
   justify-content: center;
   border-radius: 50%;
   font-size: 10pt;
+}
+
+.audioContainer {
+  display: flex;
+  flex-direction: column-reverse;
+  position: relative;
+  top: -45ex;
+  width: 100%;
+  height: 45ex;
+  border-radius: 1ex;
+  opacity: 0;
+  transition: all 0.2s ease-in-out;
+}
+
+.audioContainer:hover {
+  opacity: 1;
+}
+
+.audioPlayer {
+  display: none;
+}
+
+.audioSliderContainer {
+  height: 100%;
+  display: flex;
+  flex-direction: column-reverse;
+  padding: 0ex 3ex 1ex 3ex;
+}
+
+.audioSlider {
+  box-sizing: border-box;
 }

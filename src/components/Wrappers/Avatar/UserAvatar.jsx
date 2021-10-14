@@ -1,3 +1,12 @@
+/*
+  Author: Michael
+  Description:
+    User avatar, takes a user ID as input and returns an avatar element.
+    If the user is the local user their image is cached and used instead.
+    this saves us a tiny bit of bandwidth as there are less requests to server.
+  Related PBIs: nil
+*/
+
 import React, { useState, useEffect, useContext } from 'react'
 import { Storage } from "aws-amplify";
 import { useSpring, animated } from 'react-spring';
