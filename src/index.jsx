@@ -1,3 +1,10 @@
+/*
+  Author: Michael
+  Description:
+    Intitial starting point for the app
+  Related PBIs: nil
+*/
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';

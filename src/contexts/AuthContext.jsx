@@ -1,3 +1,10 @@
+/*
+  Author: Michael
+  Description:
+    Authentication context management for the site, managing login state and other variables needed.
+  Related PBIs: nil
+*/
+
 /* eslint-disable no-loop-func */
 import React, { useState, useEffect, createContext } from "react";
 import { Auth, Hub, DataStore, Storage } from "aws-amplify";

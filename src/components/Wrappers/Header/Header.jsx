@@ -1,3 +1,10 @@
+/*
+  Author: Michael
+  Description:
+    A header for settings menus etc.
+  Related PBIs: nil
+*/
+
 import React from 'react'
 import styles from './index.module.css'
 

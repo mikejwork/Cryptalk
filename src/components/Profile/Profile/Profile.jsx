@@ -1,3 +1,11 @@
+/*
+  Author: Braden
+  Description:
+    Switch stete for all functions/attributes in profile
+
+  Related PBIs: 17
+*/
+
 import React, { useContext, useState } from "react";
 import { AuthContext } from "../../../contexts/AuthContext";
 import { Redirect } from "react-router-dom";
@@ -26,6 +34,7 @@ function Profile() {
     }
   }
 
+  //If data is not prepared, return
   if (!context.datastore_ready) { return <Redirect to="/"/>; }
 
   return (

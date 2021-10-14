@@ -1,3 +1,11 @@
+/*
+  Author: Michael
+  Description:
+    Takes a message list as an input and sorts them into timed increments, used
+    for channel text viewing and direct messages
+  Related PBIs: nil
+*/
+
 import React, { useContext, useEffect, useState } from 'react'
 import CryptoJS from 'crypto-js'
 import UserAvatar from '../Avatar/UserAvatar'
@@ -70,7 +78,7 @@ function ChatBubble(props) {
     if (props._Message.subchannelID === null) {
       key = props._Message.directmessageID;
     }
-    if (key === "") { return; } 
+    if (key === "") { return; }
     var decryptedDM = decrypt(content, key)
     set_Decrypted(decryptedDM)
     // eslint-disable-next-line

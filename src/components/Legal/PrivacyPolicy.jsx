@@ -1,3 +1,10 @@
+/*
+  Author: Braden
+  Description:
+    Site privacy policy
+  Related PBIs: 1
+*/
+
 import React from 'react'
 import styles from './index.module.css';
 

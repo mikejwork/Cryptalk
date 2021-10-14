@@ -1,3 +1,12 @@
+/*
+  Author: Michael
+  Description:
+    Used for making new sub-channel for the channel that it is in
+    This utilises filters, database querys, and setting information
+    to if the channel is a voice or text sub-channnel
+  Related PBIs: 7, 9
+*/
+
 import React, { useState, useContext, useEffect } from 'react'
 import * as HiIcons from "react-icons/hi";
 import styles from './index.module.css'
@@ -24,6 +33,7 @@ function Subchannels() {
     // eslint-disable-next-line
   }, [channelsContext._Channel])
 
+  //Returns all subchannels in Channels Database
   async function getSubchannels() {
     DataStore.query(SubChannel, (s) => s.channelID("eq", channelsContext._Channel.id), {
       sort: s => s.createdAt(SortDirection.ASCENDING)
@@ -32,11 +42,13 @@ function Subchannels() {
     })
   }
 
+  //Function adds a sub-channel
   async function addChannel() {
     if (!formState.name) { return }
     if (!/[^\s]/.test(formState.name)) { return }
     if (!channelsContext._Channel) { return }
 
+    //Creates new subchannel object and saves to database with set information, with no users connected
     await DataStore.save(
       new SubChannel({
         "name": formState.name,
@@ -49,6 +61,7 @@ function Subchannels() {
       context.spawnNotification("SUCCESS", `New ${isVoice ? "voice" : "text"} channel`, `Channel "${formState.name}" created.`);
     })
     setformState({})
+    //Sets the text/voice switch back to original position
     setisVoice(false)
     document.getElementById("name").value = ""
   }

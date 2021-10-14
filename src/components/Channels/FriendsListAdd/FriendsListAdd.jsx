@@ -1,3 +1,11 @@
+/*
+  Author: Michael, Braden
+  Description:
+    Displays the function to add friend
+
+  Related PBIs: 13
+*/
+
 import React, { useState, useContext } from 'react'
 import styles from './index.module.css'
 import * as HiIcons from "react-icons/hi";
@@ -11,12 +19,14 @@ function FriendsListAdd(props) {
   const [_Open, set_Open] = useState(false)
   const [formState, setformState] = useState({username:""})
 
+  //goes through checks to check if username is valid
   async function sendRequest() {
     if (formState.username === undefined) { context.spawnNotification("ERROR", "Error", "Invalid username."); return; }
     if (formState.username === context.user.username) { context.spawnNotification("ERROR", "Error", "You cannot add yourself."); return; }
     if (formState.username === "") { context.spawnNotification("ERROR", "Error", "Invalid username."); return; }
     if (!/[^\s]/.test(formState.username)) { context.spawnNotification("ERROR", "Error", "Invalid username."); return; }
 
+    //saves friend request to the Request database
     await DataStore.save(
       new RequestStorage({
         "sender_sub": context.user.attributes.sub,
@@ -28,6 +38,7 @@ function FriendsListAdd(props) {
       })
     ).then((result) => {
       setformState({username:""})
+      //closes div
       set_Open(false)
       context.spawnNotification("SUCCESS", "Request sent", `Friend request sent to ${formState.username}`);
     });

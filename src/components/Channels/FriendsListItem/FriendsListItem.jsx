@@ -1,3 +1,10 @@
+/*
+  Author: Braden
+  Description:
+    Friends list item, shows user avatar, name and when clicked will take you to the direct message page for that user
+  Related PBIs: 13
+*/
+
 import React, { useContext } from 'react'
 import UserAvatar from '../../Wrappers/Avatar/UserAvatar'
 import { ChannelsContext } from "../Channels/Channels";

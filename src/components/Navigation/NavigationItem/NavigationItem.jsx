@@ -1,3 +1,10 @@
+/*
+  Author: Michael
+  Description:
+    Navigation items for links and other dropdown menus
+  Related PBIs: nil
+*/
+
 import React, { useContext } from 'react'
 import styles from './index.module.css';
 import { Link } from 'react-router-dom'

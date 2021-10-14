@@ -1,3 +1,10 @@
+/*
+  Author: Michael
+  Description:
+    Navigation bar
+  Related PBIs: nil
+*/
+
 import React, { useContext } from 'react'
 import { AuthContext } from "../../../contexts/AuthContext";
 import styles from './index.module.css';

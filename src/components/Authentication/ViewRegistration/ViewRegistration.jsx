@@ -1,3 +1,13 @@
+/*
+  Author: Michael, Braden
+  Description:
+  Using AWS Amplify, this class registers the user via the form they
+  input their information into, it also contains the ability to upload
+  or choose an avatar.
+
+  Related PBIs: 2
+*/
+
 import React, { useState, useEffect, useContext } from 'react'
 import { Auth, Storage } from "aws-amplify";
 import * as MdIcons from "react-icons/md";
@@ -48,6 +58,7 @@ function ViewRegistration(props) {
     }
   }
 
+  //function used for uploadig and processing files
   async function onFileChange(e) {
     const file = e.target.files[0];
     if (!file) { return; }
@@ -105,6 +116,7 @@ function ViewRegistration(props) {
     } catch (error) {
       if (error.message) {
         context.spawnNotification("ERROR", "Error", error.message);
+        //prevents loading screen from occuring
         set_Loading(false)
       }
     }
@@ -191,7 +203,7 @@ function ViewRegistration(props) {
           </div>
         </>
       }
-
+      {/* Used to create a loading screen if needed */}
       <div className={style.photo} onKeyPress={onKeyPress}>
         { _Loading ?
           <LoadingDiv/>

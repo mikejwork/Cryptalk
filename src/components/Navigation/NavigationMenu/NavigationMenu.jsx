@@ -1,3 +1,10 @@
+/*
+  Author: Michael
+  Description:
+    Navigation menu for profile and logout buttons
+  Related PBIs: nil
+*/
+
 import React, { useState, useContext } from 'react'
 import { Auth } from "aws-amplify";
 import { AuthContext } from "../../../contexts/AuthContext";

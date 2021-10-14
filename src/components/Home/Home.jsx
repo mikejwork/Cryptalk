@@ -1,3 +1,12 @@
+/*
+  Author: Michael
+  Description:
+    Shows a visitor/user the website, information about encryption,
+    and what the website can do, as well as include images of the website
+
+  Related PBIs:
+*/
+
 import React, { useState } from 'react'
 import * as HiIcons from "react-icons/hi";
 import { Redirect } from "react-router-dom";
@@ -6,6 +15,7 @@ import style from './index.module.css';
 function Home() {
   const [redirect, setredirect] = useState(false)
 
+  //when redirected, go to authentication/login page
   if (redirect) {
     return <Redirect to="/authentication"/>
   }

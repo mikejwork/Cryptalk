@@ -1,238 +1,166 @@
-import React, { useContext, useEffect, useState, useRef } from 'react'
+/*
+  Author: Michael
+  Description:
+    Voice handler for voice chat, uses the SocketHandler context to show peers video and audio.
+  Related PBIs: 11
+*/
+
+import React, { useEffect, useContext, useRef, useState } from 'react'
 import styles from './index.module.css'
+import * as FaIcons from 'react-icons/fa'
+import * as BsIcons from 'react-icons/bs'
+import { SocketContext } from '../../../socket/SocketHandler'
 
-import Peer from "simple-peer";
+import UserAvatar, { AvatarHue } from '../../Wrappers/Avatar/UserAvatar'
 
-import { AuthContext } from "../../../contexts/AuthContext";
-import { ChannelsContext } from "../Channels/Channels";
-import { SubChannel, SendSignal, ReturnSignal, Signal } from '../../../models';
-import { DataStore } from "aws-amplify";
+import Slider from 'rc-slider'
+import 'rc-slider/assets/index.css';
 
-const ContentHandler = (props) => {
-  const videoRef = useRef();
+const Audio = (props) => {
+  const audioRef = useRef();
+  const volume = useRef();
+  const [volumeUI, setvolumeUI] = useState(0)
 
   useEffect(() => {
-    props.peer.on("stream", stream => {
-      console.log('peerstream')
-      videoRef.current.srcObject = stream;
-    })
-    // eslint-disable-next-line
+    volume.current = 100
+    setvolumeUI(100)
+    audioRef.current.srcObject = props.stream
+    //eslint-disable-next-line
   }, [])
 
+  function onSliderChange(e) {
+    volume.current = e
+    setvolumeUI(e)
+    audioRef.current.volume = (e / 100)
+  }
+
   return (
-    <video playsInline autoPlay ref={videoRef}/>
+    <>
+      <audio className={styles.audioPlayer} ref={audioRef} controls autoPlay/>
+      <div className={styles.audioSliderContainer}>
+        Volume: {volumeUI}%
+        <Slider
+          className={styles.audioSlider}
+          defaultValue={100}
+          min={0}
+          max={100}
+          step={10}
+          onChange={onSliderChange}
+          trackStyle={{
+            background: "var(--bg-accent)"
+          }}
+          handleStyle={{
+            background: "white"
+          }}
+          railStyle={{
+            background: "var(--bg-dark)"
+          }}
+        />
+      </div>
+    </>
   )
 }
 
-function SubChannelVoice() {
-  const context = useContext(AuthContext);
-  const channelsContext = useContext(ChannelsContext)
-  const [_Ready, set_Ready] = useState(false)
+function PeerContainer(props) {
+  const socketContext = useContext(SocketContext)
+  const [colour, setcolour] = useState(``)
+  // const [_Video, set_Video] = useState(false)
+  const [_Audio, set_Audio] = useState(true)
 
-  // stores user objects for error handling
-  var _Peers = [];
-  // stores user objects + peer data for audio and video
-  const _PeersData = useRef([])
-
-  const myOutput = useRef()
-  var _MyStream = null;
-
+  /* Coloured background */
   useEffect(() => {
-    if (_Ready) {
-      join()
-      return async () => { await leave() }
+    const getColour = async () => {
+      const avatarHue = await AvatarHue(props.peer.sub);
+      setcolour(avatarHue)
     }
+    getColour()
     // eslint-disable-next-line
-  }, [_Ready])
+  }, [props.peer])
 
+  /* UI Setup */
   useEffect(() => {
-    navigator.mediaDevices.getUserMedia({
-      video: false,
-      audio: true
-    }).then(streamMedia).catch(() => {})
+    //set_Video(props.peer.video)
+    set_Audio(props.peer.audio)
+
+    socketContext.socket.on('room::enableVoice', (user) => {
+      if (user.sub === props.peer.sub) {
+        set_Audio(true)
+      }
+    })
+
+    socketContext.socket.on('room::disableVoice', (user) => {
+      if (user.sub === props.peer.sub) {
+        set_Audio(false)
+      }
+    })
+
+    socketContext.socket.on('room::enableVideo', (user) => {
+      if (user.sub === props.peer.sub) {
+        //set_Video(true)
+      }
+    })
+
+    socketContext.socket.on('room::disableVideo', (user) => {
+      if (user.sub === props.peer.sub) {
+        //set_Video(false)
+      }
+    })
     // eslint-disable-next-line
   }, [])
 
-  function streamMedia(stream) {
-    _MyStream = stream
-    myOutput.current.srcObject = stream;
-    console.log('[_MyStream::set]')
-    set_Ready(true)
-  }
 
-  useEffect(() => {
-    if (_Ready) {
-      getConnectedUsers()
-      getSentSignals()
-      getReturnSignals()
-      const s_ConnectedUsers = DataStore.observe(SubChannel, channelsContext._SubChannel.id).subscribe(() => getConnectedUsers())
-      const s_SentSignals = DataStore.observe(SendSignal, (signal) => signal.recipientId("eq", context.user.attributes.sub)).subscribe(() => getSentSignals())
-      const s_ReturnSignals = DataStore.observe(ReturnSignal, (signal) => signal.recipientId("eq", context.user.attributes.sub)).subscribe(() => getReturnSignals())
-      return () => {
-        s_ConnectedUsers.unsubscribe()
-        s_SentSignals.unsubscribe()
-        s_ReturnSignals.unsubscribe()
-      }
-    }
-
-    // eslint-disable-next-line
-  }, [channelsContext._SubChannel.id, _Ready])
-
-  async function getSentSignals() {
-    DataStore.query(SendSignal,
-      (signal) => signal.recipientId("eq", context.user.attributes.sub)).then(async (result) => {
-        if (result.length > 0) {
-          console.log('[signal::recieved]', result)
-
-          const newPeer = new Peer({
-            initiator: false,
-            trickle: false,
-            stream: _MyStream
-          });
-
-          // Once signal obtained, send back to the original sender with our signal attatched
-          newPeer.on('signal', async (signal) => {
-            console.log('[returnSignal::signal]', signal)
-            // Get sdp signal, create new
-            await DataStore.save(
-              new ReturnSignal({
-                "callerId": context.user.attributes.sub,
-                "recipientId": result[0].callerId,
-                "signal": new Signal({
-                  "type": signal.type,
-                  "sdp": signal.sdp
-                })
-              })
-            ).then(() => console.log('[returnSignal::signal::sent]'))
-          })
-
-          // Add signal to newly created peer
-          newPeer.signal(result[0].signal)
-          _PeersData.current.push({ peer: newPeer, user: result[0].callerId})
-
-          // Cleanup and delete signal
-          const modelToDelete = await DataStore.query(SendSignal, result[0].id);
-          DataStore.delete(modelToDelete);
-        }
-    })
-  }
-
-  async function getReturnSignals() {
-    DataStore.query(ReturnSignal,
-      (signal) => signal.recipientId("eq", context.user.attributes.sub)).then(async (result) => {
-        if (result.length > 0) {
-          console.log('[signal::returned]', result)
-
-          const item = _PeersData.current.find(peer => peer.user === result[0].callerId);
-          console.log('[signal::returned::itemFound]', item)
-
-          item.peer.signal(result[0].signal)
-
-          // Cleanup and delete signal
-          const modelToDelete = await DataStore.query(ReturnSignal, result[0].id);
-          DataStore.delete(modelToDelete);
-        }
-    })
-  }
-
-  async function userConnected(user) {
-    console.log(`${user.username} connecting..`)
-    _Peers.push(user)
-    console.log('[userConnected::creatingPeer]')
-
-    const newPeer = new Peer({
-      initiator: true,
-      trickle: false,
-      stream: _MyStream
-    });
-
-    newPeer.on('signal', async (signal) => {
-      console.log('[userConnected::signal::obtained]')
-      // Get sdp signal, create new
-      await DataStore.save(
-        new SendSignal({
-          "callerId": context.user.attributes.sub,
-          "recipientId": user.sub,
-          "signal": new Signal({
-            "type": signal.type,
-            "sdp": signal.sdp
-          })
-        })
-      ).then(() => console.log('[userConnected::signal::sent]'))
-    })
-
-    _PeersData.current.push({ peer: newPeer, user: user.sub})
-  }
-
-  async function userLeft(user) {
-    console.log(`${user.username} leaving..`)
-    _Peers = _Peers.filter(peer => peer.sub !== user.sub)
-    // console.log("_Peers", _Peers)
-  }
-
-  async function getConnectedUsers() {
-    DataStore.query(SubChannel, channelsContext._SubChannel.id).then((result) => {
-
-      _Peers.forEach((existingUser) => {
-        var stillConnected = false
-        result.users_connected.forEach((newUser) => {
-          if (newUser.sub === existingUser.sub) { stillConnected = true }
-        })
-        if (!stillConnected) {
-          userLeft(existingUser)
-        }
-      })
-
-      result.users_connected.forEach((newUser) => {
-        var alreadyExists = false
-        _Peers.forEach((existingUser) => {
-          if (existingUser.sub === newUser.sub) { alreadyExists = true }
-        })
-        if (!alreadyExists && newUser.sub !== context.user.attributes.sub) {
-          userConnected(newUser)
-        }
-      })
-      // set_ConnectedUsers(result.users_connected)
-    })
-  }
-
-  async function join() {
-    await DataStore.query(SubChannel, channelsContext._SubChannel.id).then((result) => {
-      DataStore.save(SubChannel.copyOf(result, item => {
-        const filtered = item.users_connected.filter(user => user.sub === context.user.attributes.sub);
-        if (filtered.length === 0) {
-          item.users_connected.push({
-            username: context.user.username,
-            sub: context.user.attributes.sub
-          });
-        }
-      }));
-    });
-  }
-
-  async function leave() {
-    await DataStore.query(SubChannel, channelsContext._SubChannel.id).then((result) => {
-      DataStore.save(SubChannel.copyOf(result, item => {
-        item.users_connected = item.users_connected.filter(user => user.sub !== context.user.attributes.sub);
-      }));
-    });
-  }
 
   return (
     <div className={styles.container}>
-      <div className={styles.localView}>
-        <video ref={myOutput} autoPlay playsInline muted/>
+      <div className={styles.streamContainer} style={{backgroundColor:`${colour}`}}>
+        { !_Audio &&
+          <div className={styles.muted}><BsIcons.BsMicMuteFill/></div>
+        }
+        <UserAvatar className={styles.avatar} alt="" id={props.peer.sub}/>
+        <p className={styles.username}>{props.peer.username}</p>
+      </div>
+      <div className={styles.audioContainer}>
+        <Audio stream={props.peer.call._remoteStream}/>
       </div>
 
-      <button onClick={() => console.log(_PeersData.current)}>PrintRef</button>
-      { _PeersData.current.map((peer, index) => {
-        return (
-          <div key={index}>
-            {index}
-            <ContentHandler peer={peer.peer}/>
-          </div>
-        )
-      })}
+    </div>
+  )
+}
+
+function SubChannelVoice(props) {
+  const socketContext = useContext(SocketContext)
+
+  useEffect(() => {
+    socketContext.room_connect(props.id)
+
+    return () => {
+      socketContext.room_disconnect(props.id)
+    }
+    // eslint-disable-next-line
+  }, [props.id])
+
+  return (
+    <div className={styles.container}>
+      <hr/>
+      <div className={styles.menu}>
+        <span onClick={socketContext.toggle_Audio}>
+          <FaIcons.FaMicrophone style={{color:`${socketContext._Audio ? "white" : "red"}`}}/>
+        </span>
+        <span onClick={socketContext.toggle_Video}>
+          <FaIcons.FaCamera style={{color:`${socketContext._Video ? "white" : "red"}`}}/>
+        </span>
+        <span>
+          <FaIcons.FaHeadphonesAlt style={{color:"grey"}}/>
+        </span>
+      </div>
+      <hr/>
+      <div className={styles.streams}>
+        { socketContext.current_peers.map((peer) => {
+          return (
+            <PeerContainer key={peer.sub} peer={peer}/>
+          )
+        })}
+      </div>
     </div>
   )
 }

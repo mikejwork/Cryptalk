@@ -1,3 +1,12 @@
+/*
+  Author: Michael
+  Description:
+    Renders the subchannels with the name, edit button, and icon,
+    viewed in the channels side bar.
+
+  Related PBIs: 9
+*/
+
 import React, { useContext } from 'react'
 import styles from './index.module.css'
 import * as HiIcons from "react-icons/hi";
@@ -22,7 +31,7 @@ function SubChannelRenderer() {
         </div>
       </div>
       <div className={styles.content}>
-        {channelsContext._SubChannel.type === 'TEXT' ? <SubChannelText/> : <SubChannelVoice/>}
+        {channelsContext._SubChannel.type === 'TEXT' ? <SubChannelText/> : <SubChannelVoice id={channelsContext._SubChannel.id}/>}
       </div>
     </>
   )

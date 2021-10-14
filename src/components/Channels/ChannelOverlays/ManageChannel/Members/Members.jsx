@@ -1,3 +1,12 @@
+/*
+  Author: Michael
+  Description:
+    This class handels all of the users inside of a channel, this includes
+    adding a user, removing and displaying the current and potential users
+    inside the channel
+  Related PBIs: 8, 19
+*/
+
 import React, { useState, useContext } from 'react'
 import * as HiIcons from "react-icons/hi";
 import styles from './index.module.css'
@@ -17,6 +26,7 @@ function Members(props) {
 
   const [_Loading, set_Loading] = useState(false)
 
+  //checks for if the user
   function alreadyExists(sub, obj) {
     for (var i in obj.users) {
       if (obj.users[i].sub === sub) {

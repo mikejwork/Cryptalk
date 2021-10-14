@@ -1,3 +1,10 @@
+/*
+  Author: Michael
+  Description:
+    Class renders the view for Direct messaging a friend
+  Related PBIs: 14
+*/
+
 import React, { useContext, useEffect, useState } from 'react'
 import styles from './index.module.css'
 import * as HiIcons from "react-icons/hi";
@@ -39,7 +46,9 @@ function DirectRenderer() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [context.datastore_ready, _DirectMessage])
 
+  //returns the direct message(s) that the user has recieved
   async function get_DirectMessage() {
+    //queries database to render all messages sent in ascending order
     DataStore.query(DirectMessage, (dm) => dm.participants("contains", context.user.attributes.sub), {
       sort: s => s.createdAt(SortDirection.ASCENDING)
     }).then(async (result) => {

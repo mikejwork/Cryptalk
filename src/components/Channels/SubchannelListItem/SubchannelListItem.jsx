@@ -1,3 +1,10 @@
+/*
+  Author: Michael
+  Description:
+    Sub channel item, when clicked will take the user to that specific sub-channel
+  Related PBIs: 13
+*/
+
 import React, { useState, useEffect, useContext } from 'react'
 import styles from './index.module.css'
 import * as HiIcons from "react-icons/hi";

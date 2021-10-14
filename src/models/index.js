@@ -22,11 +22,9 @@ const RequestType = {
   "FRIEND_REQUEST": "FRIEND_REQUEST"
 };
 
-const { ReturnSignal, SendSignal, DirectMessage, Messages, SubChannel, Channel, RequestStorage, Friends, FileMetadata, Signal, User, Friend } = initSchema(schema);
+const { DirectMessage, Messages, SubChannel, Channel, RequestStorage, Friends, FileMetadata, User, Friend } = initSchema(schema);
 
 export {
-  ReturnSignal,
-  SendSignal,
   DirectMessage,
   Messages,
   SubChannel,
@@ -38,7 +36,6 @@ export {
   RequestStatus,
   RequestType,
   FileMetadata,
-  Signal,
   User,
   Friend
 };

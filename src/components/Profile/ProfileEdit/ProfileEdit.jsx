@@ -1,3 +1,10 @@
+/*
+  Author: Braden
+  Description:
+    Function to change user's information via form
+  Related PBIs:
+*/
+
 import React, { useContext, useState, useEffect } from "react";
 import { AuthContext } from "../../../contexts/AuthContext";
 import { Storage, Auth } from "aws-amplify";
@@ -11,6 +18,7 @@ function ProfileEdit(props) {
   const [_Avatar, set_Avatar] = useState(undefined)
   const [formState, setformState] = useState({email: context.user.attributes.email, avatar: undefined})
 
+  //goes through checks to see if form is proper
   async function submit() {
     const {email, avatar} = formState;
 
@@ -77,6 +85,7 @@ function ProfileEdit(props) {
     }
   }
 
+  //used to change file
   async function onFileChange(e) {
     const file = e.target.files[0];
     if (!file) {

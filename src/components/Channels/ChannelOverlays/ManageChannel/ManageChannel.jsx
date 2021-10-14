@@ -1,3 +1,12 @@
+/*
+  Author: Michael
+  Description:
+    Used as a structure for editing channels or subchannels,
+    permissions and member editing can be accessed through this class
+
+  Related PBIs: 19
+*/
+
 import React, { useState, useEffect, useContext } from 'react'
 
 import { ChannelsContext } from "../../Channels/Channels";
@@ -27,6 +36,7 @@ function ManageChannel() {
     // eslint-disable-next-line
   }, [])
 
+  //sets the overlay of channel editing/creation
   async function close() {
     await api.start({
       opacity:`0`,
@@ -36,7 +46,7 @@ function ManageChannel() {
       onRest: () => channelsContext.set_ViewOverlay("ViewOverlay_None")
     })
   }
-
+  //changes the page
   const currentTab = () => {
     switch(_Current) {
       case "DETAILS":

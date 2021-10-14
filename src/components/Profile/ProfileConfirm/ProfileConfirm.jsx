@@ -1,3 +1,11 @@
+/*
+  Author: Braden
+  Description:
+    Confirm email change after user changes email in profile edit
+
+  Related PBIs: 6
+*/
+
 import React, { useContext, useState } from "react";
 import { AuthContext } from "../../../contexts/AuthContext";
 import { Auth } from "aws-amplify";
@@ -9,6 +17,7 @@ function ProfileConfirm(props) {
 
   const [formState, setformState] = useState({code: "", error: "", code_1: "", code_2: "", code_3: "", code_4: "", code_5: "", code_6: "" })
 
+  //enter the code given from email
   async function submit() {
     try {
       const { code_1, code_2, code_3, code_4, code_5, code_6 } = formState
@@ -21,6 +30,7 @@ function ProfileConfirm(props) {
     }
   }
 
+  //resends the link to confirm email
   async function resend() {
     try {
       await Auth.verifyCurrentUserAttribute("email");

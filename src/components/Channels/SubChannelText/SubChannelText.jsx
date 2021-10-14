@@ -1,3 +1,10 @@
+/*
+  Author: Michael
+  Description:
+    Text sub channel, shows member list, message list, etc.
+  Related PBIs: 10
+*/
+
 import React, { useState, useContext, useEffect } from 'react'
 import styles from './index.module.css'
 
@@ -37,9 +44,9 @@ function SubChannelText() {
     })
     set_Messages(result)
 
-    if (document.getElementById("message-end") !== null) {
-      document.getElementById("message-end").scrollIntoView({ behavior: "smooth" })
-    }
+    // if (document.getElementById("message-end") !== null) {
+    //   document.getElementById("message-end").scrollIntoView({ behavior: "smooth" })
+    // }
   }
 
   return (
