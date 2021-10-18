@@ -1,16 +1,33 @@
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
-
+require('events').EventEmitter.prototype._maxListeners = 0;
 const express = require('express')
+var bodyParser = require('body-parser');
+const fs = require('fs');
 const app = express()
 const cors = require('cors')
-const fs = require('fs');
+const { RoomHandler, Room, User } = require('./room')
 
 const server = require('https').createServer({
-  key: fs.readFileSync('./certs/custom.key'),
-  cert: fs.readFileSync('./certs/certificate.pem'),
+  key: fs.readFileSync('/etc/letsencrypt/live/socket.capstone-cryptalk.com/privkey.pem'),
+  cert: fs.readFileSync('/etc/letsencrypt/live/socket.capstone-cryptalk.com/fullchain.pem'),
   requestCert: false,
   rejectUnauthorized: false
 }, app)
+
+const roomHandler = new RoomHandler()
+
+// const server = require('http').Server(app)
+
+app.use(express.static(__dirname + '/'));
+app.use(bodyParser.urlencoded({extend:true}));
+app.engine('html', require('ejs').renderFile);
+app.set('view engine', 'ejs');
+app.set('views', __dirname + '/views');
+
+app.get('/', function (req, res) {
+  res.render("index", {
+    rooms: roomHandler.rooms
+  })
+})
 
 const io = require('socket.io')(server, {
   cors: {
@@ -18,40 +35,33 @@ const io = require('socket.io')(server, {
   }
 })
 
-app.use(cors())
-
-// Documentation -- Events
-
-// room::join( roomID, user: {username, sub} )
-// room::leave( roomID, user: {username, sub} )
-// room::userJoined( user: {username, sub} )
-// room::userLeft( user: {username, sub} )
-// room::enableVoice( user: {username, sub} )
-// room::disableVoice( user: {username, sub} )
-// room::enableVideo( user: {username, sub} )
-// room::disableVideo( user: {username, sub} )
-
-var rooms = {}
-
 io.on('connection', (socket) => {
+  console.log(`. > ${socket.id}`)
+
+
   socket.on('room::join', (roomID, user) => {
-    leaveAll(user)
+    roomHandler.initializeRoom(roomID)
+    const room = roomHandler.getRoomById(roomID)
+
+    room.join(new User(socket.id, user.username, user.sub))
 
     socket.join(roomID)
-    join(roomID, {...user, socketID: socket.id})
     socket.to(roomID).emit('room::userJoined', user)
 
-    socket.on('disconnect', () => {
-      leave(socket, roomID, user)
-      socket.leave(roomID)
-    })
+    // Data storage for later disconnect cleanup
+    socket.userData = user
+    socket.currentRoom = roomID
   })
 
   socket.on('room::leave', (roomID, user) => {
-    leave(socket, roomID, user)
+    const room = roomHandler.getRoomById(roomID)
     socket.leave(roomID)
+    room.leave(user.sub)
+    socket.to(roomID).emit('room::userLeft', user)
+    socket.currentRoom = null
   })
 
+  // UI Listeners
   socket.on('room::enableVoice', (roomID, user) => {
     socket.to(roomID).emit('room::enableVoice', user)
   })
@@ -68,45 +78,16 @@ io.on('connection', (socket) => {
     socket.to(roomID).emit('room::disableVideo', user)
   })
 
+  // On socket disconnection
   socket.on('disconnect', () => {
-    leaveAllBySocket(socket)
+    console.log(`- > ${socket.id}`)
+    roomHandler.removeBySocket(socket.id)
+    if (socket.currentRoom !== null) {
+      socket.to(socket.currentRoom).emit('room::userLeft', socket.userData)
+    }
   })
 })
 
-function join(roomID, user) {
-  // If room does not exist, create one with the user inside
-  if (!rooms[roomID]) {
-    rooms[roomID] = [user]
-    return;
-  }
-
-  // If user does not already exist in the room, add
-  if (!rooms[roomID].includes(user)) {
-    rooms[roomID].push(user)
-  }
-}
-
-function leave(socket, roomID, user) {
-  if (rooms[roomID]) {
-    rooms[roomID] = rooms[roomID].filter(u => u.sub !== user.sub)
-    socket.to(roomID).emit('room::userLeft', user)
-  }
-}
-
-function leaveAll(user) {
-  for (let [key, value] of Object.entries(rooms)) {
-    if (!rooms[key].includes(user)) {
-      rooms[key] = rooms[key].filter(u => u.sub !== user.sub)
-    }
-  }
-}
-
-function leaveAllBySocket(socket) {
-  for (let [key, value] of Object.entries(rooms)) {
-    rooms[key] = rooms[key].filter(u => u.socketID !== socket.id)
-  }
-}
-
-server.listen(3333)
+server.listen(443)
 console.clear()
-console.log('[Cryptalk::server] $ Listening on 3333')
+console.log('[server] $ Server started \n')

@@ -10,15 +10,13 @@ import Peer from 'peerjs'
 import io from 'socket.io-client';
 import { AuthContext } from "../contexts/AuthContext";
 
-import styles from './index.module.css'
-
+// Provides socket variables globally to application
 export const SocketContext = createContext();
 
-// Socket links
 // eslint-disable-next-line
-const development = `http://${window.location.hostname}:3333`;
+const development = `http://${window.location.hostname}:443`;
 // eslint-disable-next-line
-const production = `ec2-3-24-215-60.ap-southeast-2.compute.amazonaws.com:3333`;
+const production = `https://socket.capstone-cryptalk.com`;
 
 function SocketHandler(props) {
   const context = useContext(AuthContext)
@@ -31,9 +29,7 @@ function SocketHandler(props) {
   const [current_peers, setcurrent_peers] = useState([])
 
   // Status variables
-  const [socket_status, setsocket_status] = useState("...")
   const [stream_setup, setstream_setup] = useState(false)
-  const [_current_room, set_current_room] = useState("none")
 
   const _Audio = useRef(true);
   const [_AudioState, set_AudioState] = useState(true)
@@ -51,7 +47,7 @@ function SocketHandler(props) {
   useEffect(() => {
     if (stream_setup) {
       // Connect to socket
-      socket_connect(development)
+      socket_connect(production)
 
       // Event handlers for socket
       socket_setEvents()
@@ -73,22 +69,19 @@ function SocketHandler(props) {
   function socket_setEvents() {
     socket.current.on('connect', () => {
       console.log('[Socket::connect]')
-      setsocket_status("Connected")
     })
 
     socket.current.on('connect_error', () => {
       console.log('[Socket::connect_error]')
-      setsocket_status("Connection failed..")
     })
 
     socket.current.on('disconnect', () => {
       console.log('[Socket::disconnect]')
-      setsocket_status("Disconnected")
       socket.current = null
     })
 
     socket.current.on('room::userLeft', (user) => {
-      console.log('[Socket::userLeft]', user)
+      console.log(`[Socket::userLeft] ${user.username}`)
       // Store the current state into a temp variable
       var current;
       var temp = [];
@@ -111,7 +104,7 @@ function SocketHandler(props) {
     })
 
     socket.current.on('room::userJoined', (user) => {
-      console.log('[Socket::userJoined]', user)
+      console.log(`[Socket::userJoined] ${user.username}`)
       const call = peer.current.call(user.sub, local_stream.current, {
         metadata: {
           username: context.user.username,
@@ -121,10 +114,10 @@ function SocketHandler(props) {
         }
       })
 
-      console.log('[Peer::sentCall]', call)
+      // console.log('[Peer::sentCall]', call)
 
       call.on('stream', (incomingStream) => {
-        console.log('[Peer::streamIncoming]')
+        // console.log('[Peer::streamIncoming]')
 
         new_peer(
           user.username,
@@ -136,13 +129,8 @@ function SocketHandler(props) {
         )
       })
 
-      call.on('close', () => {
-        console.log('[Call::close]')
-      })
-
-      call.on('error', (err) => {
-        console.log('[Call:error]', err)
-      })
+      // call.on('close', () => {console.log('[Call::close]')})
+      // call.on('error', (err) => {console.log('[Call:error]', err)})
     })
   }
 
@@ -161,11 +149,11 @@ function SocketHandler(props) {
     peer.current.on('disconnected', () => {console.log('[Peer::disconnected]')})
 
     peer.current.on('call', (mediaConnection) => {
-      console.log('[Peer::answerCall]', mediaConnection)
+      // console.log('[Peer::answerCall]', mediaConnection)
 
       mediaConnection.answer(local_stream.current)
       mediaConnection.on('stream', (incomingStream) => {
-        console.log('[Peer::streamIncoming]')
+        // console.log('[Peer::streamIncoming]')
 
         new_peer(
           mediaConnection.metadata.username,
@@ -177,8 +165,8 @@ function SocketHandler(props) {
         )
       })
 
-      mediaConnection.on('close', () => {console.log('[Call::close]')})
-      mediaConnection.on('error', (err) => {console.log('[Call::error]', err)})
+      // mediaConnection.on('close', () => {console.log('[Call::close]')})
+      // mediaConnection.on('error', (err) => {console.log('[Call::error]', err)})
     })
   }
 
@@ -258,15 +246,13 @@ function SocketHandler(props) {
   /* Room functions */
   function room_connect(roomID) {
     current_room.current = roomID
-    set_current_room(roomID)
-    console.log('[room_connect]', roomID)
+    // console.log('[room_connect]', roomID)
     socket.current.emit('room::join', roomID, { username: context.user.username, sub: context.user.attributes.sub })
   }
 
   function room_disconnect(roomID) {
     current_room.current = "none"
-    set_current_room("none")
-    console.log('[room_disconnect]', roomID)
+    // console.log('[room_disconnect]', roomID)
     socket.current.emit('room::leave', roomID, { username: context.user.username, sub: context.user.attributes.sub})
 
     // Store the current state into a temp variable

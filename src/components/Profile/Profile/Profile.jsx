@@ -1,8 +1,7 @@
 /*
   Author: Braden
   Description:
-    Switch stete for all functions/attributes in profile
-
+    Switch state for all functions/attributes in profile
   Related PBIs: 17
 */
 

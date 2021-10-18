@@ -2,7 +2,6 @@
   Author: Braden
   Description:
     Confirm email change after user changes email in profile edit
-
   Related PBIs: 6
 */
 

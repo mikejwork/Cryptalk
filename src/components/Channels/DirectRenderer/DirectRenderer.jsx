@@ -16,7 +16,6 @@ import MessageInput from '../../Wrappers/MessageInput/MessageInput'
 import { AuthContext } from "../../../contexts/AuthContext";
 import { ChannelsContext } from "../Channels/Channels";
 
-
 function DirectRenderer() {
   const context = useContext(AuthContext)
   const channelsContext = useContext(ChannelsContext)

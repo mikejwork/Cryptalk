@@ -28,7 +28,7 @@
   display: grid;
   gap: 0px 0px;
   grid-template-columns: 1fr;
-  grid-template-rows: 0.8fr 0.2fr;
+  grid-template-rows: 0.9fr 0.1fr;
   grid-template-areas:
     "list"
     "input";

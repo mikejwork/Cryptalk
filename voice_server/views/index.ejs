@@ -1,0 +1,18 @@
+<html>
+  <head>
+
+  </head>
+  <body>
+    <h1>Cryptalk Room Viewer</h1>
+    <% rooms.forEach((room) => {%>
+      <hr />
+      <strong><%= room._id %></strong>
+
+      <% room.users.forEach((user) => { %>
+        <br/>
+        <%= user.username %>
+      <% }) %>
+
+    <% }) %>
+  </body>
+</html>
