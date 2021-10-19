@@ -31,14 +31,14 @@ function NavigationMenu() {
       { _Open &&
         <>
           <div className={styles.dropdownContent}>
-            <NavigationUser/>
+            <NavigationUser set_Open={set_Open}/>
             {context.datastore_ready &&
               <>
                 <hr/>
                 <NavigationItem
                   name="Logout"
                   icon={<HiIcons.HiLogout/>}
-                  onClick={() => signOut()}
+                  onClick={() => {signOut(); set_Open(!_Open)}}
                   menu={true}
                 />
               </>
