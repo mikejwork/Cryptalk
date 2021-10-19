@@ -64,3 +64,12 @@ WebRTC, Peer to peer voice chat
 1. Socket server has been created, running as a https Node.js server using a valid certificate.
 2. Socket server code optimised to ensure connections are dropped when the socket client stops responding
 3. Edit channel button now only shows for the channel owner
+4. Self hosted peer server created, uses same HTTPS server as the socket.io server at '/peer'
+
+**♟ Technology**
+1. React.js Frontend
+2. GraphQL for realtime data queries
+3. DynamoDB
+4. AWS Cognito for authentication and user management
+5. Socket.io & PeerJs for WebRTC voice & video chat
+6. Cypress End-to-end testing

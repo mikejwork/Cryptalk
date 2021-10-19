@@ -1,9 +1,11 @@
 require('events').EventEmitter.prototype._maxListeners = 0;
+
 const express = require('express')
 var bodyParser = require('body-parser');
 const fs = require('fs');
 const app = express()
 const { RoomHandler, User } = require('./room')
+var ExpressPeerServer = require('peer').ExpressPeerServer;
 
 const server = require('https').createServer({
   key: fs.readFileSync('/etc/letsencrypt/live/socket.capstone-cryptalk.com/privkey.pem'),
@@ -13,8 +15,6 @@ const server = require('https').createServer({
 }, app)
 
 const roomHandler = new RoomHandler()
-
-// const server = require('http').Server(app)
 
 app.use(express.static(__dirname + '/'));
 app.use(bodyParser.urlencoded({extend:true}));
@@ -33,6 +33,11 @@ const io = require('socket.io')(server, {
     origins: ["*"]
   }
 })
+
+app.use('/peer', ExpressPeerServer(server, {
+    debug: true
+  }
+));
 
 io.on('connection', (socket) => {
   console.log(`. > ${socket.id}`)
