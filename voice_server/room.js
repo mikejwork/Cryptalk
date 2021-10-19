@@ -1,5 +1,3 @@
-'use strict';
-
 class RoomHandler {
   constructor() {
     this.rooms = []

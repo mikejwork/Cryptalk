@@ -116,24 +116,43 @@
   border-radius: 0ex 2ex 2ex 0ex;
 }
 
-.confirmLabel {
-  margin: 0ex -2ex 0ex -2ex;
-  padding-bottom: 1ex;
-}
-
-.confirmLabel > u {
-  cursor: pointer;
-  color: var(--bg-accent);
-}
-
-.legalContainer {
-  max-height: 60ex;
-  overflow-y: scroll;
-}
-
 .returnButton {
   font-size: 36pt;
   color: var(--bg-accent);
   align-self: center;
   cursor: pointer;
+}
+
+.createContainer {
+  display: flex;
+  align-items: center;
+  font-weight: 600;
+  font-size: 11pt;
+  cursor: pointer;
+  margin-bottom: 2ex;
+}
+
+.terms {
+  font-weight: 700;
+  color: var(--bg-accent);
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.terms:hover {
+  text-decoration: underline;
+}
+
+.createContainer > u {
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.createContainer > u:hover {
+  text-decoration: underline;
+}
+
+.check {
+  font-size: 20pt;
+  margin-right: 0.5ex;
 }

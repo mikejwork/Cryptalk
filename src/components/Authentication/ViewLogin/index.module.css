@@ -56,11 +56,39 @@
 }
 
 .form > u {
-  align-self: center;
   color: grey;
   cursor: pointer;
+  font-weight: 700;
 }
 
 .form > u:hover {
   color: rgb(105, 105, 105);
+}
+
+.createContainer {
+  display: flex;
+  align-items: center;
+  font-weight: 600;
+  font-size: 11pt;
+}
+
+.create {
+  font-weight: 700;
+  color: var(--bg-accent);
+  flex: 1;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.create:hover {
+  text-decoration: underline;
+}
+
+.createContainer > u {
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.createContainer > u:hover {
+  text-decoration: underline;
 }

@@ -46,7 +46,7 @@ export function NavigationUser(props) {
         </div>
         <div className={styles.info}>
           <p className={styles.name}>Not logged in!</p>
-          <Link to="/authentication" className={styles.link}>click here to login</Link>
+          <Link to="/authentication" className={styles.link} onClick={() => props.set_Open(false)}>click here to login</Link>
         </div>
       </div>
     )
@@ -58,7 +58,7 @@ export function NavigationUser(props) {
       </div>
       <div className={styles.info}>
         <p className={styles.name}>{context.user.username}</p>
-        <Link to="/profile" className={styles.link}>See your profile</Link>
+        <Link to="/profile" className={styles.link} onClick={() => props.set_Open(false)}>See your profile</Link>
       </div>
     </div>
   )

@@ -165,15 +165,15 @@ function ViewRegistration(props) {
 
             {/* Username */}
             <label htmlFor="username"><MdIcons.MdPermIdentity />&nbsp; Username</label>
-            <input name="username" onChange={onChange} placeholder="Username.." />
+            <input name="username" onChange={onChange} value={formState.username} placeholder="Username.." />
 
             {/* Password */}
             <label htmlFor="password"><MdIcons.MdLockOutline /> &nbsp; Password</label>
-            <input name="password" onChange={onChange} placeholder="Password.." type="password" />
+            <input name="password" onChange={onChange} value={formState.password} placeholder="Password.." type="password" />
 
             {/* Email */}
             <label htmlFor="email"><MdIcons.MdMailOutline /> &nbsp; Email address</label>
-            <input name="email" onChange={onChange} placeholder="Email address.." type="email" />
+            <input name="email" onChange={onChange} value={formState.email} placeholder="Email address.." type="email" />
 
             {/* Avatar */}
             <div className={style.avatarForm}>
@@ -187,16 +187,30 @@ function ViewRegistration(props) {
               </div>
             </div>
 
-
-            {/* Legal */}
-            <label className={style.confirmLabel} htmlFor="legal">
+            <p className={style.createContainer} onClick={() => set_Legal(!_Legal)}>
               { _Legal ?
-                <MdIcons.MdCheckBox style={{cursor:"pointer", color:"var(--bg-accent)"}} onClick={() => set_Legal(!_Legal)}/>
+                <MdIcons.MdCheckBox className={style.check} style={{cursor:"pointer", color:"var(--bg-accent)"}} onClick={() => set_Legal(!_Legal)}/>
                 :
-                <MdIcons.MdCheckBoxOutlineBlank style={{cursor:"pointer"}} onClick={() => set_Legal(!_Legal)}/>
+                <MdIcons.MdCheckBoxOutlineBlank className={style.check} style={{cursor:"pointer"}} onClick={() => set_Legal(!_Legal)}/>
               }
-              &nbsp;I have read, and agree to the &nbsp; <u id="cypress-termsLink" onClick={() => set_Page("TERMS")}>Terms & Conditions</u> &nbsp;and&nbsp; <u id="cypress-privacyLink" onClick={() => set_Page("PRIVACY")}>Privacy Policy</u>
-            </label>
+              I have read, and agree to the &nbsp;
+              <p
+                className={style.terms}
+                onClick={() => set_Page("TERMS")}
+                id="cypress-termsLink">
+                Terms & Conditions
+              </p>
+              &nbsp;
+              and
+              &nbsp;
+              <p
+                className={style.terms}
+                onClick={() => set_Page("PRIVACY")}
+                id="cypress-privacyLink">
+                Privacy Policy
+              </p>
+            </p>
+
             {/* Actions */}
             <button onClick={submit}>Sign up</button>
             <u onClick={() => props.set_View("LOGIN")}>Already have an account?</u>

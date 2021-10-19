@@ -137,11 +137,13 @@ function SocketHandler(props) {
   /* Peer functions */
   function peer_create() {
     // peerjs --port 4444
-    // peer.current = new Peer(context.user.attributes.sub, {
-    //   host: '/',
-    //   port: '4444'
-    // })
-    peer.current = new Peer(context.user.attributes.sub)
+    peer.current = new Peer(context.user.attributes.sub, {
+      host: 'socket.capstone-cryptalk.com',
+      port: '443',
+      path: '/peer',
+      secure: true
+    })
+    // peer.current = new Peer(context.user.attributes.sub)
   }
 
   function peer_setEvents() {
@@ -247,7 +249,9 @@ function SocketHandler(props) {
   function room_connect(roomID) {
     current_room.current = roomID
     // console.log('[room_connect]', roomID)
-    socket.current.emit('room::join', roomID, { username: context.user.username, sub: context.user.attributes.sub })
+    if (socket !== undefined) {
+      socket.current.emit('room::join', roomID, { username: context.user.username, sub: context.user.attributes.sub })
+    }
   }
 
   function room_disconnect(roomID) {

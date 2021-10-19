@@ -12,11 +12,13 @@ import styles from './index.module.css'
 import * as HiIcons from "react-icons/hi";
 
 import { ChannelsContext } from "../Channels/Channels";
+import { AuthContext } from "../../../contexts/AuthContext";
 
 import SubChannelText from '../SubChannelText/SubChannelText'
 import SubChannelVoice from '../SubChannelVoice/SubChannelVoice'
 
 function SubChannelRenderer() {
+  const context = useContext(AuthContext)
   const channelsContext = useContext(ChannelsContext)
 
   if (!channelsContext._SubChannel) { return null }
@@ -27,7 +29,9 @@ function SubChannelRenderer() {
         <p className={styles.icon}>{channelsContext._SubChannel.type === 'TEXT' ? <HiIcons.HiHashtag/> : <HiIcons.HiMicrophone/>}</p>
         <p className={styles.name}>{channelsContext._SubChannel.name}</p>
         <div className={styles.edit}>
-          <HiIcons.HiCog className={styles.icon} onClick={() => channelsContext.set_ViewOverlay("ViewOverlay_ManageChannel")}/>
+          { channelsContext?._Channel?.owner_id === context.user.attributes.sub &&
+            <HiIcons.HiCog className={styles.icon} onClick={() => channelsContext.set_ViewOverlay("ViewOverlay_ManageChannel")}/>
+          }
         </div>
       </div>
       <div className={styles.content}>
