@@ -142,10 +142,10 @@ function SubChannelVoice(props) {
       <hr/>
       <div className={styles.menu}>
         <span onClick={socketContext.toggle_Audio}>
-          <FaIcons.FaMicrophone style={{color:`${socketContext._Audio ? "white" : "red"}`}}/>
+          <FaIcons.FaMicrophone style={{color:`${socketContext._Audio ? "white" : "grey"}`}}/>
         </span>
         <span onClick={socketContext.toggle_Video}>
-          <FaIcons.FaCamera style={{color:`${socketContext._Video ? "white" : "red"}`}}/>
+          <FaIcons.FaCamera style={{color:`${socketContext._Video ? "white" : "grey"}`}}/>
         </span>
         <span>
           <FaIcons.FaHeadphonesAlt style={{color:"grey"}}/>
