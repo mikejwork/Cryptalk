@@ -8,12 +8,11 @@
   Related PBIs: 2, 3, 5
 */
 
-
 import React, { useState, useContext } from 'react'
 import { Auth } from "aws-amplify";
 import * as MdIcons from "react-icons/md";
 import { AuthContext } from "../../../contexts/AuthContext";
-import style from './index.module.css';
+import styles from './index.module.css';
 
 import { LoadingDiv } from '../../Wrappers/Loading/Loading'
 
@@ -69,9 +68,9 @@ function ViewLogin(props) {
 
   //If login returns specific login, a link will appear to confirm the email of the user
   return (
-    <div className={style.container}>
-      <div className={style.form} onKeyPress={onKeyPress}>
-        <div className={style.title}>
+    <div className={styles.container}>
+      <div className={styles.form} onKeyPress={onKeyPress}>
+        <div className={styles.title}>
           <h1>Welcome to Cryptalk.</h1>
           <h5>Enter your details to login.</h5>
         </div>
@@ -87,10 +86,23 @@ function ViewLogin(props) {
 
         {/* Actions */}
         <button onClick={submit} id="cypress-signIn">Sign in</button>
-        <u onClick={() => props.set_View("REGISTRATION")} id="cypress-toRegistration">Don't have an account?</u>
-        <u style={{fontSize:"9pt", opacity:"0.7", marginTop:"0.5ex"}} onClick={() => props.set_View("RECOVERY")} id="cypress-recoveryLink">Forgot your password?</u>
+
+        <p className={styles.createContainer}>
+          Not registered yet?&nbsp;
+          <p
+            className={styles.create}
+            onClick={() => props.set_View("REGISTRATION")}
+            id="cypress-toRegistration">
+            Create an Account
+          </p>
+          <u
+            onClick={() => props.set_View("RECOVERY")}
+            id="cypress-recoveryLink">
+            Forgot your password?
+          </u>
+        </p>
       </div>
-      <div className={style.photo}>
+      <div className={styles.photo}>
         { _Loading ?
           <LoadingDiv/>
         :

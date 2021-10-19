@@ -25,6 +25,7 @@
 
 .sublist > .avatar > img {
   width: 15ex;
+  height: 15ex;
   border-radius: 50%;
   border: 1ex solid var(--bg-darker);
 }

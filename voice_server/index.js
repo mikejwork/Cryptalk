@@ -3,8 +3,7 @@ const express = require('express')
 var bodyParser = require('body-parser');
 const fs = require('fs');
 const app = express()
-const cors = require('cors')
-const { RoomHandler, Room, User } = require('./room')
+const { RoomHandler, User } = require('./room')
 
 const server = require('https').createServer({
   key: fs.readFileSync('/etc/letsencrypt/live/socket.capstone-cryptalk.com/privkey.pem'),

@@ -247,7 +247,9 @@ function SocketHandler(props) {
   function room_connect(roomID) {
     current_room.current = roomID
     // console.log('[room_connect]', roomID)
-    socket.current.emit('room::join', roomID, { username: context.user.username, sub: context.user.attributes.sub })
+    if (socket !== undefined) {
+      socket.current.emit('room::join', roomID, { username: context.user.username, sub: context.user.attributes.sub })
+    }
   }
 
   function room_disconnect(roomID) {
