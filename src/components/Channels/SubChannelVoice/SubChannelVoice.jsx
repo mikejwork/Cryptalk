@@ -38,13 +38,12 @@ const Audio = (props) => {
     <>
       <audio className={styles.audioPlayer} ref={audioRef} controls autoPlay/>
       <div className={styles.audioSliderContainer}>
-        Volume: {volumeUI}%
+        {volumeUI}%
         <Slider
           className={styles.audioSlider}
           defaultValue={100}
           min={0}
           max={100}
-          step={10}
           onChange={onSliderChange}
           trackStyle={{
             background: "var(--bg-accent)"
@@ -110,7 +109,7 @@ function PeerContainer(props) {
 
   return (
     <div className={styles.container}>
-      <div className={styles.streamContainer} style={{backgroundColor:`${colour}`}}>
+      <div className={styles.streamContainer} style={{backgroundColor:`${colour}32`}}>
         { !_Audio &&
           <div className={styles.muted}><BsIcons.BsMicMuteFill/></div>
         }
@@ -118,7 +117,8 @@ function PeerContainer(props) {
         <p className={styles.username}>{props.peer.username}</p>
       </div>
       <div className={styles.audioContainer}>
-        <Audio stream={props.peer.call._remoteStream}/>
+        <Audio stream={props.peer.stream}/>
+        {/* <Audio stream={props.peer.call._remoteStream}/> */}
       </div>
 
     </div>
@@ -127,6 +127,7 @@ function PeerContainer(props) {
 
 function SubChannelVoice(props) {
   const socketContext = useContext(SocketContext)
+  const [users, setusers] = useState([])
 
   useEffect(() => {
     socketContext.room_connect(props.id)
@@ -148,14 +149,15 @@ function SubChannelVoice(props) {
           <FaIcons.FaCamera style={{color:`${socketContext._Video ? "white" : "grey"}`}}/>
         </span>
         <span>
-          <FaIcons.FaHeadphonesAlt style={{color:"grey"}}/>
+          <FaIcons.FaHeadphonesAlt style={{color:"grey"}} onClick={() => console.log(socketContext.current_peers)}/>
         </span>
       </div>
       <hr/>
       <div className={styles.streams}>
         { socketContext.current_peers.map((peer) => {
           return (
-            <PeerContainer key={peer.sub} peer={peer}/>
+            // <div key={peer.call.connectionId}>{peer.username} - {peer.call.connectionId}<br/></div>
+            <PeerContainer key={peer.call.connectionId} peer={peer}/>
           )
         })}
       </div>

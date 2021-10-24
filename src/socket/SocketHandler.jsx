@@ -9,6 +9,7 @@ import { useEffect, useRef, useContext, createContext, useState } from 'react'
 import Peer from 'peerjs'
 import io from 'socket.io-client';
 import { AuthContext } from "../contexts/AuthContext";
+import styles from './index.module.css'
 
 // Provides socket variables globally to application
 export const SocketContext = createContext();
@@ -26,6 +27,8 @@ function SocketHandler(props) {
   const peer          = useRef();
   const local_stream  = useRef();
   const current_room  = useRef();
+
+  // const peersList     = useRef([]);
   const [current_peers, setcurrent_peers] = useState([])
 
   // Status variables
@@ -80,27 +83,28 @@ function SocketHandler(props) {
       socket.current = null
     })
 
-    socket.current.on('room::userLeft', (user) => {
+    socket.current.on('room::userLeft', async (user) => {
       console.log(`[Socket::userLeft] ${user.username}`)
       // Store the current state into a temp variable
+
       var current;
-      var temp = [];
-      setcurrent_peers(x => { current = x; return x; })
 
-      for (var i in current) {
-        if (current[i].sub !== user.sub) {
-          temp.push(current[i])
-        } else {
-          // Close call
-          current[i].call.close()
+      await setcurrent_peers(x => {
+        current = x;
+        return x;
+      })
 
-          // Close each track in MediaStream
-          current[i].stream.getTracks().forEach((track) => {
-            track.stop()
-          })
-        }
+      var target_user = await current.find(x => x.sub === user.sub)
+
+      if (target_user !== undefined) {
+        target_user.call.close()
+
+        target_user.stream.getTracks().forEach((track) => {
+          track.stop()
+        })
       }
-      setcurrent_peers(temp)
+
+      await setcurrent_peers(x => x.filter(x => x.sub !== user.sub))
     })
 
     socket.current.on('room::userJoined', (user) => {
@@ -114,10 +118,10 @@ function SocketHandler(props) {
         }
       })
 
-      // console.log('[Peer::sentCall]', call)
+      console.log('[Peer::sentCall]', call)
 
       call.on('stream', (incomingStream) => {
-        // console.log('[Peer::streamIncoming]')
+        console.log('[Peer::streamIncoming]')
 
         new_peer(
           user.username,
@@ -128,9 +132,8 @@ function SocketHandler(props) {
           _Video.current
         )
       })
-
-      // call.on('close', () => {console.log('[Call::close]')})
-      // call.on('error', (err) => {console.log('[Call:error]', err)})
+      call.on('close', () => {console.log('[Call::close]')})
+      call.on('error', (err) => {console.log('[Call:error]', err)})
     })
   }
 
@@ -151,11 +154,11 @@ function SocketHandler(props) {
     peer.current.on('disconnected', () => {console.log('[Peer::disconnected]')})
 
     peer.current.on('call', (mediaConnection) => {
-      // console.log('[Peer::answerCall]', mediaConnection)
+      console.log('[Peer::answerCall]', mediaConnection)
 
       mediaConnection.answer(local_stream.current)
       mediaConnection.on('stream', (incomingStream) => {
-        // console.log('[Peer::streamIncoming]')
+        console.log('[Peer::streamIncoming]')
 
         new_peer(
           mediaConnection.metadata.username,
@@ -167,8 +170,8 @@ function SocketHandler(props) {
         )
       })
 
-      // mediaConnection.on('close', () => {console.log('[Call::close]')})
-      // mediaConnection.on('error', (err) => {console.log('[Call::error]', err)})
+      mediaConnection.on('close', () => {console.log('[Call::close]')})
+      mediaConnection.on('error', (err) => {console.log('[Call::error]', err)})
     })
   }
 
@@ -254,14 +257,17 @@ function SocketHandler(props) {
     }
   }
 
-  function room_disconnect(roomID) {
+  async function room_disconnect(roomID) {
     current_room.current = "none"
     // console.log('[room_disconnect]', roomID)
     socket.current.emit('room::leave', roomID, { username: context.user.username, sub: context.user.attributes.sub})
 
-    // Store the current state into a temp variable
     var current;
-    setcurrent_peers(x => { current = x; return x; })
+
+    await setcurrent_peers(x => {
+      current = x;
+      return x;
+    })
 
     for (var i in current) {
       // Close call
@@ -278,14 +284,16 @@ function SocketHandler(props) {
   }
 
   /* Peer functions */
-  function new_peer(username, sub, call, stream, audio, video) {
-    var temp = []
-   // Store the current state into a temp variable
+  async function new_peer(username, sub, call, stream, audio, video) {
     var current;
-    setcurrent_peers(x => { current = x; return x; })
 
-    if (current.filter(item => item.sub === sub).length === 0) {
-      setcurrent_peers(old => [...old, {
+    await setcurrent_peers(x => {
+      current = x;
+      return x;
+    })
+
+    if (current.filter(x => x.sub === sub).length === 0) {
+      await setcurrent_peers(x => [...x, {
         username: username,
         sub: sub,
         stream: stream,
@@ -293,40 +301,20 @@ function SocketHandler(props) {
         audio: audio,
         video: video
       }])
-      return;
     }
-
-    for (var i in current) {
-      if (current[i].sub === sub) {
-        temp.push({
-          username: username,
-          sub: sub,
-          stream: stream,
-          call: call,
-          audio: audio,
-          video: video
-        })
-      } else {
-        temp.push(current[i])
-      }
-    }
-
-    setcurrent_peers(temp)
-  }
-
-  const globalValues = {
-    socket: socket.current,
-    current_peers: current_peers,
-    room_connect: room_connect,
-    room_disconnect: room_disconnect,
-    _Audio: _AudioState,
-    _Video: _VideoState,
-    toggle_Audio: toggle_Audio,
-    toggle_Video: toggle_Video
   }
 
   return (
-    <SocketContext.Provider value={globalValues}>
+    <SocketContext.Provider value={{
+      socket: socket.current,
+      current_peers: current_peers,
+      room_connect: room_connect,
+      room_disconnect: room_disconnect,
+      _Audio: _AudioState,
+      _Video: _VideoState,
+      toggle_Audio: toggle_Audio,
+      toggle_Video: toggle_Video
+    }}>
       {props.children}
     </SocketContext.Provider>
   )
@@ -340,24 +328,3 @@ export default SocketHandler
 //   host: '/',
 //   port: '4444'
 // })
-
-/* <div className={styles.container}>
-  <div>
-    <p>Socket ID: <strong>{socket?.current?.id}</strong></p>
-  </div>
-  <div>
-    <p>Socket Status: <strong>{socket_status}</strong></p>
-  </div>
-  <div>
-    <p>Peer ID: <strong>{peer?.current?.id}</strong></p>
-  </div>
-  <div>
-    <p># Peers: <strong>{current_peers?.length}</strong></p>
-  </div>
-  <div>
-    <p># Room ID: <strong>{_current_room}</strong></p>
-  </div>
-  <div>
-    <u onClick={() => console.log(current_peers)}>Print peers</u>
-  </div>
-</div> */
