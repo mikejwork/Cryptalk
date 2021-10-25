@@ -73,3 +73,8 @@ WebRTC, Peer to peer voice chat
 4. AWS Cognito for authentication and user management
 5. Socket.io & PeerJs for WebRTC voice & video chat
 6. Cypress End-to-end testing
+
+<div align="center">
+    <img src="https://i.imgur.com/tRD1dmk.png" width="auto"/>
+    <img src="https://i.imgur.com/mRu29zI.png" width="auto"/>
+</div>
