@@ -34,6 +34,10 @@
 </div>
 
 
+<div align="center">
+    <img src="https://i.imgur.com/tRD1dmk.png" width="auto"/>
+</div>
+
 **👋 Credits:**
 1. Braden Smith - Software Developer
 2. Michael Jurie - Software Developer
@@ -75,6 +79,5 @@ WebRTC, Peer to peer voice chat
 6. Cypress End-to-end testing
 
 <div align="center">
-    <img src="https://i.imgur.com/tRD1dmk.png" width="auto"/>
     <img src="https://i.imgur.com/mRu29zI.png" width="auto"/>
 </div>
