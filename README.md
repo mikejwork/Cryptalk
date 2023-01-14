@@ -40,7 +40,7 @@
 
 **👋 Credits:**
 1. Braden Smith - Software Developer
-2. Michael Jurie - Software Developer
+2. Myself - Software Developer
 3. Luke Cocorocchio - Scrum Master
 4. Matthew Sesto - Product Owner
 
