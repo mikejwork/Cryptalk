@@ -42,8 +42,6 @@
 **👋 Credits:**
 1. Braden Smith - Software Developer
 2. Myself - Software Developer
-3. Luke Cocorocchio - Scrum Master
-4. Matthew Sesto - Product Owner
 
 **🔥 Project description**<br/>
 Cryptalk is a secure text and voice chat application that allows for real-time communication for teams, build specifically for the Royal Melbourne Institute of Technology for their faculty and student base. The project requires scalable cloud infrastructure to manage the backend database and large number of requests, and a sleek and enjoyable user interface
