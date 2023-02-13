@@ -10,6 +10,7 @@
   <a href="#features">Features</a> •
   <a href="#outstanding-problems">Outstanding Problems</a> •
   <a href="#problems-fixed">Problems fixed</a>
+  <a href="#personal-notes">Personal notes</a>
 </p>
 
 <div align="center">
@@ -77,6 +78,9 @@ WebRTC, Peer to peer voice chat
 4. AWS Cognito for authentication and user management
 5. Socket.io & PeerJs for WebRTC voice & video chat
 6. Cypress End-to-end testing
+
+**Personal Notes**
+February 2023 - Looking back at this project, the code is pretty grim hahaha, but nonetheless still happy with it as it was my first React.js project. I might come back to this project in the future to experiment more with AWS Amplify & WebRTC.
 
 <div align="center">
     <img src="https://i.imgur.com/mRu29zI.png" width="auto"/>
