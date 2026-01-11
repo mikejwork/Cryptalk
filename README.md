@@ -39,6 +39,10 @@
     <img src="https://i.imgur.com/tRD1dmk.png" width="auto"/>
 </div>
 
+<div align="center">
+    <img src="https://i.imgur.com/mRu29zI.png" width="auto"/>
+</div>
+
 **👋 Credits:**
 1. Braden Smith - Software Developer
 2. Myself - Software Developer
@@ -79,7 +83,3 @@ WebRTC, Peer to peer voice chat
 
 **Personal Notes**
 February 2023 - Looking back at this project, the code is pretty grim hahaha, but nonetheless still happy with it as it was my first React.js project. I might come back to this project in the future to experiment more with AWS Amplify & WebRTC.
-
-<div align="center">
-    <img src="https://i.imgur.com/mRu29zI.png" width="auto"/>
-</div>
